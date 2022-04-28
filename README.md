@@ -5,8 +5,9 @@ It is focus on Windows in the first release. It will be migrate to Linux in the 
 
 # Development
 - run all test
+```
 $ nosetests
-
+```
 
 # Road map
 - 1.0.0
