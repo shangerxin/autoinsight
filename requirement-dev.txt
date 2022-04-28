@@ -1,0 +1,9 @@
+pywinauto
+pyyaml
+pyautogui
+pyinstaller
+opencv-python
+autopep8
+Sphinx
+nose
+build 

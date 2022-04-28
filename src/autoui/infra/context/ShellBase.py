@@ -1,0 +1,2 @@
+class ShellBase(ContextBase):
+    pass

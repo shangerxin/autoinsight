@@ -1,0 +1,4 @@
+#python
+*.pyd
+__pycache__/
+dist/

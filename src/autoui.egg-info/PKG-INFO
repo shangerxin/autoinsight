@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: autoui
+Version: 0.0.1
+Summary: A Simplified UI automation package
+Home-page: https://github.com/shangerxin/autoui
+Author: Erxin(Edwin) Shang
+Author-email: author@example.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/shangerxin/autoui/issues
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache License 2.0
+Classifier: Operating System :: Windows
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Introduction
+autoui is a UI automation library for window. It is aim to provide simplified workflow to the automation developers to help them create a easy to maintain and robust test scripts.
+
+It is focus on Windows in the first release. It will be migrate to Linux in the future.
+
+# Development
+- run all test
+$ nosetests
+
+
+# Road map
+- 1.0.0
+
+    + Basic windows UI automation features
+    + Basic image based identification features
+    + Keyboard mouse handling etc.
+    + In the first version it will be built like a glue to the existing
+    automation libraries like pywinauot, pyautogui etc.
+
+    + Action logging
+    + Snapshot
+    + Screen recording
+
