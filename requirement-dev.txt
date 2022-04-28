@@ -6,4 +6,6 @@ opencv-python
 autopep8
 Sphinx
 nose
-build 
+build
+twine
+flake8

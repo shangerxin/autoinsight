@@ -12,4 +12,4 @@ class TargetBase:
         pass
 
     def is_exist(self):
-        pass 
+        pass

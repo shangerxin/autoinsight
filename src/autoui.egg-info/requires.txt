@@ -2,4 +2,3 @@ pywinauto
 pyyaml
 pyautogui
 opencv-python
-

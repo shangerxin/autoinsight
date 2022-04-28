@@ -1,11 +1,13 @@
 LICENSE
 README.md
+requirement.txt
 setup.py
 src/autoui/Script.py
 src/autoui/__init__.py
 src/autoui.egg-info/PKG-INFO
 src/autoui.egg-info/SOURCES.txt
 src/autoui.egg-info/dependency_links.txt
+src/autoui.egg-info/requires.txt
 src/autoui.egg-info/top_level.txt
 src/autoui/communicator/__init__.py
 src/autoui/infra/ObjectBase.py

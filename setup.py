@@ -1,11 +1,28 @@
 import setuptools
 
-with open("README.md", "r", encoding="utf-8") as fh:
+from os.path import dirname, join
+
+current_path = dirname(__file__)
+
+with open(join(current_path, "README.md"), "r", encoding="utf-8") as fh:
     long_description = fh.read()
+
+with open(join(current_path, "requirement.txt"), "r", encoding="utf=8") as fh:
+    requires = fh.readlines()
+
+def get_version(rel_path):
+    with open(rel_path) as fh:
+        for line in fh.readlines():
+            if line.startswith('__version__'):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+        else:
+            raise RuntimeError("Unable to find version string.")
+
 
 setuptools.setup(
     name="autoui",
-    version="0.0.1",
+    version=get_version("src/autoui/__init__.py"),
     author="Erxin(Edwin) Shang",
     author_email="author@example.com",
     description="A Simplified UI automation package",
@@ -20,7 +37,13 @@ setuptools.setup(
         "License :: OSI Approved :: Apache License 2.0",
         "Operating System :: Windows",
     ],
+    install_requires=requires,
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
+    include_package_data=True,
+    package_data={
+        "":["*.txt"]
+    },
+    data_files=["requirement.txt"]
 )
