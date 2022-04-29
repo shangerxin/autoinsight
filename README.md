@@ -1,7 +1,7 @@
 # Introduction
 autoinsight is a UI automation library for window. It is aim to provide simplified workflow to the automation developers to help them create a easy to maintain and robust test scripts.
 
-It is focus on Windows in the first release. It will be migrate to Linux in the future.
+It is focus on Windows in the recent releases. It will be migrate to Linux in the future.
 
 # Development
 - Setup
