@@ -21,21 +21,21 @@ def get_version(rel_path):
 
 
 setuptools.setup(
-    name="autoui",
-    version=get_version("src/autoui/__init__.py"),
+    name="autoinsight",
+    version=get_version("src/autoinsight/__init__.py"),
     author="Erxin(Edwin) Shang",
     author_email="author@example.com",
     description="A Simplified UI automation package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/shangerxin/autoui",
+    url="https://github.com/shangerxin/autoinsight",
     project_urls={
-        "Bug Tracker": "https://github.com/shangerxin/autoui/issues",
+        "Bug Tracker": "https://github.com/shangerxin/autoinsight/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License 2.0",
-        "Operating System :: Windows",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: Microsoft :: Windows",
     ],
     install_requires=requires,
     package_dir={"": "src"},

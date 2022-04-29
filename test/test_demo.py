@@ -1,7 +1,7 @@
-import autoui
+import autoinsight
 
 # explicit configure execution ambiance
-# autoui.ambiance()
+# autoinsight.ambiance()
 
 # with Script(config=config()):
 #     os = OSContext()

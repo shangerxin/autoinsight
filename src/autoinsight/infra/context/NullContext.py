@@ -1,4 +1,4 @@
-from autoui.context.ContextBase import ContextBase
+from autoinsight.context.ContextBase import ContextBase
 
 
 class NullContext(ContextBase):

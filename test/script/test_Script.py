@@ -1,7 +1,7 @@
 import unittest
 
-from autoui.script.Script import Script
-from autoui.infra.context.NullContext import NullContext
+from autoinsight.script.Script import Script
+from autoinsight.infra.context.NullContext import NullContext
 
 
 class TestScript(unittest.TestCase):

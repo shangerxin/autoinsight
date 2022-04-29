@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from autoui.infra.ObjectBase import ObjectBase
+from autoinsight.infra.ObjectBase import ObjectBase
 
 
 class ContextBase(ObjectBase):

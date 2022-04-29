@@ -1,8 +1,8 @@
 from contextlib import contextmanager
 from abc import abstractmethod
 
-from autoui.infra.ObjectBase import ObjectBase
-from autoui.context.NullContext import NullContext
+from autoinsight.infra.ObjectBase import ObjectBase
+from autoinsight.context.NullContext import NullContext
 
 
 @contextmanager

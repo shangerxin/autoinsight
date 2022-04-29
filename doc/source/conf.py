@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'autoui'
+project = 'autoinsight'
 copyright = '2022, Erxin(Edwin) Shang'
 author = 'Erxin(Edwin) Shang'
 

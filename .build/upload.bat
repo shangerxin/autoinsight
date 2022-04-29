@@ -1,3 +1,3 @@
 @echo off
 
-twine upload --repository autoui ../dist/*
+twine upload --repository autoinsight ../dist/*
