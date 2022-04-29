@@ -1,8 +1,25 @@
 #python
 *.pyd
+*.pyo
 
 __pycache__/
 dist/
 .vscode/
 venv/
-autoinsight.egg-info/
+.ven/
+*.egg
+*.egg-info/
+*.egg/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+.vscode
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover

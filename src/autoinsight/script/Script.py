@@ -1,4 +1,6 @@
-from autoinsight.infra.script import ScriptBase
+from autoinsight.infra.script.ScriptBase import ScriptBase
+
 
 class Script(ScriptBase):
-    pass
+    def __init__(self, *args, **kwarg):
+        pass

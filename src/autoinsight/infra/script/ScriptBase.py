@@ -1,11 +1,9 @@
-from contextlib import contextmanager
 from abc import abstractmethod
 
 from autoinsight.infra.ObjectBase import ObjectBase
-from autoinsight.context.NullContext import NullContext
+from autoinsight.infra.ident.context.NullContext import NullContext
 
 
-@contextmanager
 class ScriptBase(ObjectBase):
     _currentContext = NullContext()
 
@@ -13,7 +11,6 @@ class ScriptBase(ObjectBase):
     def __init__(self, *args, **kwargs):
         pass
 
-    @classmethod
     @property
-    def currentContext(cls):
-        return cls._currentContext
+    def steps(self):
+        pass

@@ -4,9 +4,14 @@ autoinsight is a UI automation library for window. It is aim to provide simplifi
 It is focus on Windows in the first release. It will be migrate to Linux in the future.
 
 # Development
+- Setup
+```
+$ pip install -r requirement-dev.txt
+```
+
 - run all test
 ```
-$ nosetests
+$ nose2
 ```
 
 - validate code syntax with

@@ -2,4 +2,4 @@ pywinauto
 pyyaml
 pyautogui
 opencv-python
-
+pytesseract

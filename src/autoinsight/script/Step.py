@@ -1,0 +1,6 @@
+from autoinsight.infra.script.StepBase import StepBase
+
+
+class Step(StepBase):
+    def __init__(self, *args, **kwargs):
+        pass

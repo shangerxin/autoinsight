@@ -2,6 +2,7 @@ import setuptools
 
 from os.path import dirname, join
 
+
 current_path = dirname(__file__)
 
 with open(join(current_path, "README.md"), "r", encoding="utf-8") as fh:
@@ -9,6 +10,7 @@ with open(join(current_path, "README.md"), "r", encoding="utf-8") as fh:
 
 with open(join(current_path, "requirement.txt"), "r", encoding="utf=8") as fh:
     requires = fh.readlines()
+
 
 def get_version(rel_path):
     with open(rel_path) as fh:
@@ -43,7 +45,7 @@ setuptools.setup(
     python_requires=">=3.6",
     include_package_data=True,
     package_data={
-        "":["*.txt"]
+        "": ["*.txt"]
     },
     data_files=["requirement.txt"]
 )

@@ -1,5 +1,5 @@
 from autoinsight.infra.ObjectBase import ObjectBase
 
 
-class IdentObjectBase(ObjectBase()):
+class StepBase(ObjectBase):
     pass
