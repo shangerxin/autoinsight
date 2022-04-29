@@ -42,7 +42,7 @@ $ python -m pip install -r requirement.txt
     5. Action logging
     6. Snapshot
     7. Screen recording
-    8. Support chrome interaction
+    8. Support Google Chrome and Microsoft Edge interoperation
     9. OS interoperation
     10. Driver interoperation
     11. Integrate with image identification and computer vision
