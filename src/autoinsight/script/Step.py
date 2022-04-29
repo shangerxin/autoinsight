@@ -1,4 +1,4 @@
-from autoinsight.infra.script.StepBase import StepBase
+from autoinsight.script.StepBase import StepBase
 
 
 class Step(StepBase):

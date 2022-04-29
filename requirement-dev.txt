@@ -11,3 +11,6 @@ build
 twine
 flake8
 coverage
+wmi
+pywin32
+numpy

@@ -1,8 +1,6 @@
 import unittest
 
 from autoinsight.script.Script import Script
-from autoinsight.infra.ident.context.NullContext import NullContext
-
 
 class TestScript(unittest.TestCase):
     def setUp(self):

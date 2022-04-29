@@ -2,13 +2,14 @@ from typing import Iterable
 from abc import abstractmethod
 
 from .ApplicationWindow import ApplicationWindow
-from .ContextBase import ContextBase
-from .NullContext import NullContext
+from .ProcessBase import ProcessBase
 
 
-class GUIApplicationBase(ContextBase):
-    _windows = []
-    _currentWindow = NullContext()
+class GUIApplicationBase(ProcessBase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._windows: Iterable[ApplicationWindow] = []
+        self._currentWindow: ApplicationWindow = None
 
     @property
     def windows(self) -> Iterable[ApplicationWindow]:
@@ -19,8 +20,5 @@ class GUIApplicationBase(ContextBase):
         return self._currentWindow
 
     @abstractmethod
-    def setCurrent(self):
-        pass
-
-    def close(self):
+    def focus(self):
         pass

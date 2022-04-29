@@ -1,0 +1,2 @@
+class ObjectBase(object):
+    pass

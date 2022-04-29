@@ -1,15 +1,19 @@
-import os
-import subprocess
+from os import environ
+from typing import Dict, Iterable
+from abc import abstractmethod, abstractproperty
 
-import pyautogui
+from .ContextBase import ContextBase
+from .GUIApplicationBase import GUIApplicationBase
 
-from .OSBase import OSBase
 
+class OSBase(ContextBase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._environ = environ
 
-class WindowOS(OSBase):
     @abstractmethod
     def launchApp(self, path) -> GUIApplicationBase:
-        subprocess.Popen(path, shell=True)
+        pass
 
     @abstractmethod
     def launchShell(self, path) -> ShellBase:
@@ -25,6 +29,18 @@ class WindowOS(OSBase):
 
     @abstractproperty
     def userHome(self):
+        pass
+
+    @property
+    def processes(self):
+        pass
+
+    @property
+    def desktops(self):
+        pass
+
+    @property
+    def currentDesktop(self):
         pass
 
     @property
