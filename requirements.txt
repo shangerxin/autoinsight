@@ -6,3 +6,5 @@ pytesseract
 wmi
 pywin32
 numpy
+Pillow
+winaudio

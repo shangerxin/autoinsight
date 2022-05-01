@@ -5,6 +5,7 @@ from .ServiceBase import ServiceBase
 
 class ContextManagementService(ServiceBase):
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.contexts: Dict = {}
         self._currentContext = None
 

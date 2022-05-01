@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import signal
 
@@ -8,6 +10,10 @@ class ProcessBase(ContextBase):
     def __init__(self, id: int = 0, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._id = id
+
+    @classmethod
+    def launch(cls, *args, **kwargs) -> ProcessBase:
+        pass
 
     @property
     def exitcode(self) -> int:

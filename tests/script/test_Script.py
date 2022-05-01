@@ -2,6 +2,7 @@ import unittest
 
 from autoinsight.script.Script import Script
 
+
 class TestScript(unittest.TestCase):
     def setUp(self):
         pass

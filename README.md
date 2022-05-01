@@ -3,10 +3,33 @@ autoinsight is a UI automation library for window. It is aim to provide simplifi
 
 It is focus on Windows in the recent releases. It will be migrate to Linux in the future.
 
+# Contribute to this project
+- Donate
+- [Contribute code](https://github.com/shangerxin/autoinsight/issues)
+- Documentation
+
+
+# Requirements
+- OS
+Window
+
+- Python 3.6+
+
+
+
+# Installation
+- Install with pip
+```
+$ pip install autoinsight
+```
+
+# Configuration
+
 # Development
+## Setup environment
 - Setup
 ```
-$ pip install -r requirement-dev.txt
+$ pip install -r requirements-dev.txt
 ```
 
 - run all test
@@ -14,18 +37,32 @@ $ pip install -r requirement-dev.txt
 $ nose2
 ```
 
-- validate code syntax with
+- validate code syntax before commit
 ```
 $ flake8
 ```
 
-# Build
-- Install all the development dependency
+## Build
+- Install all the develop and build dependency
 ```
 $ python -m pip install --upgrade pip
-$ python -m pip install -r requirement.txt
+$ python -m pip install -r requirements.txt
 ```
 
+
+## Test
+- Run unit test on local machine before push to the repository
+```
+$ nose2
+```
+- Create a new test module with add the __init__.py to a new folder under the ./tests
+- Name the test file with test_*.py
+- Make sure each test case inherit from the unittest.TestCase
+- Test
+
+
+# Document and Help
+- Follow syntax of the Sphinx project  
 
 # Roadmap
 - 0.0.1
@@ -50,6 +87,7 @@ $ python -m pip install -r requirement.txt
 - 2.0.0
     1. Integrate with machine learning identification
     2. Integrate other browsers
+    3. Add mobile support
 
 - 3.0.0
     1. Support NLP script
@@ -60,3 +98,6 @@ $ python -m pip install -r requirement.txt
 
 - 5.0.0
     1. Support game automation
+
+# Copyrights
+[Apache Software License](http://www.apache.org/licenses/)

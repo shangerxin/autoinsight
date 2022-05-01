@@ -4,7 +4,7 @@ from autoinsight.services.ContextManagementService import ContextManagementServi
 
 
 class TestContextManagementService(unittest.TestCase):
-    def test_singleton_instance(self):
+    def test_register(self):
         s0 = ContextManagementService()
         s1 = ContextManagementService()
 

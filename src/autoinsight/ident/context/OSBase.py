@@ -4,6 +4,8 @@ from abc import abstractmethod, abstractproperty
 
 from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
+from .ShellBase import ShellBase
+from .ProcessBase import ProcessBase
 
 
 class OSBase(ContextBase):
@@ -20,11 +22,11 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def kill(self, processId: int, processName: str):
+    def kill(self, processId: int = 0, processName: str = ""):
         pass
 
     @abstractmethod
-    def terminate(self, processId: int, processName: str):
+    def terminate(self, processId: int = 0, processName: str = ""):
         pass
 
     @abstractproperty
@@ -32,11 +34,14 @@ class OSBase(ContextBase):
         pass
 
     @property
-    def processes(self):
+    def processes(self) -> Iterable[ProcessBase]:
         pass
 
     @property
-    def desktops(self):
+    def desktop(self):
+        """
+        Display desktop and minimize all the other application
+        """
         pass
 
     @property
@@ -48,7 +53,7 @@ class OSBase(ContextBase):
         return self._environ
 
     @abstractproperty
-    def displays(self):
+    def monitors(self):
         pass
 
     @abstractproperty
@@ -61,6 +66,20 @@ class OSBase(ContextBase):
 
     @abstractproperty
     def drivers(self) -> Iterable[str]:
+        """
+        Return the hardware driver information
+        """
+        pass
+
+    @abstractmethod
+    def disks(self) -> Iterable[str]:
+        """
+        Return all the avaliable harddrive partitions
+        """
+        pass
+
+    @abstractmethod
+    def changeDriverState(self, driverInfo: str, isEnable: bool):
         pass
 
     @abstractproperty
@@ -76,16 +95,43 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def type(self, visibleKeys: Iterable[str], intervalSec: int = 0.25):
+    def install(self, path: str):
+        """
+        Automatic an application
+        """
+        pass
+
+    @abstractmethod
+    def typeKeys(self, visibleKeys: Iterable[str], intervalSec: int = 0.25):
         """
         Simulate typing the visible characters
         """
         pass
 
     @abstractmethod
-    def combineKeys(self, firstKey, secondKey, ThirdKey=None):
+    def typeControlKeys(self, controlKeys: str):
+        pass
+
+    @abstractmethod
+    def hotkeys(self, firstKey: str, secondKey: str, ThirdKey=None):
         pass
 
     @abstractmethod
     def snapshot(self):
+        pass
+
+    @abstractmethod
+    def querySystemEvent(self, eventPattern: str, level):
+        pass
+
+    @abstractmethod
+    def restart(self, delaySeconds: int = 0):
+        pass
+
+    @abstractmethod
+    def sleep(self, delaySecond: int = 0):
+        pass
+
+    @abstractmethod
+    def hibernate(self, delaySecond: int = 0):
         pass
