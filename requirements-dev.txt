@@ -17,3 +17,4 @@ pywin32
 numpy
 Pillow
 winaudio
+requests

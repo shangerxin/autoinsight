@@ -1,6 +1,9 @@
 import unittest
+from queue import Queue
 
 from autoinsight.ident.context.WindowOS import WindowOS
+
+from tests.fixtures.tkWindow import showInput
 
 
 class TestWindowOS(unittest.TestCase):
@@ -10,5 +13,8 @@ class TestWindowOS(unittest.TestCase):
     def test_environ(self):
         self.assertTrue(self.window.environ["windir"])
 
-    async def test_typeKeys(self):
-        self.window.visibleKeys
+    @unittest.skip("waiting for the focus feature")
+    def test_typeKeys(self):
+        result: Queue = showInput()
+        self.window.typeKeys("abcd")
+        self.assertEqual(result.get(), "abcd")

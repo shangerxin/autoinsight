@@ -1,5 +1,5 @@
 from os import environ
-from typing import Dict, Iterable
+from typing import Iterable, Mapping
 from abc import abstractmethod, abstractproperty
 
 from .ContextBase import ContextBase
@@ -11,7 +11,7 @@ from .ProcessBase import ProcessBase
 class OSBase(ContextBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._environ = environ
+        self._environ: Mapping[str] = environ
 
     @abstractmethod
     def launchApp(self, path) -> GUIApplicationBase:
@@ -49,7 +49,7 @@ class OSBase(ContextBase):
         pass
 
     @property
-    def environ(self) -> Dict:
+    def environ(self) -> Mapping[str, str]:
         return self._environ
 
     @abstractproperty
@@ -109,11 +109,18 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def typeControlKeys(self, controlKeys: str):
+    def typeControlKeys(self, controlKeys: Iterable[str]):
         pass
 
     @abstractmethod
-    def hotkeys(self, firstKey: str, secondKey: str, ThirdKey=None):
+    def hotkeys(self, *keys):
+        pass
+
+    @abstractmethod
+    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Iterable[str]):
+        """
+        Hold the control keys specified in holdKeys and press the keys.
+        """
         pass
 
     @abstractmethod
@@ -129,9 +136,13 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def sleep(self, delaySecond: int = 0):
+    def sleep(self, delaySeconds: int = 0):
         pass
 
     @abstractmethod
-    def hibernate(self, delaySecond: int = 0):
+    def hibernate(self, delaySeconds: int = 0):
+        pass
+
+    @abstractmethod
+    def shutdown(self, delaySeconds: int = 0):
         pass

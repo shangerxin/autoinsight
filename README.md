@@ -13,8 +13,9 @@ It is focus on Windows in the recent releases. It will be migrate to Linux in th
 - OS
 Window
 
-- Python 3.6+
-
+- Python 3.6+ 32/64 bit
+- Install Google Tesseract 32/64 bit
+[tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki)
 
 
 # Installation
@@ -31,6 +32,8 @@ $ pip install autoinsight
 ```
 $ pip install -r requirements-dev.txt
 ```
+
+- Install Goolge Tesseract ORC
 
 - run all test
 ```
@@ -88,6 +91,7 @@ $ nose2
     1. Integrate with machine learning identification
     2. Integrate other browsers
     3. Add mobile support
+    4. Integrate with cloud ML APIs
 
 - 3.0.0
     1. Support NLP script

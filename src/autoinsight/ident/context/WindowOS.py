@@ -1,6 +1,6 @@
 import os
 import signal
-from typing import Dict, Iterable
+from typing import Iterable, Mapping
 
 import pyautogui
 import wmi
@@ -11,6 +11,26 @@ from .ShellBase import ShellBase
 
 
 class WindowOS(OSBase):
+    def shutdown(self, delaySeconds: int = 0):
+        delaySeconds: int = int(delaySeconds)
+        os.system("shutdown /s /t %s" % delaySeconds)
+
+    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Iterable[str]):
+        countOfControlKeys: int = len(holdKeys)
+        if countOfControlKeys == 0:
+            self.typeKeys(keys)
+        elif countOfControlKeys == 1:
+            with pyautogui.hold(holdKeys[0]):
+                self.typeKeys(keys)
+        elif countOfControlKeys == 2:
+            with pyautogui.hold(holdKeys[0]):
+                with pyautogui.hold(holdKeys[1]):
+                    self.typeKeys(keys)
+        elif countOfControlKeys == 3:
+            with pyautogui.hold(holdKeys[0]):
+                with pyautogui.hold(holdKeys[1]):
+                    with pyautogui.hold(holdKeys[2]):
+                        self.typeKeys(keys)
 
     def changeDriverState(self, driverInfo: str, isEnable: bool):
         pass
@@ -20,28 +40,30 @@ class WindowOS(OSBase):
         """
         pass
 
-    def typeControlKeys(self, controlKeys: str):
+    def typeControlKeys(self, controlKeys: Iterable[str]):
         """Send simulated control keys
 
         Args:
             controlKeys (str): a string contain the control keys like {ENTER} etc.
         """
-        pass
+        pyautogui.write(controlKeys)
 
-    def hotkeys(self, firstKey: str, secondKey: str, ThirdKey=None):
-        pass
+    def hotkeys(self, *keys):
+        pyautogui.hotkey(*keys)
 
     def querySystemEvent(self, eventPattern: str, level):
         pass
 
     def restart(self, delaySeconds: int = 0):
-        pass
+        delaySeconds: int = int(delaySeconds)
+        os.system("shutdown /s /r /t %s" % delaySeconds)
 
-    def sleep(self, delaySecond: int = 0):
-        pass
+    def sleep(self, delaySeconds: int = 0):
+        delaySeconds: int = int(delaySeconds)
 
-    def hibernate(self, delaySecond: int = 0):
-        pass
+    def hibernate(self, delaySeconds: int = 0):
+        delaySeconds: int = int(delaySeconds)
+        os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
     def __enter__(self):
         pass
@@ -75,7 +97,7 @@ class WindowOS(OSBase):
         return self.environ["USERPROFILE"]
 
     @property
-    def environ(self) -> Dict:
+    def environ(self) -> Mapping[str, str]:
         return self._environ
 
     @property
@@ -113,10 +135,7 @@ class WindowOS(OSBase):
         """
         Simulate typing the visible characters
         """
-        pyautogui.typewrite(visibleKeys)
-
-    def combineKeys(self, firstKey, secondKey, ThirdKey=None):
-        pass
+        pyautogui.write(visibleKeys, interval=intervalSec)
 
     def snapshot(self):
         pass
