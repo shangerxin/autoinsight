@@ -1,6 +1,7 @@
 import os
 import signal
 from typing import Iterable, Mapping
+from collections.abc import Sequence
 
 import pyautogui
 import wmi
@@ -15,7 +16,7 @@ class WindowOS(OSBase):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /t %s" % delaySeconds)
 
-    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Iterable[str]):
+    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Sequence[str]):
         countOfControlKeys: int = len(holdKeys)
         if countOfControlKeys == 0:
             self.typeKeys(keys)

@@ -1,6 +1,7 @@
 from os import environ
 from typing import Iterable, Mapping
 from abc import abstractmethod, abstractproperty
+from collections.abc import Sequence
 
 from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
@@ -117,7 +118,7 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Iterable[str]):
+    def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Sequence[str]):
         """
         Hold the control keys specified in holdKeys and press the keys.
         """
