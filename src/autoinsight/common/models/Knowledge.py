@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Iterable, Callable, Any, NewType, Optional, Tuple
 
@@ -9,5 +10,5 @@ AutomaticInstance = NewType("AutomaticInstance", Any)
 @dataclass
 class Knowledge(ModelBase):
     alias: Iterable[str]
-    launch: Callable[[], AutomaticInstance]
+    launch: Callable[[Knowledge], AutomaticInstance]
     arguments: Tuple[str] = field(default=tuple())

@@ -1,8 +1,9 @@
 import os
-from typing import Union, NewType, Optional
+from typing import Union, NewType, Optional, Dict
 from multiprocessing import Process
+from functools import partial
 
-from pywinauto import Desktop, WindowSpecification
+from pywinauto import Desktop, WindowSpecification, Application
 from pywinauto.win32_element_info import HwndElementInfo
 from pywinauto.uia_element_info import UIAElementInfo
 
@@ -29,6 +30,12 @@ class WindowKnowledgeService(KnowledgeServiceBase):
         self.knowledge.append(Knowledge(alias=["settings"],
                                         launch=_launchSettings))
 
+        self.knowledge.append(Knowledge(alias=["calc", "calc.exe", "calculator"],
+                                        launch=_launchCalc))
+
+        self.knowledge.append(Knowledge(alias=["media player", "wmplayer.exe", "mediaplayer"],
+                                        launch=_launchMediaPlayer))
+
     def recognize(self, name: str) -> WindowAutomationInstance:
         knowledge = None
         if name:
@@ -51,21 +58,42 @@ class WindowKnowledgeService(KnowledgeServiceBase):
         pass
 
 
-def __camera_worker():
-    os.system('cmd /C "start microsoft.windows.camera: "')
+def _task(commandline: str):
+    os.system(commandline)
 
 
-def _launchCamera(knowledge: Knowledge) -> WindowAutomationInstance:
-    worker = Process(target=__camera_worker, args=knowledge.arguments)
-    worker.start()
-    camera = WindowSpecification({"backend": "uia", "best_match": "Camera"})
-    camera.wait("exists visible ready", timeout=30, retry_interval=3)
-    return camera
+def _worker(commandline: str, k: Knowledge):
+    p = Process(target=partial(_task, commandline), args=k.arguments)
+    p.start()
 
 
-def _launchControlPanel() -> WindowAutomationInstance:
+def _waitWindow(criteria: Dict[str, str]) -> WindowAutomationInstance:
+    window = WindowSpecification(criteria)
+    # TODO add magic numbers into global configuration
+    window.wait("exists visible ready", timeout=30, retry_interval=3)
+    return window
+
+
+def _launchCamera(k: Knowledge) -> WindowAutomationInstance:
+    _worker('cmd /C "start microsoft.windows.camera: "', k)
+    return _waitWindow({"backend": "uia", "best_match": "Camera"})
+
+
+def _launchControlPanel(k: Knowledge) -> WindowAutomationInstance:
+    _worker('control.exe', k)
+    return _waitWindow({"backend": "uia", "best_match": r"Control Panel\All Control Panel Items"})
+
+
+def _launchSettings(k: Knowledge) -> WindowAutomationInstance:
     pass
 
 
-def _launchSettings() -> WindowAutomationInstance:
-    pass
+def _launchCalc(k: Knowledge) -> WindowAutomationInstance:
+    Application(backend="uia").start('calc.exe')
+
+    return Desktop(backend="uia").Calculator
+
+
+def _launchMediaPlayer(k: Knowledge) -> WindowAutomationInstance:
+    _worker(r'"C:\Program Files\Windows Media Player\wmplayer.exe"', k)
+    return _waitWindow({"backend": "uia", "best_match": "Windows Media Player"})

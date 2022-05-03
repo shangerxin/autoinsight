@@ -23,8 +23,26 @@ class TestWindowOS(unittest.TestCase):
     def tearDown(self) -> None:
         self.window.tearDown()
 
-    def test_launch_knowledge_applications(self):
+    def test_launch_ms_camera(self):
         windowCamera: WindowGUIApplication = self.window.launchApp("camera")
 
         self.assertTrue(windowCamera)
         windowCamera.close()
+
+    def test_launch_calculator(self):
+        calculator:WindowGUIApplication = self.window.launchApp("calc")
+
+        self.assertTrue(calculator)
+        calculator.close()
+
+    def test_launch_media_player(self):
+        mp: WindowGUIApplication = self.window.launchApp("mediaplayer")
+
+        self.assertTrue(mp)
+        mp.close()
+
+    def test_launch_control_panel(self):
+        cp: WindowGUIApplication = self.window.launchApp("control panel")
+
+        self.assertTrue(cp)
+        cp.close()
