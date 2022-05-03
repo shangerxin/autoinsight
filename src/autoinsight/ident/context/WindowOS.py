@@ -27,6 +27,46 @@ class WindowOS(OSBase):
             self._str = "Window OS Context"
         return self._str
 
+    @property
+    def userHome(self):
+        return self.environ["USERPROFILE"]
+
+    @property
+    def environ(self) -> Mapping[str, str]:
+        return self._environ
+
+    @property
+    def monitors(self):
+        pass
+
+    @property
+    def systeminfo(self) -> str:
+        pass
+
+    @property
+    def version(self) -> str:
+        return f"{platform.system()} {platform.version()} {platform.release()} {platform.win32_edition()}"
+
+    @property
+    def drivers(self) -> Iterable[str]:
+        pass
+
+    @property
+    def disks(self) -> Iterable[str]:
+        pass
+
+    @property
+    def SBIOS(self) -> str:
+        pass
+
+    @property
+    def VBIOS(self) -> str:
+        pass
+
+    @property
+    def services(self):
+        pass
+
     def shutdown(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /t %s" % delaySeconds)
@@ -49,6 +89,9 @@ class WindowOS(OSBase):
                         self.typeKeys(keys)
 
     def changeDriverState(self, driverInfo: str, isEnable: bool):
+        pass
+
+    def changeServiceState(self, serviceInfo: str, isEnable: bool):
         pass
 
     def install(self, path: str):
@@ -94,42 +137,6 @@ class WindowOS(OSBase):
     def terminate(self, processId: int = 0, processName: str = ""):
         if processId:
             os.kill(processId, signal.SIGTERM)
-
-    @property
-    def userHome(self):
-        return self.environ["USERPROFILE"]
-
-    @property
-    def environ(self) -> Mapping[str, str]:
-        return self._environ
-
-    @property
-    def monitors(self):
-        pass
-
-    @property
-    def systeminfo(self) -> str:
-        pass
-
-    @property
-    def version(self) -> str:
-        return f"{platform.system()} {platform.version()} {platform.release()} {platform.win32_edition()}"
-
-    @property
-    def drivers(self) -> Iterable[str]:
-        pass
-
-    @property
-    def disks(self) -> Iterable[str]:
-        pass
-
-    @property
-    def SBIOS(self) -> str:
-        pass
-
-    @property
-    def VBIOS(self) -> str:
-        pass
 
     def updateDriver(self):
         pass

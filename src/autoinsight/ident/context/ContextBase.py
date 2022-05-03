@@ -1,4 +1,4 @@
-from autoinsight.ident.IdentObject import IdentObjectBase
+from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 
 

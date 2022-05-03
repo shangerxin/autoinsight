@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Tuple, Optional, Iterable
 
-from autoinsight.ident.IdentObject import IdentObjectBase
+from autoinsight.ident.IdentObjectBase import IdentObjectBase
 
 
 class TargetBase(IdentObjectBase):
@@ -14,11 +14,11 @@ class TargetBase(IdentObjectBase):
 
     @property
     def size(self) -> Tuple[int, int]:
-        return (self._width, self._height)
+        return self._width, self._height
 
     @property
     def rectangle(self) -> Tuple[int, int, int, int]:
-        return (self._x, self._y, self._width, self._height)
+        return self._x, self._y, self._width, self._height
 
     @property
     def center(self):
