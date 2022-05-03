@@ -18,3 +18,6 @@ class TestWindowOS(unittest.TestCase):
         result: Queue = showInput()
         self.window.typeKeys("abcd")
         self.assertEqual(result.get(), "abcd")
+
+    def tearDown(self) -> None:
+        self.window.tearDown()

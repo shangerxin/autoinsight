@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from autoinsight.common.Utils import GUID
 from autoinsight.common.ObjectBase import ObjectBase
 
@@ -7,5 +9,5 @@ class IdentObjectBase(ObjectBase):
         self._id = GUID()
 
     @property
-    def id(self) -> int:
+    def id(self) -> UUID:
         return self._id
