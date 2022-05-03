@@ -1,4 +1,4 @@
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 from typing import Tuple, Optional, Iterable
 
 from autoinsight.ident.IdentObject import IdentObjectBase
@@ -24,19 +24,19 @@ class TargetBase(IdentObjectBase):
     def center(self):
         pass
 
-    @abstractproperty
+    @property
     def parent(self) -> Optional[IdentObjectBase]:
         pass
 
-    @abstractproperty
+    @property
     def next(self) -> Optional[IdentObjectBase]:
         pass
 
-    @abstractproperty
+    @property
     def previous(self) -> Optional[IdentObjectBase]:
         pass
 
-    @abstractproperty
+    @property
     def children(self) -> Iterable[IdentObjectBase]:
         pass
 

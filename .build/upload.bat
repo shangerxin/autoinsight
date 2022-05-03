@@ -1,3 +1,3 @@
 @echo off
 
-twine upload --repository autoinsight ../dist/*
+twine upload --repository pypi dist/*

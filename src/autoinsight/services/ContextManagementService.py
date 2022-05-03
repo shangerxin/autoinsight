@@ -6,8 +6,9 @@ from .ServiceBase import ServiceBase
 class ContextManagementService(ServiceBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.contexts: Dict = {}
+        self._registeredContexts: Dict = {}
         self._currentContext = None
+        self._contextQueue: list = []
 
     @property
     def currentContext(self, context):
@@ -15,9 +16,12 @@ class ContextManagementService(ServiceBase):
 
     @currentContext.setter
     def currentContext(self, context):
-        if self._currentContext != context:
-            self._currentContext = context
+        pass
 
     def registerContext(self, context):
-        if context.id not in self.contexts:
-            self.contexts[context.id] = context
+        if context.id not in self._registeredContexts:
+            self._registeredContexts[context.id] = context
+
+    def _updateContextQueue(self, context):
+        self._contextQueue.remove(context)
+        self._contextQueue.append(context)

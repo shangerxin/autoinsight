@@ -1,6 +1,6 @@
 from os import environ
 from typing import Iterable, Mapping
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 from collections.abc import Sequence
 
 from .ContextBase import ContextBase
@@ -30,7 +30,7 @@ class OSBase(ContextBase):
     def terminate(self, processId: int = 0, processName: str = ""):
         pass
 
-    @abstractproperty
+    @property
     def userHome(self):
         pass
 
@@ -53,19 +53,19 @@ class OSBase(ContextBase):
     def environ(self) -> Mapping[str, str]:
         return self._environ
 
-    @abstractproperty
+    @property
     def monitors(self):
         pass
 
-    @abstractproperty
+    @property
     def systeminfo(self) -> str:
         pass
 
-    @abstractproperty
+    @property
     def version(self) -> str:
         pass
 
-    @abstractproperty
+    @property
     def drivers(self) -> Iterable[str]:
         """
         Return the hardware driver information
@@ -83,11 +83,11 @@ class OSBase(ContextBase):
     def changeDriverState(self, driverInfo: str, isEnable: bool):
         pass
 
-    @abstractproperty
+    @property
     def SBIOS(self) -> str:
         pass
 
-    @abstractproperty
+    @property
     def VBIOS(self) -> str:
         pass
 

@@ -1,4 +1,4 @@
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 
 from autoinsight.common.ObjectBase import ObjectBase
 
@@ -8,6 +8,6 @@ class StepBase(ObjectBase):
     def action(self):
         pass
 
-    @abstractproperty
+    @property
     def result(self):
         pass

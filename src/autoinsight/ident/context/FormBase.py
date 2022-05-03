@@ -1,4 +1,4 @@
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 from typing import Tuple, Iterable
 
 from .ContextBase import ContextBase
@@ -13,15 +13,15 @@ class FormBase(ContextBase):
         self._width = 0
         self._height = 0
 
-    @abstractproperty
+    @property
     def title(self):
         pass
 
-    @abstractproperty
+    @property
     def position(self) -> Tuple[int, int]:
         return (self._x, self.y)
 
-    @abstractproperty
+    @property
     def targets(self) -> Iterable[TargetBase]:
         pass
 
@@ -61,7 +61,7 @@ class FormBase(ContextBase):
     def snapshot(self):
         pass
 
-    @abstractproperty
+    @property
     def application(self) -> ContextBase:
         pass
 

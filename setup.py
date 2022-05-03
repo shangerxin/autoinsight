@@ -8,7 +8,7 @@ current_path = dirname(__file__)
 with open(join(current_path, "README.md"), "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open(join(current_path, "requirement.txt"), "r", encoding="utf=8") as fh:
+with open(join(current_path, "requirements.txt"), "r", encoding="utf=8") as fh:
     requires = fh.readlines()
 
 
@@ -47,5 +47,5 @@ setuptools.setup(
     package_data={
         "": ["*.txt"]
     },
-    data_files=["requirement.txt"]
+    data_files=["requirements.txt"]
 )
