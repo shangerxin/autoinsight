@@ -3,7 +3,9 @@ from autoinsight.services.ContextManagementService import ContextManagementServi
 
 
 class ContextBase(IdentObjectBase):
-    def __init__(self, contextManagementService: ContextManagementService = ContextManagementService(), *args,
+    def __init__(self,
+                 contextManagementService: ContextManagementService = ContextManagementService(),
+                 *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
 

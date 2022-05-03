@@ -1,11 +1,8 @@
 from dataclasses import dataclass
 
-from .ModelBase import ModelBase
+from .Rectangle import Rectangle
 
 
 @dataclass
-class Box(ModelBase):
-    left: int
-    top: int
-    width: int
-    height: int
+class Box(Rectangle):
+    pass

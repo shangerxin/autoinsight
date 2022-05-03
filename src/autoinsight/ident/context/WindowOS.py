@@ -5,17 +5,23 @@ from typing import Iterable, Mapping
 from collections.abc import Sequence
 
 import pyautogui
-import wmi
+from wmi import WMI, _wmi_object
 
 from .OSBase import OSBase
 from .WindowGUIApplication import WindowGUIApplication
 from .ShellBase import ShellBase
+from autoinsight.common.models.Point import Point
+from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService, WindowAutomationInstance
 
 
 class WindowOS(OSBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 knowledgeService: WindowKnowledgeService = WindowKnowledgeService(),
+                 *args,
+                 **kwargs):
         super().__init__(*args, **kwargs)
-        self.wmi = wmi.WMI()
+        self._wmi:_wmi_object = WMI()
+        self._ks:WindowKnowledgeService = knowledgeService
 
     def __repr__(self):
         if not self._repr:
@@ -26,6 +32,14 @@ class WindowOS(OSBase):
         if not self._str:
             self._str = "Window OS Context"
         return self._str
+
+    @property
+    def ks(self) -> WindowKnowledgeService:
+        return self._ks
+
+    @property
+    def wmi(self) -> _wmi_object:
+        return self._wmi
 
     @property
     def userHome(self):
@@ -125,7 +139,11 @@ class WindowOS(OSBase):
         os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
     def launchApp(self, path: str, *args, **kwargs) -> WindowGUIApplication:
-        return WindowGUIApplication.launch(*args, **kwargs)
+        instance = self.ks.recognize(path)
+        if instance:
+            return WindowGUIApplication(automationInstance=instance)
+        else:
+            return WindowGUIApplication.launch(*args, **kwargs)
 
     def launchShell(self, path, *args, **kwargs) -> ShellBase:
         pass
@@ -148,4 +166,10 @@ class WindowOS(OSBase):
         pyautogui.write(visibleKeys, interval=intervalSec)
 
     def snapshot(self):
+        pass
+
+    def select(self, start: Point, end: Point):
+        pass
+
+    def wait(self, timeoutSeconds: int = 0):
         pass

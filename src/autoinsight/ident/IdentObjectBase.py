@@ -22,3 +22,10 @@ class IdentObjectBase(ObjectBase):
     @abstractmethod
     def __str__(self):
         pass
+
+    @abstractmethod
+    def wait(self, timeoutSeconds: int = 0):
+        """
+        Wait for the object to be displayed
+        """
+        pass

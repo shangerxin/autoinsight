@@ -1,6 +1,7 @@
 import unittest
 from queue import Queue
 
+from autoinsight.ident.context.WindowGUIApplication import WindowGUIApplication
 from autoinsight.ident.context.WindowOS import WindowOS
 
 from tests.fixtures.tkWindow import showInput
@@ -21,3 +22,9 @@ class TestWindowOS(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.window.tearDown()
+
+    def test_launch_knowledge_applications(self):
+        windowCamera: WindowGUIApplication = self.window.launchApp("camera")
+
+        self.assertTrue(windowCamera)
+        windowCamera.close()

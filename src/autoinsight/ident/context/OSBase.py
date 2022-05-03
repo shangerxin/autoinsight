@@ -7,6 +7,7 @@ from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
 from .ShellBase import ShellBase
 from .ProcessBase import ProcessBase
+from ...common.models.Point import Point
 
 
 class OSBase(ContextBase):
@@ -146,4 +147,8 @@ class OSBase(ContextBase):
 
     @abstractmethod
     def shutdown(self, delaySeconds: int = 0):
+        pass
+
+    @abstractmethod
+    def select(self, start: Point, end: Point):
         pass

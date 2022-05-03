@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from typing import Tuple, Optional, Iterable
 
+from autoinsight.common.models.Point import Point
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 
 
@@ -21,7 +22,7 @@ class TargetBase(IdentObjectBase):
         return self._x, self._y, self._width, self._height
 
     @property
-    def center(self):
+    def center(self) -> Point:
         pass
 
     @property
@@ -42,6 +43,14 @@ class TargetBase(IdentObjectBase):
 
     @abstractmethod
     def click(self):
+        pass
+
+    @abstractmethod
+    def rightClick(self):
+        pass
+
+    @abstractmethod
+    def doubleRightClick(self):
         pass
 
     @abstractmethod
@@ -74,4 +83,8 @@ class TargetBase(IdentObjectBase):
 
     @abstractmethod
     def mouseHover(self):
+        pass
+
+    @abstractmethod
+    def scroll(self):
         pass

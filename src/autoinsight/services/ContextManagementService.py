@@ -31,7 +31,7 @@ class ContextManagementService(ServiceBase):
         if context.id not in self._registeredContexts:
             self._registeredContexts[context.id] = context
             self._contextQueue.append(context)
-            
+
             if not self.currentContext:
                 self.currentContext = context
 

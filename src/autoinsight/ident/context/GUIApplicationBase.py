@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Optional
 from abc import abstractmethod
 
 from .FormBase import FormBase
@@ -9,7 +9,7 @@ class GUIApplicationBase(ProcessBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._forms: Iterable[FormBase] = []
-        self._currentForm: FormBase = None
+        self._currentForm: Optional[FormBase] = None
 
     @property
     def forms(self) -> Iterable[FormBase]:
