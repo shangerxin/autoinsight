@@ -1,4 +1,5 @@
 import os
+import platform
 import signal
 from typing import Iterable, Mapping
 from collections.abc import Sequence
@@ -12,6 +13,20 @@ from .ShellBase import ShellBase
 
 
 class WindowOS(OSBase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.wmi = wmi.WMI()
+
+    def __repr__(self):
+        if not self._repr:
+            self._repr = f"{self.__str__()} id:{self.id} {self.version}"
+        return self._repr
+
+    def __str__(self):
+        if not self._str:
+            self._str = "Window OS Context"
+        return self._str
+
     def shutdown(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /t %s" % delaySeconds)
@@ -66,19 +81,6 @@ class WindowOS(OSBase):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
-    def __enter__(self):
-        pass
-
-    def __exit__(self):
-        pass
-
-    def setCurrent(self):
-        pass
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.wmi = wmi.WMI()
-
     def launchApp(self, path: str, *args, **kwargs) -> WindowGUIApplication:
         return WindowGUIApplication.launch(*args, **kwargs)
 
@@ -111,7 +113,7 @@ class WindowOS(OSBase):
 
     @property
     def version(self) -> str:
-        pass
+        return f"{platform.system()} {platform.version()} {platform.release()} {platform.win32_edition()}"
 
     @property
     def drivers(self) -> Iterable[str]:

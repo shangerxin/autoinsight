@@ -30,5 +30,11 @@ class TestContextManagementService(unittest.TestCase):
         context0.setCurrent()
         self.assertEqual(self.cms.currentContext, context0)
 
+        context2.tearDown()
+        self.assertEqual(self.cms.currentContext, context0)
+
+        context0.tearDown()
+        self.assertEqual(self.cms.currentContext, context1)
+
     def tearDown(self) -> None:
         self.cms.reset()

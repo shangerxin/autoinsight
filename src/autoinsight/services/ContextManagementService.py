@@ -34,7 +34,7 @@ class ContextManagementService(ServiceBase):
             self._contextQueue.remove(context)
             self._contextQueue.append(context)
 
-    def unregisterContext(self, context:IdentObjectBase):
+    def unregisterContext(self, context: IdentObjectBase):
         if context.id in self._registeredContexts:
             del self._registeredContexts[context.id]
             self._contextQueue.remove(context)

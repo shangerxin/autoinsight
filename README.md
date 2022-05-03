@@ -16,7 +16,8 @@ Window
 - Python 3.6+ 32/64 bit
 - Install Google Tesseract 32/64 bit
 [tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki)
-
+- Install pywin32 
+[pywin32 release](https://github.com/mhammond/pywin32/releases)
 
 # Installation
 - Install with pip
