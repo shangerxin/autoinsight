@@ -1,37 +1,48 @@
 from abc import abstractmethod
-from typing import Tuple, Iterable
+from typing import Iterable, Optional
 
 from .ContextBase import ContextBase
+from autoinsight.common.models.Point import Point
+from autoinsight.common.models.Size import Size
+from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.ident.target.TargetBase import TargetBase
 
 
 class FormBase(ContextBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 parent: Optional[ContextBase] = None,
+                 *args,
+                 **kwargs):
         super().__init__(*args, **kwargs)
         self._x = 0
         self._y = 0
         self._width = 0
         self._height = 0
+        self._parent: Optional[ContextBase] = parent
 
     @property
-    def title(self):
+    def title(self) -> str:
         pass
 
     @property
-    def position(self) -> Tuple[int, int]:
-        return (self._x, self.y)
+    def position(self) -> Point:
+        return Point(x=self._x, y=self._y)
+
+    @property
+    def parent(self) -> Optional[ContextBase]:
+        return self._parent
 
     @property
     def targets(self) -> Iterable[TargetBase]:
         pass
 
     @property
-    def size(self) -> Tuple[int, int]:
-        return (self._width, self._height)
+    def size(self) -> Size:
+        return Size(width=self._width, height=self._height)
 
     @property
-    def rectangle(self) -> Tuple[int, int, int, int]:
-        return (self._x, self._y, self._width, self._height)
+    def rectangle(self) -> Rectangle:
+        return Rectangle(left=self._x, top=self._y, width=self._width, height=self._height)
 
     @abstractmethod
     def focus(self):
@@ -59,10 +70,6 @@ class FormBase(ContextBase):
 
     @abstractmethod
     def snapshot(self):
-        pass
-
-    @property
-    def application(self) -> ContextBase:
         pass
 
     @abstractmethod

@@ -30,7 +30,7 @@ class TestWindowOS(unittest.TestCase):
         windowCamera.close()
 
     def test_launch_calculator(self):
-        calculator:WindowGUIApplication = self.window.launchApp("calc")
+        calculator: WindowGUIApplication = self.window.launchApp("calc")
 
         self.assertTrue(calculator)
         calculator.close()

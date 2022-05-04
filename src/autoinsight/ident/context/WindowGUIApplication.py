@@ -1,13 +1,10 @@
 from .GUIApplicationBase import GUIApplicationBase
-from ...services.WindowKnowledgeService import WindowAutomationInstance
 
 
 class WindowGUIApplication(GUIApplicationBase):
     def __init__(self, *args,
-                 automationInstance: WindowAutomationInstance = None,
                  **kwargs):
         super().__init__(*args, **kwargs)
-        self._instance: WindowAutomationInstance = automationInstance
 
     def focus(self):
         pass
@@ -20,5 +17,8 @@ class WindowGUIApplication(GUIApplicationBase):
 
     def close(self):
         super().close()
-        if self._instance:
-            self._instance.close()
+        if self.automationInstance:
+            self.automationInstance.close()
+
+    def snapshot(self):
+        pass

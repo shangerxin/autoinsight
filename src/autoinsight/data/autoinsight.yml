@@ -1,0 +1,11 @@
+common:
+  log_level:info
+  log_format:
+
+script:
+  # script_root,
+  output_root:script_root
+ident:
+service:
+  application launch timeout: 30
+  launch retry interval:5

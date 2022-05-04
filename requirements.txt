@@ -9,3 +9,4 @@ numpy
 Pillow
 winaudio
 requests
+schema

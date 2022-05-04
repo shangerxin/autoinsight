@@ -47,10 +47,6 @@ class OSBase(ContextBase):
         pass
 
     @property
-    def currentDesktop(self):
-        pass
-
-    @property
     def environ(self) -> Mapping[str, str]:
         return self._environ
 
@@ -64,6 +60,14 @@ class OSBase(ContextBase):
 
     @property
     def version(self) -> str:
+        pass
+
+    @property
+    def SBIOS(self) -> str:
+        pass
+
+    @property
+    def VBIOS(self) -> str:
         pass
 
     @property
@@ -82,14 +86,6 @@ class OSBase(ContextBase):
 
     @abstractmethod
     def changeDriverState(self, driverInfo: str, isEnable: bool):
-        pass
-
-    @property
-    def SBIOS(self) -> str:
-        pass
-
-    @property
-    def VBIOS(self) -> str:
         pass
 
     @abstractmethod

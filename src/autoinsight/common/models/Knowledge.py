@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Iterable, Callable, Any, NewType, Optional, Tuple
+from typing import Iterable, Callable, Any, NewType, Tuple
 
 from .ModelBase import ModelBase
 

@@ -29,3 +29,7 @@ class IdentObjectBase(ObjectBase):
         Wait for the object to be displayed
         """
         pass
+
+    @abstractmethod
+    def snapshot(self):
+        pass

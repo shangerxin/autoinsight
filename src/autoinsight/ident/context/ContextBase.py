@@ -18,6 +18,10 @@ class ContextBase(IdentObjectBase):
     def __exit__(self):
         self.tearDown()
 
+    @property
+    def cms(self) -> ContextManagementService:
+        return self._cms
+
     def setCurrent(self):
         self._cms.currentContext = self
 

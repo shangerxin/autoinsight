@@ -21,4 +21,4 @@ class GUIApplicationBase(ProcessBase):
 
     @abstractmethod
     def focus(self):
-        self.currentForm.focus()
+        pass

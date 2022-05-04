@@ -8,20 +8,23 @@ import pyautogui
 from wmi import WMI, _wmi_object
 
 from .OSBase import OSBase
+from .ProcessBase import ProcessBase
 from .WindowGUIApplication import WindowGUIApplication
 from .ShellBase import ShellBase
 from autoinsight.common.models.Point import Point
-from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService, WindowAutomationInstance
+from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
 
 
 class WindowOS(OSBase):
+
     def __init__(self,
                  knowledgeService: WindowKnowledgeService = WindowKnowledgeService(),
+                 wmi: _wmi_object = WMI(),
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
-        self._wmi:_wmi_object = WMI()
-        self._ks:WindowKnowledgeService = knowledgeService
+        self._wmi: _wmi_object = wmi
+        self._ks: WindowKnowledgeService = knowledgeService
 
     def __repr__(self):
         if not self._repr:
@@ -32,6 +35,14 @@ class WindowOS(OSBase):
         if not self._str:
             self._str = "Window OS Context"
         return self._str
+
+    @property
+    def processes(self) -> Iterable[ProcessBase]:
+        pass
+
+    @property
+    def desktop(self):
+        pass
 
     @property
     def ks(self) -> WindowKnowledgeService:

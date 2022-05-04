@@ -5,13 +5,16 @@ from abc import abstractmethod
 from typing import Optional
 
 from .ContextBase import ContextBase
+from autoinsight.ident.AutomationTyping import AutomationInstance
 
 
 class ProcessBase(ContextBase):
-    def __init__(self, processId: int = 0,
+    def __init__(self,
+                 processId: int = 0,
                  cmdline: Optional[str] = None,
                  title: Optional[str] = None,
                  workdir: Optional[str] = None,
+                 automationInstance: Optional[AutomationInstance] = None,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._processId = processId
@@ -19,6 +22,7 @@ class ProcessBase(ContextBase):
         self._title = title
         self._workdir = workdir
         self._exitcode = 0
+        self._automationInstance: Optional[AutomationInstance] = automationInstance
 
     def __repr__(self):
         if not self._repr:
@@ -33,6 +37,10 @@ class ProcessBase(ContextBase):
                 self._str = self._title
 
         return self._str
+
+    @property
+    def automationInstance(self) -> AutomationInstance:
+        return self._automationInstance
 
     @property
     def exitcode(self) -> int:
