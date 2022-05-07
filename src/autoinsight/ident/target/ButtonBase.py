@@ -1,5 +1,7 @@
-from .TargetBase import TargetBase
+from abc import ABC
+
+from .ControlBase import ControlBase
 
 
-class ButtonBase(TargetBase):
+class ButtonBase(ControlBase, ABC):
     pass

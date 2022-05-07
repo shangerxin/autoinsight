@@ -1,15 +1,19 @@
+from abc import ABC, abstractmethod
+
+from autoinsight.ident.AutomationTyping import AutomationInstance
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
+from autoinsight.services.IoCService import IoCService
 from autoinsight.services.ContextManagementService import ContextManagementService
 
 
-class ContextBase(IdentObjectBase):
+class ContextBase(IdentObjectBase, ABC):
     def __init__(self,
-                 contextManagementService: ContextManagementService = ContextManagementService(),
+                 ioc: IoCService = IoCService(),
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._cms: ContextManagementService = contextManagementService
+        self._cms: ContextManagementService = ioc.getService(ContextManagementService)
         self._cms.registerContext(self)
 
     def __enter__(self):
@@ -18,12 +22,12 @@ class ContextBase(IdentObjectBase):
     def __exit__(self):
         self.tearDown()
 
-    @property
-    def cms(self) -> ContextManagementService:
-        return self._cms
-
     def setCurrent(self):
         self._cms.currentContext = self
 
     def tearDown(self):
         self._cms.unregisterContext(self)
+
+    @abstractmethod
+    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
+        pass

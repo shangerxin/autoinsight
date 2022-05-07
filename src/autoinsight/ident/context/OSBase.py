@@ -7,29 +7,13 @@ from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
 from .ShellBase import ShellBase
 from .ProcessBase import ProcessBase
-from ...common.models.Point import Point
+from autoinsight.common.models.Point import Point
 
 
 class OSBase(ContextBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._environ: Mapping[str] = environ
-
-    @abstractmethod
-    def launchApp(self, path) -> GUIApplicationBase:
-        pass
-
-    @abstractmethod
-    def launchShell(self, path) -> ShellBase:
-        pass
-
-    @abstractmethod
-    def kill(self, processId: int = 0, processName: str = ""):
-        pass
-
-    @abstractmethod
-    def terminate(self, processId: int = 0, processName: str = ""):
-        pass
 
     @property
     def userHome(self):
@@ -78,9 +62,25 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
+    def launchApp(self, path) -> GUIApplicationBase:
+        pass
+
+    @abstractmethod
+    def launchShell(self, path) -> ShellBase:
+        pass
+
+    @abstractmethod
+    def kill(self, processId: int = 0, processName: str = ""):
+        pass
+
+    @abstractmethod
+    def terminate(self, processId: int = 0, processName: str = ""):
+        pass
+
+    @abstractmethod
     def disks(self) -> Iterable[str]:
         """
-        Return all the avaliable harddrive partitions
+        Return all the available hard drive partitions
         """
         pass
 
@@ -130,6 +130,10 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
+    def select(self, start: Point, end: Point):
+        pass
+
+    @abstractmethod
     def restart(self, delaySeconds: int = 0):
         pass
 
@@ -146,5 +150,9 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def select(self, start: Point, end: Point):
+    def switchUser(self):
+        pass
+
+    @abstractmethod
+    def logout(self):
         pass

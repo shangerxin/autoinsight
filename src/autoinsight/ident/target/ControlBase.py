@@ -23,9 +23,9 @@ class ControlBase(TargetBase):
         pass
 
     @abstractmethod
-    def scrollIntoView(self):
+    def scroll(self):
         pass
 
     @abstractmethod
-    def scroll(self):
+    def isScrollable(self):
         pass

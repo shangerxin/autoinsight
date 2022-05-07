@@ -1,7 +1,7 @@
 import unittest
 
-from autoinsight.ident.context.ContextBase import ContextBase
 from autoinsight.services.ContextManagementService import ContextManagementService
+from tests.fixtures.dummys.ident.context.DummyContext import DummyContext
 
 
 class TestContextManagementService(unittest.TestCase):
@@ -15,9 +15,9 @@ class TestContextManagementService(unittest.TestCase):
         self.assertEqual(s0, s1)
 
     def test_change_current_context(self):
-        context0 = ContextBase()
-        context1 = ContextBase()
-        context2 = ContextBase()
+        context0 = DummyContext()
+        context1 = DummyContext()
+        context2 = DummyContext()
 
         self.assertEqual(self.cms.currentContext, context0)
 

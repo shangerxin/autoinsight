@@ -1,7 +1,11 @@
 from .GUIApplicationBase import GUIApplicationBase
+from ..AutomationTyping import AutomationInstance
 
 
 class WindowGUIApplication(GUIApplicationBase):
+    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
+        pass
+
     def __init__(self, *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -14,11 +18,6 @@ class WindowGUIApplication(GUIApplicationBase):
 
     def wait(self, timeoutSeconds: int = 0):
         pass
-
-    def close(self):
-        super().close()
-        if self.automationInstance:
-            self.automationInstance.close()
 
     def snapshot(self):
         pass

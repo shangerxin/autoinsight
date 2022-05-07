@@ -4,7 +4,7 @@ from queue import Queue
 from autoinsight.ident.context.WindowGUIApplication import WindowGUIApplication
 from autoinsight.ident.context.WindowOS import WindowOS
 
-from tests.fixtures.tkWindow import showInput
+from tests.fixtures.tkwindows import showInput
 
 
 class TestWindowOS(unittest.TestCase):

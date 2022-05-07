@@ -13,6 +13,7 @@ from .WindowGUIApplication import WindowGUIApplication
 from .ShellBase import ShellBase
 from autoinsight.common.models.Point import Point
 from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
+from autoinsight.ident.AutomationTyping import AutomationInstance
 
 
 class WindowOS(OSBase):
@@ -183,4 +184,13 @@ class WindowOS(OSBase):
         pass
 
     def wait(self, timeoutSeconds: int = 0):
+        pass
+
+    def switchUser(self):
+        pass
+
+    def logout(self):
+        pass
+
+    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
         pass

@@ -73,7 +73,16 @@ class ProcessBase(ContextBase):
     def close(self):
         if self._processId:
             os.kill(self._processId, signal.SIGTERM)
+            self.tearDown()
+            return
+
+        if self.automationInstance:
+            self.automationInstance.close()
+            self.tearDown()
+            return
 
     def kill(self):
         if self._processId:
             os.kill(self._processId, signal.SIGKILL)
+            self.tearDown()
+            return

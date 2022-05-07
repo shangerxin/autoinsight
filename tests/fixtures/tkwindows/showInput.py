@@ -2,14 +2,14 @@ import tkinter as tk
 from multiprocessing import Process, Queue
 
 
-class Application(tk.Frame):
+class _ShowInputApplication(tk.Frame):
     def __init__(self, master, q: Queue):
         super().__init__(master)
         self.pack()
-        self.createWidgets()
+        self._createWidgets()
         self.q = q
 
-    def createWidgets(self):
+    def _createWidgets(self):
         self.label = tk.Label(self, text="input:")
         self.entry = tk.Entry(self)
         self.button = tk.Button(self, text="OK")
@@ -32,6 +32,6 @@ def showInput() -> Queue:
 
 
 def __workload(q: Queue):
-    global Application
-    app = Application(tk.Tk(), q)
+    global _ShowInputApplication
+    app = _ShowInputApplication(tk.Tk(), q)
     app.mainloop()

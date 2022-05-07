@@ -51,6 +51,7 @@ $ flake8
 ```
 $ python -m pip install --upgrade pip
 $ python -m pip install -r requirements.txt
+$ python -m build
 ```
 
 
@@ -69,7 +70,7 @@ $ nose2
 - Follow syntax of the Sphinx project  
 
 # Roadmap
-- 0.0.1
+- 0.0.1 [Current]
     1. Init the project
 
 - 1.0.0

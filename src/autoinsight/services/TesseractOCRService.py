@@ -6,7 +6,7 @@ from numpy import array
 
 from autoinsight.common.models.Box import Box
 from autoinsight.common.models.BoundingBox import BoundingBox
-from .OCRService import OCRServiceBase
+from .OCRServiceBase import OCRServiceBase
 
 
 class TesseractOCRService(OCRServiceBase):

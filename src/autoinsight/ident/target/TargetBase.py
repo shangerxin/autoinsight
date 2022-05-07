@@ -5,26 +5,25 @@ from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Point import Point
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.ident.AutomationTyping import AutomationInstance
+from autoinsight.services.IoCService import IoCService
 from autoinsight.services.ContextManagementService import ContextManagementService
 
 
 class TargetBase(IdentObjectBase):
     def __init__(self,
-                 contextManagementService: ContextManagementService = ContextManagementService(),
+                 description: str,
+                 ioc: IoCService = IoCService(),
                  automationInstance: AutomationInstance = AutomationInstance,
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
-        self._cms: ContextManagementService = contextManagementService
+        self._cms: ContextManagementService = ioc.getService(ContextManagementService)
         self._x = 0
         self._y = 0
         self._width = 0
         self._height = 0
         self._automationInstance: AutomationInstance = automationInstance
-
-    @property
-    def cms(self):
-        return self._cms
+        self._description = description
 
     @property
     def automationInstance(self):
@@ -67,7 +66,7 @@ class TargetBase(IdentObjectBase):
         pass
 
     @abstractmethod
-    def isInViewPort(self) -> bool:
+    def isVisible(self) -> bool:
         pass
 
     @abstractmethod
@@ -80,4 +79,12 @@ class TargetBase(IdentObjectBase):
 
     @abstractmethod
     def mouseHover(self):
+        pass
+
+    @abstractmethod
+    def scrollIntoView(self):
+        pass
+
+    @abstractmethod
+    def reFind(self):
         pass
