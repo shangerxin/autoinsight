@@ -3,9 +3,6 @@ from ..AutomationTyping import AutomationInstance
 
 
 class WindowGUIApplication(GUIApplicationBase):
-    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
-        pass
-
     def __init__(self, *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,4 +17,7 @@ class WindowGUIApplication(GUIApplicationBase):
         pass
 
     def snapshot(self):
+        pass
+
+    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass

@@ -20,3 +20,12 @@ class TestUtils(unittest.TestCase):
         strGuid = str(guid)
 
         self.assertEqual(guid, utils.strToGUID(strGuid))
+
+    def test_unique_list(self):
+        words = ['Brightness at 132Button', 'Brightness at 132', 'Button5']
+        uniqueWords = utils.toUniqueList(words)
+        self.assertEqual(["brightness", "at", "132", "button", "5"], uniqueWords)
+
+        words = ['Switch to Video mode', 'Button6', 'Switch to Video modeButton']
+        uniqueWords = utils.toUniqueList(words)
+        self.assertEqual(["switch", "to", "video", "mode", "button", "6"], uniqueWords)

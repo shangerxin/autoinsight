@@ -29,5 +29,5 @@ class ContextBase(IdentObjectBase, ABC):
         self._cms.unregisterContext(self)
 
     @abstractmethod
-    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
+    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass

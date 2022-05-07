@@ -192,5 +192,5 @@ class WindowOS(OSBase):
     def logout(self):
         pass
 
-    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
+    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass

@@ -3,7 +3,7 @@ from autoinsight.ident.context.ContextBase import ContextBase
 
 
 class DummyContext(ContextBase):
-    def find(self, description: str, *args, **kwargs) -> AutomationInstance:
+    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass
 
     def __repr__(self):
