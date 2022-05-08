@@ -1,5 +1,8 @@
 import os
 
+
+import autoinsight.extend.ExtendEnum
+import autoinsight.extend.ExtendPywinautoApplicationWindowSpecification
 from autoinsight.ident.target.Button import Button
 from autoinsight.ident.target.ComboBox import ComboBox
 from autoinsight.ident.context.WindowOS import WindowOS

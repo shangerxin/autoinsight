@@ -35,10 +35,14 @@ $ pip install autoinsight
 ```python
 from autoinsight import Button, WindowOS
 
-camera = WindowOS().launchApp("camera")
-camera.setCurrent()
-Button("take photo").click()
-camera.close()
+def demo():
+    camera = WindowOS().launchApp("camera")
+    camera.setCurrent()
+    Button("take photo").click()
+    camera.close()
+
+if __name__ == '__main__':
+    demo()
 ```
 
 # Configuration
