@@ -8,7 +8,12 @@ class TestExtendEnum(unittest.TestCase):
         window = OSTypes.fromStr("Windows")
         linux = OSTypes.fromStr("Linux")
         unknown = OSTypes.fromStr("Unknown")
+        default = OSTypes.fromStr("Unknown", OSTypes.Any)
 
         self.assertEqual(window, OSTypes.Windows)
         self.assertEqual(linux, OSTypes.Linux)
         self.assertEqual(unknown, None)
+        self.assertEqual(default, OSTypes.Any)
+
+    def test_value_to_str(self):
+        self.assertEqual("Windows", OSTypes.Windows.str)

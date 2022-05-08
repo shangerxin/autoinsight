@@ -29,3 +29,11 @@ class TestUtils(unittest.TestCase):
         words = ['Switch to Video mode', 'Button6', 'Switch to Video modeButton']
         uniqueWords = utils.toUniqueList(words)
         self.assertEqual(["switch", "to", "video", "mode", "button", "6"], uniqueWords)
+
+    def test_matchScore(self):
+        words = ['Brightness at 132Button', 'Brightness at 132', 'Button5']
+        query = "button 5"
+
+        score = utils.matchScore(query, descriptions=words)
+
+        self.assertEqual(2 / 5, score)

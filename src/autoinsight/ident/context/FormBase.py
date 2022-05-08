@@ -1,16 +1,16 @@
 from abc import abstractmethod
 from typing import Iterable, Optional
 
-from .ContextBase import ContextBase
+from .ProcessBase import ProcessBase
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Size import Size
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.ident.target.TargetBase import TargetBase
 
 
-class FormBase(ContextBase):
+class FormBase(ProcessBase):
     def __init__(self,
-                 parent: Optional[ContextBase] = None,
+                 parent: Optional[ProcessBase] = None,
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,7 +18,7 @@ class FormBase(ContextBase):
         self._y = 0
         self._width = 0
         self._height = 0
-        self._parent: Optional[ContextBase] = parent
+        self._parent: Optional[ProcessBase] = parent
 
     @property
     def title(self) -> str:
@@ -29,7 +29,7 @@ class FormBase(ContextBase):
         return Point(x=self._x, y=self._y)
 
     @property
-    def parent(self) -> Optional[ContextBase]:
+    def parent(self) -> Optional[ProcessBase]:
         return self._parent
 
     @property
@@ -74,4 +74,11 @@ class FormBase(ContextBase):
 
     @abstractmethod
     def scroll(self):
+        pass
+
+    @abstractmethod
+    def _printElementsTree(self):
+        """
+        Print debug element tree information to the console.
+        """
         pass

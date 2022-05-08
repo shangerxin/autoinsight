@@ -7,6 +7,7 @@ from tests.fixtures.dummys.ident.context.DummyContext import DummyContext
 class TestContextManagementService(unittest.TestCase):
     def setUp(self) -> None:
         self.cms = ContextManagementService()
+        self.cms.reset()
 
     def test_register(self):
         s0 = ContextManagementService()

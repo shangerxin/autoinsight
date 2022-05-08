@@ -1,8 +1,8 @@
-from uuid import UUID
 from abc import abstractmethod
+from uuid import UUID
 
-from autoinsight.common.Utils import GUID
 from autoinsight.common.ObjectBase import ObjectBase
+from autoinsight.common.Utils import GUID
 
 
 class IdentObjectBase(ObjectBase):
@@ -16,18 +16,11 @@ class IdentObjectBase(ObjectBase):
         return self._id
 
     @abstractmethod
-    def __repr__(self):
+    def __repr__(self) -> str:
         pass
 
     @abstractmethod
-    def __str__(self):
-        pass
-
-    @abstractmethod
-    def wait(self, timeoutSeconds: int = 0):
-        """
-        Wait for the object to be displayed
-        """
+    def __str__(self) -> str:
         pass
 
     @abstractmethod

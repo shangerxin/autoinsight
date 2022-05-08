@@ -1,8 +1,9 @@
 from abc import abstractmethod
 from typing import Iterable
 
-from autoinsight.common.models.Knowledge import Knowledge
 from .ServiceBase import ServiceBase
+from autoinsight.common.models.Knowledge import Knowledge
+from autoinsight.ident.AutomationTyping import AutomationInstance
 
 
 class KnowledgeServiceBase(ServiceBase):
@@ -11,7 +12,7 @@ class KnowledgeServiceBase(ServiceBase):
         self._knowledge: Iterable[Knowledge] = []
 
     @abstractmethod
-    def recognize(self, name: str):
+    def recognize(self, cmdline: str) -> AutomationInstance:
         pass
 
     @property

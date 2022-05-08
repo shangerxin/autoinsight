@@ -1,5 +1,5 @@
 from .GUIApplicationBase import GUIApplicationBase
-from ..AutomationTyping import AutomationInstance
+from .ProcessBase import ProcessBase
 
 
 class WindowGUIApplication(GUIApplicationBase):
@@ -10,14 +10,11 @@ class WindowGUIApplication(GUIApplicationBase):
     def focus(self):
         pass
 
-    def launch(self):
+    def start(self) -> ProcessBase:
         pass
 
     def wait(self, timeoutSeconds: int = 0):
         pass
 
     def snapshot(self):
-        pass
-
-    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass

@@ -1,12 +1,15 @@
 import unittest
+import platform
 from queue import Queue
 
+
+from autoinsight.common.EnumTypes import OSTypes
 from autoinsight.ident.context.WindowGUIApplication import WindowGUIApplication
 from autoinsight.ident.context.WindowOS import WindowOS
-
 from tests.fixtures.tkwindows import showInput
 
 
+@unittest.skipUnless(OSTypes.fromStr(platform.system()) == OSTypes.Windows, "Only test on Windows")
 class TestWindowOS(unittest.TestCase):
     def setUp(self):
         self.window: WindowOS = WindowOS()

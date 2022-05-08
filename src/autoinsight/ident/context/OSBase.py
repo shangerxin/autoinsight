@@ -1,13 +1,15 @@
-from os import environ
-from typing import Iterable, Mapping
 from abc import abstractmethod
 from collections.abc import Sequence
+from os import environ
+from typing import Iterable, Mapping, Optional
 
+from autoinsight.common.EnumTypes import ButtonTypes
+from autoinsight.common.models.Point import Point
 from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
-from .ShellBase import ShellBase
 from .ProcessBase import ProcessBase
-from autoinsight.common.models.Point import Point
+from .ShellBase import ShellBase
+from ..AutomationTyping import AutomationInstance
 
 
 class OSBase(ContextBase):
@@ -32,6 +34,9 @@ class OSBase(ContextBase):
 
     @property
     def environ(self) -> Mapping[str, str]:
+        """
+        Return the system environment variable mapping
+        """
         return self._environ
 
     @property
@@ -66,7 +71,7 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def launchShell(self, path) -> ShellBase:
+    def launchShell(self, *args, **kwargs) -> ShellBase:
         pass
 
     @abstractmethod
@@ -130,7 +135,7 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def select(self, start: Point, end: Point):
+    def select(self, start: Point, end: Point, button: ButtonTypes = ButtonTypes.Left):
         pass
 
     @abstractmethod
@@ -156,3 +161,7 @@ class OSBase(ContextBase):
     @abstractmethod
     def logout(self):
         pass
+
+    def find(self, query: str, *args, **kwargs) -> Optional[AutomationInstance]:
+        if self._cms.currentContext != self:
+            return self._cms.currentContext

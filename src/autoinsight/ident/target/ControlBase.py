@@ -1,19 +1,12 @@
-from abc import abstractmethod
+from abc import ABC
 from typing import Optional
 
-from TargetBase import TargetBase
+from .TargetBase import TargetBase
+from autoinsight.common.EnumTypes import ScrollDirectionTypes
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 
 
-class ControlBase(TargetBase):
-    @abstractmethod
-    def focus(self):
-        pass
-
-    @property
-    def parent(self) -> Optional[IdentObjectBase]:
-        pass
-
+class ControlBase(TargetBase, ABC):
     @property
     def next(self) -> Optional[IdentObjectBase]:
         pass
@@ -22,10 +15,17 @@ class ControlBase(TargetBase):
     def previous(self) -> Optional[IdentObjectBase]:
         pass
 
-    @abstractmethod
-    def scroll(self):
-        pass
+    def focus(self) -> bool:
+        if self.automationInstance:
+            try:
+                self.automationInstance.set_focus()
+                return True
+            except:
+                return False
 
-    @abstractmethod
-    def isScrollable(self):
-        pass
+    def scroll(self, direction: ScrollDirectionTypes = ScrollDirectionTypes.Down):
+        if isinstance(direction, str):
+            direction: ScrollDirectionTypes = ScrollDirectionTypes.fromStr(direction)
+
+        if self.isScrollable():
+            self.automationInstance.scroll(direction.Down.str, "line")

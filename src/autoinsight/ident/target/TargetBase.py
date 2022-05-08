@@ -1,19 +1,22 @@
-from abc import abstractmethod
+from __future__ import annotations
 
-from autoinsight.common.models.Size import Size
-from autoinsight.common.models.Rectangle import Rectangle
+import time
+from typing import Optional
+
 from autoinsight.common.models.Point import Point
-from autoinsight.ident.IdentObjectBase import IdentObjectBase
+from autoinsight.common.models.Rectangle import Rectangle
+from autoinsight.common.models.Size import Size
 from autoinsight.ident.AutomationTyping import AutomationInstance
-from autoinsight.services.IoCService import IoCService
+from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
+from autoinsight.services.IoCService import IoCService
 
 
 class TargetBase(IdentObjectBase):
     def __init__(self,
-                 description: str,
+                 query: str,
                  ioc: IoCService = IoCService(),
-                 automationInstance: AutomationInstance = AutomationInstance,
+                 automationInstance: Optional[AutomationInstance] = None,
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,10 +26,12 @@ class TargetBase(IdentObjectBase):
         self._width = 0
         self._height = 0
         self._automationInstance: AutomationInstance = automationInstance
-        self._description = description
+        self._query = query
 
     @property
     def automationInstance(self):
+        if not self._automationInstance and self._query:
+            self._automationInstance = self._cms.currentContext.find(self._query)
         return self._automationInstance
 
     @property
@@ -41,50 +46,109 @@ class TargetBase(IdentObjectBase):
     def center(self) -> Point:
         return Point(x=self._x + self._width // 2, y=self._y + self._height // 2)
 
-    @abstractmethod
-    def click(self):
+    @property
+    def parent(self) -> Optional[TargetBase]:
         pass
 
-    @abstractmethod
+    def click(self) -> bool:
+        if self.automationInstance:
+            try:
+                self.automationInstance.click()
+                return True
+            except:
+                return False
+
     def rightClick(self):
-        pass
+        if self.automationInstance:
+            try:
+                self.automationInstance.right_click_input()
+                return True
+            except:
+                return False
 
-    @abstractmethod
     def doubleRightClick(self):
-        pass
+        if self.automationInstance:
+            try:
+                self.automationInstance.double_click_input()
+                return True
+            except:
+                return False
 
-    @abstractmethod
     def doubleClick(self):
-        pass
+        if self.automationInstance:
+            try:
+                self.automationInstance.double_click_input()
+                return True
+            except:
+                return False
 
-    @abstractmethod
     def drag(self):
         pass
 
-    @abstractmethod
     def drop(self):
         pass
 
-    @abstractmethod
     def isVisible(self) -> bool:
-        pass
+        if self.automationInstance:
+            try:
+                return self.automationInstance.is_visible()
+            except:
+                return False
 
-    @abstractmethod
     def isEnable(self) -> bool:
-        pass
+        if self.automationInstance:
+            try:
+                return self.automationInstance.is_enabled()
+            except:
+                return False
 
-    @abstractmethod
     def highlight(self):
-        pass
+        if self.automationInstance:
+            try:
+                # TODO make the wait time configurable
+                for i in range(50):
+                    self.automationInstance.draw_outline()
+                    return True
+            except:
+                return False
 
-    @abstractmethod
     def mouseHover(self):
         pass
 
-    @abstractmethod
-    def scrollIntoView(self):
-        pass
+    def scrollIntoView(self, timeout: int = 5) -> bool:
+        # TODO extend to support scroll down, up, left and right etc.
+        parent = self._getScrollableParent()
+        startTime = time.time()
+        isTimeout = False
+        while not self.isVisible() and parent:
+            parent().scroll("down", "line")
 
-    @abstractmethod
+            if time.time() - startTime > timeout:
+                isTimeout = True
+                break
+
+        return not isTimeout
+
     def reFind(self):
+        self._automationInstance = None
+
+    def isScrollable(self):
+        try:
+            if not self.automationInstance:
+                return False
+            else:
+                return not not self.automationInstance.iface_scroll
+        except:
+            return False
+
+    def _getScrollableParent(self) -> Optional[TargetBase]:
+        parent = self.parent
+
+        while parent:
+            if parent.isScrollable():
+                return parent
+
+            parent = parent.parent
+
+    def snapshot(self):
         pass

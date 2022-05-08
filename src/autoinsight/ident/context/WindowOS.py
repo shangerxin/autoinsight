@@ -1,31 +1,31 @@
 import os
 import platform
 import signal
-from typing import Iterable, Mapping
 from collections.abc import Sequence
+from time import sleep
+from typing import Iterable, Mapping, Optional
 
 import pyautogui
 from wmi import WMI, _wmi_object
 
+from autoinsight.common.EnumTypes import ButtonTypes
+from autoinsight.common.models.Point import Point
+from autoinsight.services.KnowledgeServiceBase import KnowledgeServiceBase
+from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
+from .Command import Command
 from .OSBase import OSBase
+from .PowerShell import PowerShell
 from .ProcessBase import ProcessBase
 from .WindowGUIApplication import WindowGUIApplication
-from .ShellBase import ShellBase
-from autoinsight.common.models.Point import Point
-from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
-from autoinsight.ident.AutomationTyping import AutomationInstance
 
 
 class WindowOS(OSBase):
-
     def __init__(self,
-                 knowledgeService: WindowKnowledgeService = WindowKnowledgeService(),
-                 wmi: _wmi_object = WMI(),
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
-        self._wmi: _wmi_object = wmi
-        self._ks: WindowKnowledgeService = knowledgeService
+        self._wmi: _wmi_object = self._ioc.getService(WMI)
+        self._ks: WindowKnowledgeService = self._ioc.getService(KnowledgeServiceBase)
 
     def __repr__(self):
         if not self._repr:
@@ -150,15 +150,18 @@ class WindowOS(OSBase):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
-    def launchApp(self, path: str, *args, **kwargs) -> WindowGUIApplication:
-        instance = self.ks.recognize(path)
+    def launchApp(self, cmdline: str, *args, **kwargs) -> WindowGUIApplication:
+        instance = self.ks.recognize(cmdline)
         if instance:
             return WindowGUIApplication(automationInstance=instance)
         else:
-            return WindowGUIApplication.launch(*args, **kwargs)
+            return WindowGUIApplication(cmdline=cmdline, *args, **kwargs)
 
-    def launchShell(self, path, *args, **kwargs) -> ShellBase:
-        pass
+    def launchShell(self, *args, **kwargs) -> Optional[Command]:
+        return Command(*args, **kwargs)
+
+    def launchPowershell(self, *args, **kwargs) -> Optional[PowerShell]:
+        return PowerShell(*args, **kwargs)
 
     def kill(self, processId: int = 0, processName: str = ""):
         if processId:
@@ -180,17 +183,15 @@ class WindowOS(OSBase):
     def snapshot(self):
         pass
 
-    def select(self, start: Point, end: Point):
-        pass
+    def select(self, start: Point, end: Point, button: ButtonTypes = ButtonTypes.Left):
+        pyautogui.mouseDown(x=start.x, y=start.y, button=button.str)
+        pyautogui.mouseUp(x=end.x, y=end.y, button=button.str)
 
     def wait(self, timeoutSeconds: int = 0):
-        pass
+        sleep(timeoutSeconds)
 
     def switchUser(self):
         pass
 
     def logout(self):
-        pass
-
-    def find(self, query: str, *args, **kwargs) -> AutomationInstance:
         pass

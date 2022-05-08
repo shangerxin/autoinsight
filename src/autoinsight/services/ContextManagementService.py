@@ -11,6 +11,7 @@ class ContextManagementService(ServiceBase):
         self._registeredContexts: Dict[UUID, IdentObjectBase] = {}
         self._currentContext: Optional[IdentObjectBase] = None
         self._contextQueue: list[IdentObjectBase] = []
+        self._os: IdentObjectBase = None
 
     @property
     def currentContext(self) -> Optional[IdentObjectBase]:
@@ -26,6 +27,10 @@ class ContextManagementService(ServiceBase):
         if self._currentContext != context and context.id in self._registeredContexts:
             self._currentContext = context
             self._updateContextQueue(context)
+
+    @property
+    def os(self) -> Optional[IdentObjectBase]:
+        return self._os
 
     def registerContext(self, context: IdentObjectBase):
         if context.id not in self._registeredContexts:

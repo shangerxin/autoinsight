@@ -1,12 +1,12 @@
 import os
-from typing import Dict
-from multiprocessing import Process
 from functools import partial
+from multiprocessing import Process
+from typing import Dict
 
 from pywinauto import Desktop, WindowSpecification, Application
 
-from autoinsight.ident.AutomationTyping import AutomationInstance
 from autoinsight.common.models.Knowledge import Knowledge
+from autoinsight.ident.AutomationTyping import AutomationInstance
 from .KnowledgeServiceBase import KnowledgeServiceBase
 
 
@@ -33,12 +33,12 @@ class WindowKnowledgeService(KnowledgeServiceBase):
         self.knowledge.append(Knowledge(alias=["media player", "wmplayer.exe", "mediaplayer"],
                                         launch=_launchMediaPlayer))
 
-    def recognize(self, name: str) -> AutomationInstance:
+    def recognize(self, cmdline: str) -> AutomationInstance:
         knowledge = None
-        if name:
-            name = name.lower()
+        if cmdline:
+            cmdline = cmdline.lower()
             for k in self.knowledge:
-                if name in k.alias:
+                if cmdline in k.alias:
                     knowledge = k
                     break
 

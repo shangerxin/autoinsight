@@ -1,16 +1,17 @@
 from __future__ import annotations
+
 import os
 import signal
 from abc import abstractmethod
 from typing import Optional
 
-from .ContextBase import ContextBase
 from autoinsight.ident.AutomationTyping import AutomationInstance
+from .ContextBase import ContextBase
 
 
 class ProcessBase(ContextBase):
     def __init__(self,
-                 processId: int = 0,
+                 processId: Optional[int] = 0,
                  cmdline: Optional[str] = None,
                  title: Optional[str] = None,
                  workdir: Optional[str] = None,
@@ -39,10 +40,6 @@ class ProcessBase(ContextBase):
         return self._str
 
     @property
-    def automationInstance(self) -> AutomationInstance:
-        return self._automationInstance
-
-    @property
     def exitcode(self) -> int:
         return self._exitcode
 
@@ -59,12 +56,15 @@ class ProcessBase(ContextBase):
         return self._processId
 
     @abstractmethod
-    def launch(self):
+    def start(self) -> ProcessBase:
         pass
 
     def __enter__(self):
         super().__enter__()
-        self.launch()
+        self.start()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
 
     @classmethod
     def new(cls, *args, **kwargs) -> ProcessBase:
@@ -76,8 +76,8 @@ class ProcessBase(ContextBase):
             self.tearDown()
             return
 
-        if self.automationInstance:
-            self.automationInstance.close()
+        if self._automationInstance:
+            self._automationInstance.close()
             self.tearDown()
             return
 

@@ -9,3 +9,16 @@ class OSTypes(Enum):
     Linux = "Linux"
     Java = "Java"
     MacOS = "Darwin"
+
+
+class ButtonTypes(Enum):
+    Left = "left"
+    Middle = "middle"
+    Right = "right"
+
+
+class ScrollDirectionTypes(Enum):
+    Up = "up"
+    Down = "down"
+    Left = "left"
+    Right = "right"

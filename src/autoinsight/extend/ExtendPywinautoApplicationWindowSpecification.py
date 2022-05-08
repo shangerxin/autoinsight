@@ -5,11 +5,7 @@ from typing import Tuple
 from pywinauto.application import WindowSpecification
 from pywinauto import findbestmatch
 
-ElementTreeNode = collections.namedtuple("ElementTreeNode", ["elem", "id", "children"])
-ElementsInfo = collections.namedtuple("ElementsInfo", ["ctrlTreeRoot",
-                                                       "textCtrls",
-                                                       "allCtrlIndexNameMaps",
-                                                       "allCtrl"])
+from autoinsight.ident.AutomationTyping import ElementsInfo
 
 
 # TODO set the default value base on configuration
