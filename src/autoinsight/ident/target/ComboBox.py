@@ -4,6 +4,10 @@ from .ControlBase import ControlBase
 
 
 class ComboBox(ControlBase):
+    def __init__(self, query: str, *args, **kwargs):
+        super().__init__(query, *args, **kwargs)
+        self._query += " combobox"
+
     def __repr__(self) -> str:
         pass
 

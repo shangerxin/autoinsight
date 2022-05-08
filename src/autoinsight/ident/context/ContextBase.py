@@ -46,6 +46,7 @@ class ContextBase(IdentObjectBase, ABC):
                 score = matchScore(query, names)
                 if score > bestScore:
                     bestIndex = index
+                    bestScore = score
 
             if bestIndex > -1:
                 return info.allCtrl[bestIndex]

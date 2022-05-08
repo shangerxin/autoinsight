@@ -86,3 +86,9 @@ class ProcessBase(ContextBase):
             os.kill(self._processId, signal.SIGKILL)
             self.tearDown()
             return
+
+    def _printElementsTree(self):
+        """
+        Print debug element tree information to the console.
+        """
+        pass

@@ -2,6 +2,10 @@ from .ControlBase import ControlBase
 
 
 class Button(ControlBase):
+    def __init__(self, query: str, *args, **kwargs):
+        super().__init__(query, *args, **kwargs)
+        self._query += " button"
+
     def __repr__(self):
         return
 

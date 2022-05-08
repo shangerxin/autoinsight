@@ -1,11 +1,11 @@
 from abc import abstractmethod
 from typing import Iterable, Optional
 
-from .ProcessBase import ProcessBase
 from autoinsight.common.models.Point import Point
-from autoinsight.common.models.Size import Size
 from autoinsight.common.models.Rectangle import Rectangle
+from autoinsight.common.models.Size import Size
 from autoinsight.ident.target.TargetBase import TargetBase
+from .ProcessBase import ProcessBase
 
 
 class FormBase(ProcessBase):
@@ -74,11 +74,4 @@ class FormBase(ProcessBase):
 
     @abstractmethod
     def scroll(self):
-        pass
-
-    @abstractmethod
-    def _printElementsTree(self):
-        """
-        Print debug element tree information to the console.
-        """
         pass

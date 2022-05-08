@@ -49,6 +49,3 @@ class WindowForm(FormBase):
 
     def dragTo(self, x: int, y: int):
         pass
-
-    def _printElementsTree(self):
-        pass
