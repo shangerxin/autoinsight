@@ -103,7 +103,7 @@ $ nose2
 
 # Roadmap
 
-- 0.0.1 [Current]
+- 0.0.1 [Current version 0.0.7]
     1. Init the project
 
 - 1.0.0
