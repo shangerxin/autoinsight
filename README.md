@@ -1,7 +1,7 @@
 # Introduction
 
 autoinsight is a UI automation library for window. It is aim to provide simplified workflow to the automation developers
-to help them create a easy to maintain and robust test scripts.
+to help them create an easy to maintain and robust test scripts.
 
 It is focus on Windows in the recent releases. It will be migrate to Linux in the future.
 
@@ -12,16 +12,12 @@ It is focus on Windows in the recent releases. It will be migrate to Linux in th
 - Documentation
 
 # Requirements
-
-- OS
-  Window
-
+- OS Window
 - Python 3.6+ 32/64 bit
 - Install Google Tesseract 32/64 bit
   [tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki)
 
-  Add tesseract.exe into the system environment variable PATH 
-- 
+  Add tesseract.exe into the system environment variable PATH
 - Install pywin32
   [pywin32 release](https://github.com/mhammond/pywin32/releases)
 
