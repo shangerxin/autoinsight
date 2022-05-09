@@ -12,13 +12,13 @@ class GUIApplicationBase(ProcessBase):
         self._currentForm: Optional[FormBase] = None
 
     @property
-    def forms(self) -> Iterable[FormBase]:
-        return self._forms
+    def forms(self) -> Optional[Iterable[FormBase]]:
+        pass
 
     @property
-    def currentForm(self) -> FormBase:
+    def currentForm(self) -> Optional[FormBase]:
         return self._currentForm
 
     @abstractmethod
-    def focus(self):
+    def focus(self) -> bool:
         pass

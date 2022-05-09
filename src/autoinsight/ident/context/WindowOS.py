@@ -150,14 +150,14 @@ class WindowOS(OSBase):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
-    def launchApp(self, cmdline: str, *args, **kwargs) -> WindowGUIApplication:
+    def launchApp(self, cmdline: str, isAsAdmin: bool = False, *args, **kwargs) -> WindowGUIApplication:
         instance = self.ks.recognize(cmdline)
         if instance:
             return WindowGUIApplication(automationInstance=instance)
         else:
             return WindowGUIApplication(cmdline=cmdline, *args, **kwargs)
 
-    def launchShell(self, *args, **kwargs) -> Optional[Command]:
+    def launchShell(self, isAsAdmin: bool = False, *args, **kwargs) -> Optional[Command]:
         return Command(*args, **kwargs)
 
     def launchPowershell(self, *args, **kwargs) -> Optional[PowerShell]:
@@ -194,4 +194,7 @@ class WindowOS(OSBase):
         pass
 
     def logout(self):
+        pass
+
+    def waitForWindow(self, query: str) -> WindowGUIApplication:
         pass

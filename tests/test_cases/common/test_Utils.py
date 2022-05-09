@@ -37,3 +37,11 @@ class TestUtils(unittest.TestCase):
         score = utils.matchScore(query, descriptions=words)
 
         self.assertEqual(2 / 5, score)
+
+    def test_isIEqual(self):
+        str0 = "abc"
+        str1 = "aBc"
+        self.assertTrue(utils.isIEqual(str0, str1))
+
+        str2 = "dbC"
+        self.assertFalse(utils.isIEqual(str1, str2))

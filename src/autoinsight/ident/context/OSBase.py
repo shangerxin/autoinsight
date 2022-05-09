@@ -67,11 +67,11 @@ class OSBase(ContextBase):
         pass
 
     @abstractmethod
-    def launchApp(self, path) -> GUIApplicationBase:
+    def launchApp(self, path, isAsAdmin: bool = False) -> GUIApplicationBase:
         pass
 
     @abstractmethod
-    def launchShell(self, *args, **kwargs) -> ShellBase:
+    def launchShell(self, isAsAdmin: bool = False, *args, **kwargs) -> ShellBase:
         pass
 
     @abstractmethod
@@ -164,4 +164,5 @@ class OSBase(ContextBase):
 
     def find(self, query: str, *args, **kwargs) -> Optional[AutomationInstance]:
         if self._cms.currentContext != self:
+            # TODO improve the find logic
             return self._cms.currentContext

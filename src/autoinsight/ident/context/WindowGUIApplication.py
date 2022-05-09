@@ -1,5 +1,8 @@
+from typing import Iterable, Optional
+
 from .GUIApplicationBase import GUIApplicationBase
 from .ProcessBase import ProcessBase
+from .WindowForm import WindowForm
 
 
 class WindowGUIApplication(GUIApplicationBase):
@@ -7,8 +10,21 @@ class WindowGUIApplication(GUIApplicationBase):
                  **kwargs):
         super().__init__(*args, **kwargs)
 
-    def focus(self):
-        pass
+    @property
+    def forms(self) -> Optional[Iterable[WindowForm]]:
+        return
+
+    @property
+    def currentForm(self) -> Optional[WindowForm]:
+        return self._currentForm
+
+    def focus(self) -> bool:
+        if self.automationInstance:
+            try:
+                self.automationInstance.set_focus()
+                return True
+            except:
+                return False
 
     def start(self) -> ProcessBase:
         pass

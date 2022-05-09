@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from .ModelBase import ModelBase
+from .Point import Point
 from .Size import Size
 
 
@@ -10,7 +11,7 @@ class ShapeBase(ModelBase):
     top: int
 
     @property
-    def center(self):
+    def center(self) -> Point:
         pass
 
     @property

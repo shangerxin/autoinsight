@@ -10,10 +10,25 @@ class IdentObjectBase(ObjectBase):
         self._id = GUID()
         self._repr = None
         self._str = None
+        self._automationInstance = None
 
     @property
     def id(self) -> UUID:
         return self._id
+
+    @property
+    def description(self) -> str:
+        """
+        A description that will unique locate the object within the context
+        """
+        pass
+
+    @property
+    def classname(self):
+        """
+        The control class name
+        """
+        return type(self).__name__
 
     @abstractmethod
     def __repr__(self) -> str:

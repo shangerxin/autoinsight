@@ -3,6 +3,8 @@ from __future__ import annotations
 import time
 from typing import Optional
 
+from PIL import Image
+
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Size import Size
@@ -31,7 +33,7 @@ class TargetBase(IdentObjectBase):
     @property
     def automationInstance(self):
         if not self._automationInstance and self._query:
-            self._automationInstance = self._cms.currentContext.find(self._query)
+            self._automationInstance = self._cms.currentContext.find(self._query, self)
         return self._automationInstance
 
     @property
@@ -40,18 +42,40 @@ class TargetBase(IdentObjectBase):
 
     @property
     def rectangle(self) -> Rectangle:
-        return Rectangle(left=self._x, top=self._y, width=self._width, height=self._height)
+        """
+        Relative left, top location base on the current context
+        """
+        if self.isExist():
+            # 'bottom', 'height', 'left', 'mid_point', 'right', 'top', 'width'
+            r = self.automationInstance.rectangle()
+            self._x = r.left
+            self._y = r.top
+            self._width = r.width
+            self._height = r.height
+            return Rectangle(left=self._x, top=self._y, width=self._width, height=self._height)
+        else:
+            return Rectangle(left=0, top=0, width=0, height=0)
 
     @property
     def center(self) -> Point:
-        return Point(x=self._x + self._width // 2, y=self._y + self._height // 2)
+        return self.rectangle.center
+
+    @property
+    def screenCenter(self) -> Point:
+        """
+        Return the center point of the target base on the screen coordinate
+        """
+        if self.isExist():
+            return self.automationInstance.client_to_screen(self.center)
+        else:
+            return Point(x=0, y=0)
 
     @property
     def parent(self) -> Optional[TargetBase]:
-        pass
+        return self._cms.currentContext
 
     def click(self) -> bool:
-        if self.automationInstance:
+        if self.isExist():
             try:
                 self.automationInstance.click()
                 return True
@@ -59,7 +83,7 @@ class TargetBase(IdentObjectBase):
                 return False
 
     def rightClick(self):
-        if self.automationInstance:
+        if self.isExist():
             try:
                 self.automationInstance.right_click_input()
                 return True
@@ -67,7 +91,7 @@ class TargetBase(IdentObjectBase):
                 return False
 
     def doubleRightClick(self):
-        if self.automationInstance:
+        if self.isExist():
             try:
                 self.automationInstance.double_click_input()
                 return True
@@ -75,7 +99,7 @@ class TargetBase(IdentObjectBase):
                 return False
 
     def doubleClick(self):
-        if self.automationInstance:
+        if self.isExist():
             try:
                 self.automationInstance.double_click_input()
                 return True
@@ -89,22 +113,23 @@ class TargetBase(IdentObjectBase):
         pass
 
     def isVisible(self) -> bool:
-        if self.automationInstance:
+        if self.isExist():
             try:
                 return self.automationInstance.is_visible()
             except:
                 return False
 
     def isEnable(self) -> bool:
-        if self.automationInstance:
+        if self.isExist():
             try:
                 return self.automationInstance.is_enabled()
             except:
                 return False
 
     def highlight(self):
-        if self.automationInstance:
+        if self.isExist():
             try:
+                self.parent.focus()
                 # TODO make the wait time configurable
                 for i in range(50):
                     self.automationInstance.draw_outline()
@@ -113,7 +138,8 @@ class TargetBase(IdentObjectBase):
                 return False
 
     def mouseHover(self):
-        pass
+        if self.isExist():
+            self.automationInstance.client_to_screen(self.center)
 
     def scrollIntoView(self, timeout: int = 5) -> bool:
         # TODO extend to support scroll down, up, left and right etc.
@@ -134,7 +160,7 @@ class TargetBase(IdentObjectBase):
 
     def isScrollable(self):
         try:
-            if not self.automationInstance:
+            if not self.isExist():
                 return False
             else:
                 return not not self.automationInstance.iface_scroll
@@ -151,4 +177,24 @@ class TargetBase(IdentObjectBase):
             parent = parent.parent
 
     def snapshot(self):
-        pass
+        if self.isExist():
+            image: Image = self.automationInstance.capture_as_image()
+            return image
+
+    def isExist(self) -> bool:
+        """
+        Check the target can be found on the current context or not
+        """
+        return bool(self.automationInstance)
+
+    def waitFor(self, timeout: int = 10, interval: int = 1) -> bool:
+        """
+        Wait for the target exist till timeout
+        """
+        start = time.time()
+        while not self.isExist():
+            time.sleep(interval)
+            if time.time() - start > timeout:
+                break
+
+        return self.isExist()

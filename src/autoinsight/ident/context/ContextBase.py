@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from autoinsight.common.Utils import matchScore
+from autoinsight.common.Utils import matchScore, isIEqual
 from autoinsight.ident.AutomationTyping import AutomationInstance, ElementsInfo
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
@@ -37,16 +37,27 @@ class ContextBase(IdentObjectBase, ABC):
         """
         pass
 
-    def find(self, query: str, *args, **kwargs) -> Optional[AutomationInstance]:
+    # TODO match should also consider the control type!
+    def find(self, query: str, target: IdentObjectBase = None, *args, **kwargs) -> Optional[AutomationInstance]:
         if self._automationInstance:
-            info: ElementsInfo = self._automationInstance.get_elements_info()
+            try:
+                info: ElementsInfo = self._automationInstance.get_elements_info()
 
-            bestIndex, bestScore = -1, 0
-            for index, names in info.allCtrlIndexNameMaps.items():
-                score = matchScore(query, names)
-                if score > bestScore:
-                    bestIndex = index
-                    bestScore = score
+                if target:
+                    invalidIndexes = (i for i, c in enumerate(info.allCtrl) if not isIEqual(c.friendlyclassname,
+                                                                                            target.classname))
+                    for index in invalidIndexes:
+                        if index in info.allCtrlIndexNameMaps:
+                            del info.allCtrlIndexNameMaps[index]
 
-            if bestIndex > -1:
-                return info.allCtrl[bestIndex]
+                bestIndex, bestScore = -1, -1
+                for index, names in info.allCtrlIndexNameMaps.items():
+                    score = matchScore(query, names)
+                    if score > bestScore:
+                        bestIndex = index
+                        bestScore = score
+
+                if bestIndex > -1:
+                    return info.allCtrl[bestIndex]
+            except:
+                return

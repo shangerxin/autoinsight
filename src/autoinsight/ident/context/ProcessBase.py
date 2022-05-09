@@ -40,6 +40,13 @@ class ProcessBase(ContextBase):
         return self._str
 
     @property
+    def automationInstance(self) -> Optional[AutomationInstance]:
+        if not self._automationInstance:
+            self._automationInstance = self._cms.os.find(
+                f"{self._processId} {self.cmdline} {self._title} {self.workdir}")
+        return self._automationInstance
+
+    @property
     def exitcode(self) -> int:
         return self._exitcode
 

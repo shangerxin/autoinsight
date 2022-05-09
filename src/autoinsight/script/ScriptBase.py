@@ -3,16 +3,18 @@ from abc import abstractmethod
 from autoinsight.common.ObjectBase import ObjectBase
 from autoinsight.services.ConfigurationService import ConfigurationService
 from autoinsight.services.ContextManagementService import ContextManagementService
+from autoinsight.services.IoCService import IoCService
 
 
 class ScriptBase(ObjectBase):
     @abstractmethod
     def __init__(self,
-                 configurationService: ConfigurationService = ConfigurationService(),
-                 contextManagementService: ContextManagementService = ContextManagementService(),
+                 ioc: IoCService = IoCService(),
                  *args,
                  **kwargs):
-        pass
+        self._ioc: IoCService = ioc
+        self._cms: ContextManagementService = ioc.getService(ContextManagementService)
+        self._cs: ConfigurationService = ioc.getService(ConfigurationService)
 
     @property
     def steps(self):
@@ -36,4 +38,8 @@ class ScriptBase(ObjectBase):
 
     @abstractmethod
     def pause(self):
+        pass
+
+    @abstractmethod
+    def save(self, path: str) -> bool:
         pass

@@ -82,3 +82,13 @@ def matchScore(query: str, descriptions: Iterable[str]) -> float:
         return matchCount / len(unique)
     else:
         return 0.0
+
+
+def isIEqual(str0: str, str1: str) -> bool:
+    """
+    Test two strings are ignored case equaled
+    """
+    if isinstance(str1, str) and isinstance(str0, str):
+        return str0.lower() == str1.lower()
+    else:
+        return False

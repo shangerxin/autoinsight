@@ -12,6 +12,7 @@ class ContextManagementService(ServiceBase):
         self._currentContext: Optional[IdentObjectBase] = None
         self._contextQueue: list[IdentObjectBase] = []
         self._os: IdentObjectBase = None
+        self._script: IdentObjectBase = None
 
     @property
     def currentContext(self) -> Optional[IdentObjectBase]:
@@ -31,6 +32,10 @@ class ContextManagementService(ServiceBase):
     @property
     def os(self) -> Optional[IdentObjectBase]:
         return self._os
+
+    @property
+    def script(self) -> Optional[IdentObjectBase]:
+        return self._script
 
     def registerContext(self, context: IdentObjectBase):
         if context.id not in self._registeredContexts:

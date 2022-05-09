@@ -1,13 +1,15 @@
 import os
+import platform
 from functools import partial
 from multiprocessing import Process
 from typing import Dict
 
 from pywinauto import Desktop, WindowSpecification, Application
 
+from .KnowledgeServiceBase import KnowledgeServiceBase
 from autoinsight.common.models.Knowledge import Knowledge
 from autoinsight.ident.AutomationTyping import AutomationInstance
-from .KnowledgeServiceBase import KnowledgeServiceBase
+from autoinsight.common.EnumTypes import OSTypes
 
 
 class WindowKnowledgeService(KnowledgeServiceBase):
@@ -78,7 +80,10 @@ def _launchCamera(k: Knowledge) -> AutomationInstance:
 
 def _launchControlPanel(k: Knowledge) -> AutomationInstance:
     _worker('control.exe', k)
-    return _waitWindow({"backend": "uia", "best_match": r"Control Panel\All Control Panel Items"})
+    if _isWindow11():
+        return _waitWindow({"backend": "uia", "best_match": r"Control Panel\All Control Panel Items"})
+    else:
+        return _waitWindow({"backend": "uia", "best_match": r"Control Panel"})
 
 
 def _launchSettings(k: Knowledge) -> AutomationInstance:
@@ -95,3 +100,11 @@ def _launchMediaPlayer(k: Knowledge) -> AutomationInstance:
     path = rf'"{os.environ["HOMEDRIVE"]}\Program Files\Windows Media Player\wmplayer.exe"'
     _worker(path, k)
     return _waitWindow({"backend": "uia", "best_match": "Windows Media Player"})
+
+
+def _isWindow11() -> bool:
+    if OSTypes.fromStr(platform.system()) == OSTypes.Windows:
+        version = int(platform.version().split(".")[-1])
+        return version >= 22000
+    else:
+        return False

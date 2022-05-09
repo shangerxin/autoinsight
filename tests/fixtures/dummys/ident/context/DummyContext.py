@@ -1,12 +1,9 @@
-from typing import Optional
-
-from autoinsight.ident.AutomationTyping import AutomationInstance
 from autoinsight.ident.context.ContextBase import ContextBase
 
 
 class DummyContext(ContextBase):
-    def find(self, query: str, *args, **kwargs) -> Optional[AutomationInstance]:
-        pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
         pass

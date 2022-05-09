@@ -19,6 +19,9 @@ It is focus on Windows in the recent releases. It will be migrate to Linux in th
 - Python 3.6+ 32/64 bit
 - Install Google Tesseract 32/64 bit
   [tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki)
+
+  Add tesseract.exe into the system environment variable PATH 
+- 
 - Install pywin32
   [pywin32 release](https://github.com/mhammond/pywin32/releases)
 
@@ -49,7 +52,7 @@ if __name__ == '__main__':
 
 # Development
 
-## Setup environment
+## Setup development environment
 
 - Setup
 
@@ -57,9 +60,9 @@ if __name__ == '__main__':
 $ pip install -r requirements-dev.txt
 ```
 
-- Install Goolge Tesseract ORC
+- Install Google Tesseract ORC
 
-- run all test
+- Run all test
 
 ```
 $ nose2
@@ -73,11 +76,11 @@ $ flake8
 
 ## Build
 
-- Install all the develop and build dependency
+- Install the build dependency
 
 ```
 $ python -m pip install --upgrade pip
-$ python -m pip install -r requirements.txt
+$ python -m pip install -r requirements-dev.txt
 $ python -m build
 ```
 
