@@ -34,9 +34,10 @@ class TestUtils(unittest.TestCase):
         words = ['Brightness at 132Button', 'Brightness at 132', 'Button5']
         query = "button 5"
 
-        score = utils.matchScore(query, descriptions=words)
+        score, secondScore = utils.matchScore(query, descriptions=words)
 
-        self.assertEqual(2 / 5, score)
+        self.assertEqual(1, score)
+        self.assertEqual(2/5, secondScore)
 
     def test_isIEqual(self):
         str0 = "abc"

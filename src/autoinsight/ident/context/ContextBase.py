@@ -50,12 +50,18 @@ class ContextBase(IdentObjectBase, ABC):
                         if index in info.allCtrlIndexNameMaps:
                             del info.allCtrlIndexNameMaps[index]
 
-                bestIndex, bestScore = -1, -1
+                bestIndex, bestScore, bestSecond = -1, -1, -1
                 for index, names in info.allCtrlIndexNameMaps.items():
-                    score = matchScore(query, names)
-                    if score > bestScore:
+                    score, secondScore = matchScore(query, names)
+                    if score and score > bestScore:
                         bestIndex = index
                         bestScore = score
+                        bestSecond = secondScore
+
+                    elif score == bestScore and secondScore > bestSecond:
+                        bestIndex = index
+                        bestScore = score
+                        bestSecond = secondScore
 
                 if bestIndex > -1:
                     return info.allCtrl[bestIndex]

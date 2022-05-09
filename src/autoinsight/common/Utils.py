@@ -1,6 +1,6 @@
 import re
 from difflib import get_close_matches
-from typing import Iterable, Collection
+from typing import Iterable, Collection, Tuple
 from uuid import uuid4, UUID
 
 
@@ -67,9 +67,9 @@ def toUniqueList(items: Iterable[str]) -> Collection[str]:
     return uniqueList
 
 
-def matchScore(query: str, descriptions: Iterable[str]) -> float:
+def matchScore(query: str, descriptions: Iterable[str]) -> Tuple[float, float]:
     if not (descriptions and query):
-        return 0.0
+        return 0.0, 0.0
 
     unique = toUniqueList(descriptions)
     if unique:
@@ -79,9 +79,9 @@ def matchScore(query: str, descriptions: Iterable[str]) -> float:
             matches = get_close_matches(word, unique)
             matchCount += len(matches)
 
-        return matchCount / len(unique)
+        return matchCount / len(words), matchCount / len(unique)
     else:
-        return 0.0
+        return 0.0, 0.0
 
 
 def isIEqual(str0: str, str1: str) -> bool:
