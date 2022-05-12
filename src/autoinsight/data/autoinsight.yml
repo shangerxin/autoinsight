@@ -1,6 +1,6 @@
 common:
   log_level:info
-  log_format:
+  log_format:abc
 script:
   # script_root,
   output_root:script_root

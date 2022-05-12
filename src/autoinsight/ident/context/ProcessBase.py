@@ -5,7 +5,7 @@ import signal
 from abc import abstractmethod
 from typing import Optional
 
-from autoinsight.ident.AutomationTyping import AutomationInstance
+from autoinsight.common.CustomTyping import AutomationInstance
 from .ContextBase import ContextBase
 
 

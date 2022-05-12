@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
+from typing import Optional, Iterable
 
 from PIL import Image
 
+from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Size import Size
-from autoinsight.ident.AutomationTyping import AutomationInstance
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 from autoinsight.services.IoCService import IoCService
@@ -29,6 +29,15 @@ class TargetBase(IdentObjectBase):
         self._height = 0
         self._automationInstance: AutomationInstance = automationInstance
         self._query = query
+        self._alias = []
+
+    @property
+    def aliases(self) -> Iterable[str]:
+        """
+        Return the alias type names of the current target for example:
+        edit, input
+        """
+        return self._alias
 
     @property
     def automationInstance(self):

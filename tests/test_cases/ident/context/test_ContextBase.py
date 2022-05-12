@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock, PropertyMock
 
-from autoinsight.ident.AutomationTyping import ElementsInfo, ElementTreeNode
+from autoinsight.common.CustomTyping import ElementsInfo, ElementTreeNode
 from tests.fixtures.dummys.Dummies import DummyControl, DummyAutomationInstance, DummyTarget
 from tests.fixtures.dummys.ident.context.DummyContext import DummyContext
 

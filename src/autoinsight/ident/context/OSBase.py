@@ -3,13 +3,13 @@ from collections.abc import Sequence
 from os import environ
 from typing import Iterable, Mapping, Optional
 
+from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.EnumTypes import ButtonTypes
 from autoinsight.common.models.Point import Point
 from .ContextBase import ContextBase
 from .GUIApplicationBase import GUIApplicationBase
 from .ProcessBase import ProcessBase
 from .ShellBase import ShellBase
-from ..AutomationTyping import AutomationInstance
 
 
 class OSBase(ContextBase):

@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 from autoinsight.common.ObjectBase import ObjectBase
-from autoinsight.services.ConfigurationService import ConfigurationService
+from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 from autoinsight.services.IoCService import IoCService
 
@@ -14,7 +14,7 @@ class ScriptBase(ObjectBase):
                  **kwargs):
         self._ioc: IoCService = ioc
         self._cms: ContextManagementService = ioc.getService(ContextManagementService)
-        self._cs: ConfigurationService = ioc.getService(ConfigurationService)
+        self._cs: ConfigurationServiceBase = ioc.getService(ConfigurationServiceBase)
 
     @property
     def steps(self):

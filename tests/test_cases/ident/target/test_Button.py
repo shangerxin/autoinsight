@@ -10,7 +10,7 @@ class TestButton(unittest.TestCase):
         os = WindowOS()
         camera: WindowGUIApplication = os.launchApp("camera")
         camera.setCurrent()
-        result = Button("take photo").click()
+        result = Button("photo").click()
         camera.close()
 
         self.assertTrue(result)

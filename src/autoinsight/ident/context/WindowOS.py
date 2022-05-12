@@ -163,6 +163,9 @@ class WindowOS(OSBase):
     def launchPowershell(self, *args, **kwargs) -> Optional[PowerShell]:
         return PowerShell(*args, **kwargs)
 
+    def launchFromStartMenu(self, appName: str, appQuery: str, *args, **kwargs) -> Optional[WindowGUIApplication]:
+        pass
+
     def kill(self, processId: int = 0, processName: str = ""):
         if processId:
             os.kill(processId, signal.SIGKILL)

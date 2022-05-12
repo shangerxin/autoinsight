@@ -22,3 +22,7 @@ class ScrollDirectionTypes(Enum):
     Down = "down"
     Left = "left"
     Right = "right"
+
+
+class EventTypes(Enum):
+    pass

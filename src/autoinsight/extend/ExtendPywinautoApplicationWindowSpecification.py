@@ -2,10 +2,10 @@ import collections
 import sys
 from typing import Tuple
 
-from pywinauto.application import WindowSpecification
 from pywinauto import findbestmatch
+from pywinauto.application import WindowSpecification
 
-from autoinsight.ident.AutomationTyping import ElementsInfo
+from autoinsight.common.CustomTyping import ElementsInfo
 
 
 # TODO set the default value base on configuration

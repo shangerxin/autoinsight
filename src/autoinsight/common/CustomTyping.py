@@ -1,9 +1,9 @@
 import collections
-from typing import Union, NewType, Optional
+from typing import Union, NewType, Optional, Dict, Callable
 
 from pywinauto.application import WindowSpecification
 from pywinauto.uia_element_info import UIAElementInfo
-# TODO the imports should be replaced with the wrapper in autoinsght.automation.*
+# TODO the imports should be replaced with the wrapper in autoinsight.automation.*
 from pywinauto.win32_element_info import HwndElementInfo
 
 # TODO in the future we need to separate the implementation for technical instance and visual instance
@@ -16,3 +16,17 @@ ElementsInfo = collections.namedtuple("ElementsInfo", ["ctrlTreeRoot",
                                                        "textCtrls",
                                                        "allCtrlIndexNameMaps",
                                                        "allCtrl"])
+
+Serializable = NewType("Serializable", Union[bool,
+                                             int,
+                                             float,
+                                             complex,
+                                             str,
+                                             bytes,
+                                             bytearray,
+                                             tuple,
+                                             list,
+                                             set,
+                                             frozenset,
+                                             Dict,
+                                             Callable])

@@ -1,9 +1,9 @@
 from abc import abstractmethod
 from typing import Iterable
 
-from .ServiceBase import ServiceBase
+from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.models.Knowledge import Knowledge
-from autoinsight.ident.AutomationTyping import AutomationInstance
+from .ServiceBase import ServiceBase
 
 
 class KnowledgeServiceBase(ServiceBase):

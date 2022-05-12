@@ -6,10 +6,10 @@ from typing import Dict
 
 from pywinauto import Desktop, WindowSpecification, Application
 
-from .KnowledgeServiceBase import KnowledgeServiceBase
-from autoinsight.common.models.Knowledge import Knowledge
-from autoinsight.ident.AutomationTyping import AutomationInstance
+from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.EnumTypes import OSTypes
+from autoinsight.common.models.Knowledge import Knowledge
+from .KnowledgeServiceBase import KnowledgeServiceBase
 
 
 class WindowKnowledgeService(KnowledgeServiceBase):

@@ -2,8 +2,9 @@ import platform
 from typing import Type, Optional
 
 from autoinsight.common.EnumTypes import OSTypes
-from .ConfigurationService import ConfigurationService
+from .ConfigurationServiceBase import ConfigurationServiceBase
 from .ContextManagementService import ContextManagementService
+from .WindowConfigurationService import WindowConfigurationService
 from .KnowledgeServiceBase import KnowledgeServiceBase
 from .OCRServiceBase import OCRServiceBase
 from .ServiceBase import ServiceBase
@@ -18,7 +19,6 @@ class IoCService(ServiceBase):
         self._registeredServices = {
             OSTypes.Any: {
                 OCRServiceBase: TesseractOCRService(),
-                ConfigurationService: ConfigurationService(),
                 ContextManagementService: ContextManagementService()
             },
             OSTypes.Windows: {},
@@ -44,4 +44,6 @@ class IoCService(ServiceBase):
 
             serviceMap = self._registeredServices[OSTypes.Windows]
             serviceMap.setdefault(KnowledgeServiceBase, WindowKnowledgeService())
+            serviceMap.setdefault(ConfigurationServiceBase, WindowConfigurationService)
             serviceMap.setdefault(WMI, WMI())
+

@@ -10,3 +10,4 @@ Pillow
 winaudio
 requests
 schema
+pydantic

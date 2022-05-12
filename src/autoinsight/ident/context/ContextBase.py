@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
+from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo
 from autoinsight.common.Utils import matchScore, isIEqual
-from autoinsight.ident.AutomationTyping import AutomationInstance, ElementsInfo
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
+from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 from autoinsight.services.IoCService import IoCService
 
@@ -17,6 +18,9 @@ class ContextBase(IdentObjectBase, ABC):
         self._ioc: IoCService = ioc
         self._cms: ContextManagementService = ioc.getService(ContextManagementService)
         self._cms.registerContext(self)
+        self._cs: ConfigurationServiceBase = ioc.getService(ConfigurationServiceBase)
+        self._searchDepth: int = 50
+        self._searchWidth: int = 30
 
     def __enter__(self):
         self.setCurrent()
@@ -37,12 +41,11 @@ class ContextBase(IdentObjectBase, ABC):
         """
         pass
 
-    # TODO match should also consider the control type!
     def find(self, query: str, target: IdentObjectBase = None, *args, **kwargs) -> Optional[AutomationInstance]:
         if self._automationInstance:
             try:
-                info: ElementsInfo = self._automationInstance.get_elements_info()
-
+                info: ElementsInfo = self._automationInstance.get_elements_info(depth=self._searchDepth,
+                                                                                max_width=self._searchWidth)
                 if target:
                     invalidIndexes = (i for i, c in enumerate(info.allCtrl) if not isIEqual(c.friendlyclassname,
                                                                                             target.classname))
@@ -67,3 +70,13 @@ class ContextBase(IdentObjectBase, ABC):
                     return info.allCtrl[bestIndex]
             except:
                 return
+
+    def addDialogHandler(self, dialogQuery: str, ActionQuery: str, key: Optional[str] = None):
+        """
+        Create a background thread to handle random popup dialog
+        """
+        pass
+
+    def addOneTimeDialogHandler(self, dialogQuery: str, ActionQuery: str, key: Optional[str] = None):
+        """
+        """
