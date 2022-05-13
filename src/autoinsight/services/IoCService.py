@@ -1,14 +1,14 @@
 import platform
-from typing import Type, Optional
+from typing import Type, Optional, Dict, Any
 
 from autoinsight.common.EnumTypes import OSTypes
 from .ConfigurationServiceBase import ConfigurationServiceBase
 from .ContextManagementService import ContextManagementService
-from .WindowConfigurationService import WindowConfigurationService
 from .KnowledgeServiceBase import KnowledgeServiceBase
 from .OCRServiceBase import OCRServiceBase
 from .ServiceBase import ServiceBase
 from .TesseractOCRService import TesseractOCRService
+from .WindowConfigurationService import WindowConfigurationService
 
 
 class IoCService(ServiceBase):
@@ -16,7 +16,7 @@ class IoCService(ServiceBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._registeredServices = {
+        self._registeredServices: Dict[OSTypes, Dict[Any, Any]] = {
             OSTypes.Any: {
                 OCRServiceBase: TesseractOCRService(),
                 ContextManagementService: ContextManagementService()
@@ -27,7 +27,7 @@ class IoCService(ServiceBase):
         }
         self._registerWindowServices()
 
-    def getService(self, serviceType: Type[ServiceBase]) -> Optional[ServiceBase]:
+    def getService(self, serviceType: Type[ServiceBase]) -> Optional[Type[ServiceBase]]:
         try:
             rss = self._registeredServices
             if serviceType in rss[OSTypes.Any]:
@@ -44,6 +44,5 @@ class IoCService(ServiceBase):
 
             serviceMap = self._registeredServices[OSTypes.Windows]
             serviceMap.setdefault(KnowledgeServiceBase, WindowKnowledgeService())
-            serviceMap.setdefault(ConfigurationServiceBase, WindowConfigurationService)
+            serviceMap.setdefault(ConfigurationServiceBase, WindowConfigurationService())
             serviceMap.setdefault(WMI, WMI())
-

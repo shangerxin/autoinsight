@@ -34,3 +34,12 @@ class ComboBox(ControlBase):
                     return False
             except:
                 return False
+
+    def randomSelect(self) -> bool:
+        pass
+
+    def selectFirstValue(self):
+        pass
+
+    def selectLastValue(self):
+        pass

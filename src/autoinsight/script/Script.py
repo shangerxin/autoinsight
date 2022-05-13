@@ -2,12 +2,16 @@ import os
 import sys
 
 from .ScriptBase import ScriptBase
+from autoinsight.common.models.Configuration import Configuration
 
 
 class Script(ScriptBase):
     """
     Should have the ability to persistent the execution state after restart
     """
+
+    def save(self, path: str) -> bool:
+        pass
 
     def run(self):
         pass
@@ -27,3 +31,7 @@ class Script(ScriptBase):
     @property
     def location(self) -> str:
         return self._location
+
+    @property
+    def runtimeConfig(self) -> Configuration:
+        pass

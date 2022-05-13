@@ -1,6 +1,6 @@
 import re
 from difflib import get_close_matches
-from typing import Iterable, Collection, Tuple
+from typing import Collection, Tuple, Iterable
 from uuid import uuid4, UUID
 
 

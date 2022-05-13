@@ -1,50 +1,42 @@
-from dataclasses import dataclass, field
+from logging import Formatter
 from typing import Literal, Optional
 
-from pydantic import BaseModel, FilePath, DirectoryPath
+from pydantic import BaseModel
 
 from .ModelBase import ModelBase
-from logging import Formatter
 
 
-@dataclass
 class ServiceConfig(BaseModel, ModelBase):
-    user_config_path: FilePath
+    pass
 
 
-@dataclass
 class IdentConfig(BaseModel, ModelBase):
-    search_depth: int = field(default=50)
-    search_width: int = field(default=30)
-    wait_seconds_for_object: int = field(default=30)
-    wait_seconds_for_window: int = field(default=30)
-    wait_retry_interval_for_object: int = field(default=3)
-    wait_retry_interval_for_window: int = field(default=5)
-    highlight_wait_seconds: int = field(default=10)
+    search_depth: int = 50
+    search_width: int = 30
+    wait_seconds_for_object: int = 30
+    wait_seconds_for_window: int = 30
+    wait_retry_interval_for_object: int = 3
+    wait_retry_interval_for_window: int = 5
+    highlight_wait_seconds: int = 10
 
 
-@dataclass
 class ScriptConfig(BaseModel, ModelBase):
-    output_root: DirectoryPath
-    script_config_name: str
-    is_snapshot_before_action: bool
+    output_root: Optional[str] = None
+    is_snapshot_before_action: bool = False
 
 
-@dataclass
 class CommonConfig(BaseModel, ModelBase):
-    log_format: Optional[str]
-    _log_format: Optional[Formatter] = field(init=False, default=None)
-    log_level: Optional[Literal["critical", "error", "warning", "info", "debug"]] = field(default="info")
+    log_format: Optional[str] = None
+    log_level: Optional[Literal["critical", "error", "warning", "info", "debug"]] = "info"
 
     def __post_init__(self):
         if self.log_format:
             try:
                 self._log_format: Formatter = Formatter(self.log_format)
-            except ValueError as e:
-                pass
+            except ValueError:
+                self.log_format = None
 
 
-@dataclass
 class Configuration(BaseModel, ModelBase):
     common: CommonConfig
     script: ScriptConfig

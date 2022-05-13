@@ -1,28 +1,33 @@
-import importlib.resources
+import importlib
 import os.path as path
 from typing import Optional, Dict
 
 import yaml
 
 import autoinsight.data
+from autoinsight.common.models.Configuration import Configuration
 from .ServiceBase import ServiceBase
 
 
 class ConfigurationServiceBase(ServiceBase):
     def __init__(self, *args, **kwargs):
+        self._configFilename: str = f"{autoinsight.__name__}.yml"
         self._scriptConfig: Optional[Dict] = None
         self._userConfig: Optional[Dict] = None
-        builtinConfigContent: str = importlib.resources.read_text(autoinsight.data, "autoinsight.yml")
+        builtinConfigContent: str = importlib.resources.read_text(autoinsight.data, self.configFileName)
         self._builtInConfig: Dict = self.load(builtinConfigContent)
 
         self._scriptConfigPath: Optional[str] = None
-
-        self._config = None
+        self._config: Optional[Configuration] = None
 
     @property
-    def config(self) -> Dict:
+    def configFileName(self) -> str:
+        return self._configFilename
+
+    @property
+    def config(self) -> Configuration:
         if not self._config:
-            self._config = self.loadAllConfigurations()
+            self._config = Configuration(**self.loadAllConfigurations())
 
         return self._config
 
@@ -35,10 +40,13 @@ class ConfigurationServiceBase(ServiceBase):
         """
         Load the yaml configuration file from the configData. It's either a file pat or the yaml content
         """
-        if path.isfile(configData):
-            return yaml.load(open(configData), yaml.Loader)
-        elif configData:
-            return yaml.load(configData, yaml.Loader)
+        try:
+            if path.isfile(configData):
+                return yaml.load(open(configData), yaml.Loader)
+            elif configData:
+                return yaml.load(configData, yaml.Loader)
+        except:
+            return
 
     def loadAllConfigurations(self, *configs: str) -> Dict:
         """
@@ -48,10 +56,6 @@ class ConfigurationServiceBase(ServiceBase):
         config: Dict = self.merge(self.builtinConfig, self._userConfig, self._scriptConfig, *configs)
         return config
 
-    def save(self):
-        if self._scriptConfigPath:
-            scriptConfig = self.load(self._scriptConfigPath)
-
     @classmethod
     def merge(cls, *configs: Dict) -> Dict:
         """
@@ -60,10 +64,20 @@ class ConfigurationServiceBase(ServiceBase):
         """
         merged = {}
         for config in configs:
-            merged.update(config)
+            if config:
+                merged.update(config)
 
         return merged
 
-    @classmethod
-    def assign(cls, config: Dict, *otherConfigs: Dict) -> Dict:
-        pass
+    def updateConfig(self, script):
+        config = self._config
+        if not config.common.log_format:
+            config.common.log_format = ""
+
+        if config.script.output_root == "script_root" or \
+                not path.isdir(config.script.output_root):
+            config.script.output_root = path.join(script.scriptRoot, "output")
+
+        self._scriptConfigPath = path.join(script.location, autoinsight.__name__)
+        self._scriptConfig = self.load(self._scriptConfigPath)
+        self._config = Configuration(**self.loadAllConfigurations(script.runtimeConfig))

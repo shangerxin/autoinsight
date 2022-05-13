@@ -17,6 +17,13 @@ class ScriptBase(ObjectBase):
         self._cs: ConfigurationServiceBase = ioc.getService(ConfigurationServiceBase)
 
     @property
+    def root(self) -> str:
+        """
+        Return the script absolute path root
+        """
+        pass
+
+    @property
     def steps(self):
         pass
 
@@ -42,4 +49,11 @@ class ScriptBase(ObjectBase):
 
     @abstractmethod
     def save(self, path: str) -> bool:
+        pass
+
+    @abstractmethod
+    def stop(self):
+        """
+        Will clean and close all the processes start by this script instance
+        """
         pass
