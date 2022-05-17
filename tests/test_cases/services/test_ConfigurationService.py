@@ -1,5 +1,7 @@
 import unittest
+import os
 
+from autoinsight.script.Script import Script
 from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
 
 
@@ -57,3 +59,13 @@ class TestConfigurationService(unittest.TestCase):
         self.assertEqual(self.cs.config.ident.wait_seconds_for_object, 30)
         self.assertEqual(self.cs.config.common.log_level, "info")
         self.assertEqual(self.cs.config.script.is_snapshot_before_action, False)
+        self.assertTrue(self.cs.config.common.log_format)
+
+    def test_update_config_from_script(self):
+        script = Script(runtimeConfig={"dummy": "key", "ident": {"search_depth": 100}})
+        self.cs.updateConfig(script)
+
+        with self.assertRaises(AttributeError):
+            self.cs.config.dummy
+        self.assertEqual(os.path.join(script.location, "output"), self.cs.config.script.output_root)
+        self.assertEqual(100, self.cs.config.ident.search_depth)

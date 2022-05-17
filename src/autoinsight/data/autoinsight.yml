@@ -1,5 +1,5 @@
 common:
-    log_format: abc
+    log_format: "%(asctime)s - %(levelname)s: %(message)s"
     log_level: info
 
 script:
