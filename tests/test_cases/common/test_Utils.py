@@ -1,4 +1,5 @@
 import unittest
+import os
 
 import autoinsight.common.Utils as utils
 
@@ -46,3 +47,19 @@ class TestUtils(unittest.TestCase):
 
         str2 = "dbC"
         self.assertFalse(utils.isIEqual(str1, str2))
+
+    def test_makeDirs(self):
+        curPath = os.path.dirname(__file__)
+        subdirs = os.path.join(curPath, "a", "bc")
+
+        utils.makeDirs(subdirs)
+        self.assertTrue(os.path.isdir(subdirs))
+
+        tempFilePath = os.path.join(subdirs, "tmp.txt")
+        fh = open(tempFilePath, "w+")
+        fh.close()
+        utils.makeDirs(subdirs, isRecreate=False)
+        self.assertTrue(os.path.isfile(tempFilePath))
+
+        utils.makeDirs(subdirs, isRecreate=True)
+        self.assertFalse(os.path.isfile(tempFilePath))

@@ -13,6 +13,7 @@ from ..common.CustomTyping import Serializable
 
 class ConfigurationServiceBase(ServiceBase):
     _outputDirName = "output"
+
     def __init__(self, *args, **kwargs):
         self._configFilename: str = f"{autoinsight.__name__}.yml"
         self._scriptConfig: Optional[Dict] = None
@@ -23,10 +24,15 @@ class ConfigurationServiceBase(ServiceBase):
         self._scriptConfigPath: Optional[str] = None
         self._config: Optional[Configuration] = None
         self._scriptRuntimeConfig: Optional[Dict[str, Serializable]] = None
+        self._scriptName: str = ""
 
     @property
     def configFileName(self) -> str:
         return self._configFilename
+
+    @property
+    def scriptName(self) -> str:
+        return self._scriptName
 
     @property
     def config(self) -> Configuration:
@@ -102,6 +108,7 @@ class ConfigurationServiceBase(ServiceBase):
         self._scriptConfigPath = path.join(script.location, f"{autoinsight.__name__}.yml")
         self._scriptConfig = self.load(self._scriptConfigPath)
         self._scriptRuntimeConfig: Optional[Dict[str, Serializable]] = script.runtimeConfig
+        self._scriptName = script.name
         config = Configuration(**self.loadAllConfigurations(script.runtimeConfig))
 
         if not config.common.log_format:

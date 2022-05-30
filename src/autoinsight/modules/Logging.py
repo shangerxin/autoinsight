@@ -1,14 +1,10 @@
 import logging
-from logging import FileHandler
-from logging.handlers import SysLogHandler
-
-import autoinsight
-from autoinsight.common.ObjectBase import ObjectBase
-from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
-from autoinsight.services.IoCService import IoCService
+from abc import abstractmethod
+from logging import FileHandler, Handler, Logger, StreamHandler
+from typing import Iterable
 
 
-class LoggerBase(ObjectBase):
+class LoggerBase:
     levelMaps = {
         "critical": logging.CRITICAL,
         "error": logging.ERROR,
@@ -17,42 +13,57 @@ class LoggerBase(ObjectBase):
         "debug": logging.DEBUG
     }
 
-    def __init__(self, ioc: IoCService = IoCService()):
-        super().__init__()
-        self.cs: ConfigurationServiceBase = ioc.getService(ConfigurationServiceBase)
-        logging.basicConfig(format=self.cs.config.common.log_format,
-                            level=self._toLogLevel(self.cs.config.common.log_level))
+    def __init__(self, name: str, level: str, formatTemplate: str, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        logging.basicConfig(format=formatTemplate,
+                            level=self._toLogLevel(level))
+        self._logger: Logger = logging.getLogger(name)
+
+        for h in self._handlers():
+            self._logger.addHandler(h)
 
     @classmethod
-    def _toLogLevel(cls, level: str):
-        cls.levelMaps.get(level.lower(), logging.WARNING)
+    def _toLogLevel(cls, level: str) -> int:
+        return cls.levelMaps.get(level.lower(), logging.WARNING)
 
-    @classmethod
-    def _handlers(cls):
+    @abstractmethod
+    def _handlers(self) -> Iterable[Handler]:
         pass
 
+    def debug(self, *args, **kwargs):
+        self._logger.debug(*args, **kwargs)
 
-class ScriptLogger(LoggerBase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._logger = logging.getLogger("script")
+    def info(self, *args, **kwargs):
+        self._logger.info(*args, **kwargs)
 
-    @classmethod
-    def _handlers(cls):
+    def warning(self, *args, **kwargs):
+        self._logger.warning(*args, **kwargs)
+
+    def error(self, *args, **kwargs):
+        self._logger.error(*args, **kwargs)
+
+    def critical(self, *args, **kwargs):
+        self._logger.critical(*args, **kwargs)
+
+    @staticmethod
+    def close():
+        logging.shutdown()
+
+
+class ConsoleLogger(LoggerBase):
+    def _handlers(self) -> Iterable[Handler]:
         return (
-            FileHandler
+            StreamHandler(),
         )
 
 
-class AutoInsightLogger(LoggerBase):
-    def __init__(self, *args, **kwargs):
+class ConsoleAndFileLogger(LoggerBase):
+    def __init__(self, logPath: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._logger = logging.getLogger(autoinsight.__name__)
+        self._logPath = logPath
 
-
-class OverallLogger(LoggerBase):
-    pass
-
-
-class SystemLogHandler(LoggerBase):
-    pass
+    def _handlers(self) -> Iterable[Handler]:
+        return (
+            StreamHandler(),
+            FileHandler(self._logPath, mode="w+")
+        )

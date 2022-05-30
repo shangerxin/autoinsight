@@ -1,4 +1,7 @@
+import os
 import re
+import shutil
+import logging
 from difflib import get_close_matches
 from typing import Collection, Tuple, Iterable
 from uuid import uuid4, UUID
@@ -92,3 +95,19 @@ def isIEqual(str0: str, str1: str) -> bool:
         return str0.lower() == str1.lower()
     else:
         return False
+
+
+def makeDirs(path: str, isRecreate: bool = False):
+    isExist = os.path.isdir(path)
+    if isRecreate and isExist:
+        try:
+            shutil.rmtree(path)
+        except Exception as e:
+            logging.warning("Call makeDirs with ", path, isRecreate, " failed with error", e)
+            pass
+
+    elif isExist:
+        return
+
+    else:
+        os.makedirs(path)

@@ -1,8 +1,8 @@
 import sys
-from abc import abstractmethod
-from typing import Optional, Dict
+from typing import Optional, Dict, Iterable
 from pathlib import Path
 
+from .StepBase import StepBase
 from autoinsight.common.ObjectBase import ObjectBase
 from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
 from autoinsight.services.ContextManagementService import ContextManagementService
@@ -11,7 +11,7 @@ from autoinsight.common.CustomTyping import Serializable
 
 
 class Script(ObjectBase):
-    @abstractmethod
+
     def __init__(self,
                  scriptFile: str = sys.argv[0],
                  ioc: IoCService = IoCService(),
@@ -25,9 +25,13 @@ class Script(ObjectBase):
         self._runtimeConfig: Optional[Dict[str, Serializable]] = runtimeConfig
 
         scriptPath = Path(scriptFile)
-        self._location = scriptPath.parent
+        self._location: Path = scriptPath.parent
         self._name = scriptPath.stem
         self._cs.updateConfig(self)
+        self._steps: list[StepBase] = []
+
+        # TODO changed to event
+        self._isPaused = False
 
     @property
     def name(self) -> str:
@@ -38,8 +42,11 @@ class Script(ObjectBase):
         return str(self._location)
 
     @property
-    def steps(self):
+    def steps(self) -> Iterable[StepBase]:
         pass
+
+    def addStep(self, step: StepBase):
+        self._steps.append(step)
 
     @property
     def config(self):
@@ -49,29 +56,33 @@ class Script(ObjectBase):
     def runtimeConfig(self) -> Optional[Dict[str, Serializable]]:
         return self._runtimeConfig
 
-    @abstractmethod
     def run(self):
-        pass
+        for step in self.steps:
+            if self._isPaused:
+                break
 
-    @abstractmethod
+            if not step.isExecuted:
+                step.execute(self._isPaused)
+
     def load(self):
         pass
 
-    @abstractmethod
     def resume(self):
-        pass
+        self._isPaused = False
 
-    @abstractmethod
     def pause(self):
-        pass
+        self._isPaused = True
 
-    @abstractmethod
+    def reset(self):
+        for step in self.steps:
+            step.reset()
+
     def save(self, path: str) -> bool:
         pass
 
-    @abstractmethod
     def stop(self):
         """
         Will clean and close all the processes start by this script instance
         """
-        pass
+        self.pause()
+        self.reset()
