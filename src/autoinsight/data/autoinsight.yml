@@ -4,6 +4,7 @@ common:
 
 script:
     is_snapshot_before_action: false
+    action_delay_seconds: 1
 
 ident:
     search_depth: 50

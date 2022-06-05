@@ -66,6 +66,10 @@ class OSBase(ContextBase):
         """
         pass
 
+    @property
+    def parent(self) -> ContextBase:
+        return self
+
     @abstractmethod
     def launchApp(self, path, isAsAdmin: bool = False) -> GUIApplicationBase:
         pass

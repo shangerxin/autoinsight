@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import abstractmethod
 from uuid import UUID
 
@@ -7,9 +9,9 @@ from autoinsight.common.Utils import GUID
 
 class IdentObjectBase(ObjectBase):
     def __init__(self, *args, **kwargs):
-        self._id = GUID()
-        self._repr = None
-        self._str = None
+        self._id: UUID = GUID()
+        self._repr: str = ""
+        self._str: str = ""
         self._automationInstance = None
 
     @property
@@ -19,8 +21,14 @@ class IdentObjectBase(ObjectBase):
     @property
     def description(self) -> str:
         """
-        A description that will unique locate the object within the context
+        A description that will unique locate the object within the context.
+
+        TODO: The object should be able to rebuild base on the description
         """
+        pass
+
+    @property
+    def parent(self) -> IdentObjectBase:
         pass
 
     @property

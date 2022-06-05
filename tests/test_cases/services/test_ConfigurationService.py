@@ -60,6 +60,7 @@ class TestConfigurationService(unittest.TestCase):
         self.assertEqual(self.cs.config.common.log_level, "info")
         self.assertEqual(self.cs.config.script.is_snapshot_before_action, False)
         self.assertTrue(self.cs.config.common.log_format)
+        self.assertEqual(self.cs.config.script.action_delay_seconds, 1)
 
     def test_update_config_from_script(self):
         script = Script(runtimeConfig={"dummy": "key", "ident": {"search_depth": 100}})

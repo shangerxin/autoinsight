@@ -24,5 +24,11 @@ class ScrollDirectionTypes(Enum):
     Right = "right"
 
 
+class ScrollTypes(Enum):
+    Lines = "lines"
+    Page = "page"
+    End = "end"
+
+
 class EventTypes(Enum):
     pass

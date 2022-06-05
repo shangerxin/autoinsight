@@ -2,8 +2,10 @@ from abc import ABC
 from typing import Optional
 
 from .TargetBase import TargetBase
-from autoinsight.common.EnumTypes import ScrollDirectionTypes
+from autoinsight.common.EnumTypes import ScrollDirectionTypes, ScrollTypes
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
+from autoinsight.decorator.Log import log
+from autoinsight.decorator.Step import step
 
 
 class ControlBase(TargetBase, ABC):
@@ -15,6 +17,8 @@ class ControlBase(TargetBase, ABC):
     def previous(self) -> Optional[IdentObjectBase]:
         pass
 
+    @log
+    @step
     def focus(self) -> bool:
         if self.automationInstance:
             try:
@@ -23,9 +27,11 @@ class ControlBase(TargetBase, ABC):
             except:
                 return False
 
+    @log
+    @step
     def scroll(self, direction: ScrollDirectionTypes = ScrollDirectionTypes.Down):
         if isinstance(direction, str):
             direction: ScrollDirectionTypes = ScrollDirectionTypes.fromStr(direction)
 
         if self.isScrollable():
-            self.automationInstance.scroll(direction.Down.str, "line")
+            self.automationInstance.scroll(direction.Down.str, ScrollTypes.Lines.str)

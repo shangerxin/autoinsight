@@ -1,7 +1,9 @@
 from typing import Callable, Optional, Iterable
+from difflib import get_close_matches
 
 from .ControlBase import ControlBase
-from difflib import get_close_matches
+from autoinsight.decorator.Log import log
+from autoinsight.decorator.Step import step
 
 
 class ComboBox(ControlBase):
@@ -18,10 +20,13 @@ class ComboBox(ControlBase):
     def values(self) -> Iterable[str]:
         pass
 
+    @log
     def iterateValues(self, intervalSecond: int = 2,
                       callbackOnEachValue: Optional[Callable[[str], bool]] = None):
         pass
 
+    @log
+    @step
     def select(self, value: Optional[str] = None, index: int = -1) -> bool:
         if self.isExist():
             try:
@@ -35,11 +40,17 @@ class ComboBox(ControlBase):
             except:
                 return False
 
+    @log
+    @step
     def randomSelect(self) -> bool:
         pass
 
+    @log
+    @step
     def selectFirstValue(self):
         pass
 
+    @log
+    @step
     def selectLastValue(self):
         pass

@@ -15,11 +15,14 @@ class LoggerBase:
 
     def __init__(self, name: str, level: str, formatTemplate: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        logLevel = self._toLogLevel(level)
         logging.basicConfig(format=formatTemplate,
-                            level=self._toLogLevel(level))
+                            level=logLevel)
         self._logger: Logger = logging.getLogger(name)
 
         for h in self._handlers():
+            h.setLevel(logLevel)
+            h.setFormatter(logging.Formatter(formatTemplate))
             self._logger.addHandler(h)
 
     @classmethod

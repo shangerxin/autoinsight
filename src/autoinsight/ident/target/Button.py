@@ -1,4 +1,6 @@
 from .ControlBase import ControlBase
+from autoinsight.decorator.Log import log
+from autoinsight.decorator.Step import step
 
 
 class Button(ControlBase):
@@ -11,6 +13,8 @@ class Button(ControlBase):
     def __str__(self):
         pass
 
+    @log
+    @step
     def click(self) -> bool:
         if super().click():
             return True
@@ -19,6 +23,8 @@ class Button(ControlBase):
         else:
             return False
 
+    @log
+    @step
     def toggle(self) -> bool:
         if self.automationInstance:
             try:
@@ -27,6 +33,7 @@ class Button(ControlBase):
             except:
                 return False
 
+    @log
     def isToggleable(self) -> bool:
         try:
             if not self.automationInstance:

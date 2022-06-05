@@ -8,15 +8,16 @@ from typing import Iterable, Mapping, Optional
 import pyautogui
 from wmi import WMI, _wmi_object
 
-from autoinsight.common.EnumTypes import ButtonTypes
-from autoinsight.common.models.Point import Point
-from autoinsight.services.KnowledgeServiceBase import KnowledgeServiceBase
-from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
 from .Command import Command
 from .OSBase import OSBase
 from .PowerShell import PowerShell
 from .ProcessBase import ProcessBase
 from .WindowGUIApplication import WindowGUIApplication
+from autoinsight.common.EnumTypes import ButtonTypes
+from autoinsight.common.models.Point import Point
+from autoinsight.services.KnowledgeServiceBase import KnowledgeServiceBase
+from autoinsight.services.WindowKnowledgeService import WindowKnowledgeService
+from autoinsight.decorator.Log import log
 
 
 class WindowOS(OSBase):
@@ -44,6 +45,10 @@ class WindowOS(OSBase):
     @property
     def desktop(self):
         pass
+
+    @property
+    def description(self) -> str:
+        return self.version
 
     @property
     def ks(self) -> WindowKnowledgeService:
@@ -93,10 +98,12 @@ class WindowOS(OSBase):
     def services(self):
         pass
 
+    @log
     def shutdown(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /t %s" % delaySeconds)
 
+    @log
     def holdAndTypeKeys(self, keys: Iterable[str], holdKeys: Sequence[str]):
         countOfControlKeys: int = len(holdKeys)
         if countOfControlKeys == 0:
@@ -114,17 +121,21 @@ class WindowOS(OSBase):
                     with pyautogui.hold(holdKeys[2]):
                         self.typeKeys(keys)
 
+    @log
     def changeDriverState(self, driverInfo: str, isEnable: bool):
         pass
 
+    @log
     def changeServiceState(self, serviceInfo: str, isEnable: bool):
         pass
 
+    @log
     def install(self, path: str):
         """Automatic install an application
         """
         pass
 
+    @log
     def typeControlKeys(self, controlKeys: Iterable[str]):
         """Send simulated control keys
 
@@ -133,23 +144,29 @@ class WindowOS(OSBase):
         """
         pyautogui.write(controlKeys)
 
+    @log
     def hotkeys(self, *keys):
         pyautogui.hotkey(*keys)
 
+    @log
     def querySystemEvent(self, eventPattern: str, level):
         pass
 
+    @log
     def restart(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /r /t %s" % delaySeconds)
 
+    @log
     def sleep(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
 
+    @log
     def hibernate(self, delaySeconds: int = 0):
         delaySeconds: int = int(delaySeconds)
         os.system("shutdown /s /hybrid /t %s" % delaySeconds)
 
+    @log
     def launchApp(self, cmdline: str, isAsAdmin: bool = False, *args, **kwargs) -> WindowGUIApplication:
         instance = self.ks.recognize(cmdline)
         if instance:
@@ -157,47 +174,60 @@ class WindowOS(OSBase):
         else:
             return WindowGUIApplication(cmdline=cmdline, *args, **kwargs)
 
+    @log
     def launchShell(self, isAsAdmin: bool = False, *args, **kwargs) -> Optional[Command]:
         return Command(*args, **kwargs)
 
+    @log
     def launchPowershell(self, *args, **kwargs) -> Optional[PowerShell]:
         return PowerShell(*args, **kwargs)
 
+    @log
     def launchFromStartMenu(self, appName: str, appQuery: str, *args, **kwargs) -> Optional[WindowGUIApplication]:
         pass
 
+    @log
     def kill(self, processId: int = 0, processName: str = ""):
         if processId:
             os.kill(processId, signal.SIGKILL)
 
+    @log
     def terminate(self, processId: int = 0, processName: str = ""):
         if processId:
             os.kill(processId, signal.SIGTERM)
 
+    @log
     def updateDriver(self):
         pass
 
+    @log
     def typeKeys(self, visibleKeys: Iterable[str], intervalSec: int = 0.25):
         """
         Simulate typing the visible characters
         """
         pyautogui.write(visibleKeys, interval=intervalSec)
 
+    @log
     def snapshot(self):
         pass
 
+    @log
     def select(self, start: Point, end: Point, button: ButtonTypes = ButtonTypes.Left):
         pyautogui.mouseDown(x=start.x, y=start.y, button=button.str)
         pyautogui.mouseUp(x=end.x, y=end.y, button=button.str)
 
+    @log
     def wait(self, timeoutSeconds: int = 0):
         sleep(timeoutSeconds)
 
+    @log
     def switchUser(self):
         pass
 
+    @log
     def logout(self):
         pass
 
+    @log
     def waitForWindow(self, query: str) -> WindowGUIApplication:
         pass

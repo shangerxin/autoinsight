@@ -5,10 +5,11 @@ from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Size import Size
 from autoinsight.ident.target.TargetBase import TargetBase
+from .ContextBase import ContextBase
 from .ProcessBase import ProcessBase
 
 
-class FormBase(ProcessBase):
+class FormBase(ContextBase):
     def __init__(self,
                  parent: Optional[ProcessBase] = None,
                  *args,
@@ -30,7 +31,7 @@ class FormBase(ProcessBase):
 
     @property
     def parent(self) -> Optional[ProcessBase]:
-        return self._parent
+        return self._parent or super().parent
 
     @property
     def targets(self) -> Iterable[TargetBase]:

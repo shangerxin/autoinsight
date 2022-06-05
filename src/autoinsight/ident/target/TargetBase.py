@@ -32,6 +32,10 @@ class TargetBase(IdentObjectBase):
         self._alias = []
 
     @property
+    def description(self) -> str:
+        return self._query
+
+    @property
     def aliases(self) -> Iterable[str]:
         """
         Return the alias type names of the current target for example:
@@ -86,6 +90,7 @@ class TargetBase(IdentObjectBase):
     def click(self) -> bool:
         if self.isExist():
             try:
+                self.automationInstance.wait_for_idle()
                 self.automationInstance.click()
                 return True
             except:

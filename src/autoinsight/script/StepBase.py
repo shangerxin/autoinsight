@@ -45,5 +45,13 @@ class StepBase(ObjectBase):
         self._isExecuted = False
 
     @abstractmethod
-    def execute(self, isPaused: bool):
+    def execute(self, isPaused: bool = False):
+        pass
+
+    @abstractmethod
+    def __repr__(self) -> str:
+        pass
+
+    @abstractmethod
+    def __str__(self) -> str:
         pass

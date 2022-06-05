@@ -23,6 +23,7 @@ class IdentConfig(BaseModel, ModelBase):
 class ScriptConfig(BaseModel, ModelBase):
     output_root: Optional[str] = None
     is_snapshot_before_action: bool = False
+    action_delay_seconds: int = 0
 
 
 class CommonConfig(BaseModel, ModelBase):
