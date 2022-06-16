@@ -1,6 +1,6 @@
 import logging
 from abc import abstractmethod
-from logging import FileHandler, Handler, Logger, StreamHandler
+from logging import FileHandler, Handler, Logger
 from typing import Iterable
 
 
@@ -55,9 +55,7 @@ class LoggerBase:
 
 class ConsoleLogger(LoggerBase):
     def _handlers(self) -> Iterable[Handler]:
-        return (
-            StreamHandler(),
-        )
+        return ()
 
 
 class ConsoleAndFileLogger(LoggerBase):
@@ -67,6 +65,5 @@ class ConsoleAndFileLogger(LoggerBase):
 
     def _handlers(self) -> Iterable[Handler]:
         return (
-            StreamHandler(),
-            FileHandler(self._logPath, mode="w+")
+            FileHandler(self._logPath, mode="w+"),
         )

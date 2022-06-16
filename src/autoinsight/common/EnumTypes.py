@@ -24,10 +24,16 @@ class ScrollDirectionTypes(Enum):
     Right = "right"
 
 
-class ScrollTypes(Enum):
+class ScrollAmountTypes(Enum):
     Lines = "lines"
     Page = "page"
     End = "end"
+
+
+class CVImageTypes(Enum):
+    RGBA = "RGBA"
+    RGB = "RGB"
+    BGR = "BGR"
 
 
 class EventTypes(Enum):

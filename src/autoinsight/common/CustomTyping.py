@@ -7,6 +7,7 @@ from pywinauto.uia_element_info import UIAElementInfo
 from pywinauto.win32_element_info import HwndElementInfo
 
 # TODO in the future we need to separate the implementation for technical instance and visual instance
+# Implement __getitem__ etc to simplified the try catch calling
 AutomationInstance = NewType("AutomationInstance", Optional[Union[UIAElementInfo,
                                                                   HwndElementInfo,
                                                                   WindowSpecification]])

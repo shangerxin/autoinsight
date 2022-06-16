@@ -54,18 +54,24 @@ class Log(DecoratorBase):
 
 
 def log(func):
+    """
+    logging decorator to a function and member function. When it is used with classmethod
+    please add this decorator before the classmethod decorator.
+    """
     @wraps(func)
     def __wrapper(*args, **kwargs):
         try:
+            moduleName = func.__module__ if hasattr(func, "__module__") else ""
+            funcName = func.__name__ if hasattr(func, "__name__") else ""
             Log.logger.debug("Call %s.%s with %s, %s",
-                             func.__module__,
-                             func.__name__,
+                             moduleName,
+                             funcName,
                              args,
                              kwargs)
             ret = func(*args, **kwargs)
             Log.logger.debug("%s.%s return %s",
-                             func.__module__,
-                             func.__name__,
+                             moduleName,
+                             funcName,
                              ret)
             return ret
         except Exception as e:
@@ -73,3 +79,8 @@ def log(func):
             raise e
 
     return __wrapper
+
+
+# TODO: Add class level log wrapper
+def logPublic(cls):
+    pass

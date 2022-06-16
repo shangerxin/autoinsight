@@ -2,7 +2,7 @@ from abc import ABC
 from typing import Optional
 
 from .TargetBase import TargetBase
-from autoinsight.common.EnumTypes import ScrollDirectionTypes, ScrollTypes
+from autoinsight.common.EnumTypes import ScrollDirectionTypes, ScrollAmountTypes
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.decorator.Log import log
 from autoinsight.decorator.Step import step
@@ -34,4 +34,4 @@ class ControlBase(TargetBase, ABC):
             direction: ScrollDirectionTypes = ScrollDirectionTypes.fromStr(direction)
 
         if self.isScrollable():
-            self.automationInstance.scroll(direction.Down.str, ScrollTypes.Lines.str)
+            self.automationInstance.scroll(direction.Down.str, ScrollAmountTypes.Lines.str)

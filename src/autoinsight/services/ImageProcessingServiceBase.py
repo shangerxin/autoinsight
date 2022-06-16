@@ -1,12 +1,14 @@
 from abc import abstractmethod
+from typing import Optional, Sequence
 
 from .ServiceBase import ServiceBase
-from ..common.models.Rectangle import Rectangle
+from autoinsight.common.models.Rectangle import Rectangle
+from autoinsight.common.models.Size import Size
 
 
 class ImageProcessingServiceBase(ServiceBase):
     @abstractmethod
-    def getImageResolution(self, image):
+    def getImageResolution(self, image) -> Optional[Size]:
         pass
 
     @abstractmethod
@@ -34,10 +36,6 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def isContainText(self, image, text: str) -> bool:
-        pass
-
-    @abstractmethod
     def compareSharpness(self, imageA, imageB) -> int:
         pass
 
@@ -54,15 +52,23 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def getVideoColorTemperature(self, video, time) -> int:
+    def getVideoColorTemperature(self, video, checkpoint) -> int:
         pass
 
     @abstractmethod
-    def getImageHSB(self, image):
+    def getImageHSVMean(self, image) -> Sequence[int]:
         pass
 
     @abstractmethod
-    def getVideoHSB(self, video, time) -> int:
+    def getVideoHSVMean(self, video, checkpoint) -> int:
+        pass
+
+    @abstractmethod
+    def getImageRGBMean(self, image) -> Sequence[int]:
+        pass
+
+    @abstractmethod
+    def getVideoRGBMean(self, video, checkpoint) -> Sequence[int]:
         pass
 
     @abstractmethod
@@ -82,7 +88,7 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def getVideoISO(self, video, time) -> int:
+    def getVideoISO(self, video, checkpoint) -> int:
         pass
 
     @abstractmethod
@@ -90,7 +96,7 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def compareVideoISO(self, videoA, videoB, time) -> int:
+    def compareVideoISO(self, videoA, videoB, checkpoint) -> int:
         pass
 
     @abstractmethod
@@ -98,7 +104,7 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def compareVideoContrast(self, videoA, videoB, time) -> int:
+    def compareVideoContrast(self, videoA, videoB, checkpoint) -> int:
         pass
 
     @abstractmethod
@@ -106,5 +112,5 @@ class ImageProcessingServiceBase(ServiceBase):
         pass
 
     @abstractmethod
-    def compareVideoGamma(self, videoA, videoB, time) -> int:
+    def compareVideoGamma(self, videoA, videoB, checkpoint) -> int:
         pass

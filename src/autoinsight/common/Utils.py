@@ -5,6 +5,8 @@ import logging
 from difflib import get_close_matches
 from typing import Collection, Tuple, Iterable
 from uuid import uuid4, UUID
+from pathlib import Path
+from time import strftime, gmtime, time_ns
 
 
 def GUID() -> UUID:
@@ -111,3 +113,14 @@ def makeDirs(path: str, isRecreate: bool = False):
 
     else:
         os.makedirs(path)
+
+
+def decorateFileName(name: str) -> str:
+    p = Path(name)
+
+    if p.parent and str(p.parent) != ".":
+        parent = p.parent
+    else:
+        parent = ""
+
+    return f'{parent}{strftime("UTC%Y%m%d-%H%M%S", gmtime())}.{str(time_ns())[-9:-6]}-{p.name}'

@@ -71,11 +71,15 @@ class OSBase(ContextBase):
         return self
 
     @abstractmethod
-    def launchApp(self, path, isAsAdmin: bool = False) -> GUIApplicationBase:
+    def launchApp(self, cmdline: str, isAsAdmin: bool = False) -> GUIApplicationBase:
         pass
 
     @abstractmethod
-    def launchShell(self, isAsAdmin: bool = False, *args, **kwargs) -> ShellBase:
+    def launchShell(self, cmds: Iterable[str], isAsAdmin: bool = False, *args, **kwargs) -> ShellBase:
+        pass
+
+    @abstractmethod
+    def launchShellWaitWindow(self, cmds: Iterable[str], isAsAdmin: bool = False, *args, **kwargs):
         pass
 
     @abstractmethod

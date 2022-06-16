@@ -1,9 +1,15 @@
 from typing import Iterable, Optional
 
+from PIL.Image import Image
+from pywinauto import Application
+
+from .FormBase import FormBase
 from .GUIApplicationBase import GUIApplicationBase
 from .ProcessBase import ProcessBase
 from .WindowForm import WindowForm
 from autoinsight.decorator.Log import log
+from autoinsight.decorator.Step import step
+from autoinsight.common.CustomTyping import AutomationInstance
 
 
 class WindowGUIApplication(GUIApplicationBase):
@@ -13,7 +19,7 @@ class WindowGUIApplication(GUIApplicationBase):
 
     @classmethod
     def new(cls, *args, **kwargs) -> ProcessBase:
-        pass
+        return WindowGUIApplication(*args, **kwargs)
 
     @property
     def description(self) -> str:
@@ -33,9 +39,14 @@ class WindowGUIApplication(GUIApplicationBase):
 
     @property
     def currentForm(self) -> Optional[WindowForm]:
+        if not self._currentForm and self.automationInstance:
+            top = self.automationInstance.top_window()
+            self._currentForm = WindowForm(automationInstance=top)
+
         return self._currentForm
 
     @log
+    @step
     def focus(self) -> bool:
         if self.automationInstance:
             try:
@@ -45,13 +56,21 @@ class WindowGUIApplication(GUIApplicationBase):
                 return False
 
     @log
+    @step
     def start(self) -> ProcessBase:
-        pass
+        super().start()
+        self.automationInstance = Application.start(self._cmdline,
+                                                    work_dir=self._workdir,
+                                                    timeout=self._cs.config.ident.wait_seconds_for_window,
+                                                    retry_interval=self._cs.config.ident.wait_retry_interval_for_window)
 
     @log
-    def wait(self, timeoutSeconds: int = 0):
-        pass
+    @step
+    def snapshot(self) -> Optional[Image]:
+        if self.automationInstance:
+            return self.automationInstance.capture_as_image()
 
-    @log
-    def snapshot(self):
-        pass
+    def _findForm(self, automationInstance: AutomationInstance) -> Optional[FormBase]:
+        for form in self._forms:
+            if form.automationInstance == automationInstance:
+                return form

@@ -3,6 +3,9 @@ from typing import Any
 
 from autoinsight.common.ObjectBase import ObjectBase
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
+from autoinsight.services.IoCService import IoCService
+from autoinsight.services.ContextManagementService import ContextManagementService
+from autoinsight.common.Utils import GUID
 
 
 class StepBase(ObjectBase):
@@ -21,10 +24,19 @@ class StepBase(ObjectBase):
         self._target: IdentObjectBase = target
         self._context: IdentObjectBase = context
         self._description = description
+        self._os = None
+        self._id = GUID()
 
     @property
     def isExecuted(self):
         return self._isExecuted
+
+    @property
+    def os(self):
+        if not self._os:
+            cms: ContextManagementService = IoCService().getService(ContextManagementService)
+            self._os = cms.os
+        return self._os
 
     @property
     def result(self) -> Any:

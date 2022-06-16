@@ -11,3 +11,4 @@ winaudio
 requests
 schema
 pydantic
+colour

@@ -1,5 +1,6 @@
 import unittest
 import os
+import re
 
 import autoinsight.common.Utils as utils
 
@@ -63,3 +64,12 @@ class TestUtils(unittest.TestCase):
 
         utils.makeDirs(subdirs, isRecreate=True)
         self.assertFalse(os.path.isfile(tempFilePath))
+
+    def test_decorateFileName(self):
+        name = "abc.txt"
+        decoratedName = utils.decorateFileName(name)
+        self.assertTrue(re.match(r"UTC\d{8}-\d{6}\.\d{3}-abc\.txt", decoratedName))
+
+        name = r"c:\abc.txt"
+        decoratedName = utils.decorateFileName(name)
+        self.assertTrue(re.match(r"c:\\UTC\d{8}-\d{6}\.\d{3}-abc\.txt", decoratedName))

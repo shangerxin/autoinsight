@@ -4,6 +4,7 @@ import os
 import signal
 from abc import abstractmethod
 from typing import Optional
+from subprocess import Popen
 
 from .ContextBase import ContextBase
 from autoinsight.common.CustomTyping import AutomationInstance
@@ -15,6 +16,7 @@ class ProcessBase(ContextBase):
     def __init__(self,
                  processId: Optional[int] = 0,
                  processName: Optional[str] = None,
+                 processHandle: Optional[Popen] = None,
                  cmdline: Optional[str] = None,
                  title: Optional[str] = None,
                  workdir: Optional[str] = None,
@@ -22,13 +24,19 @@ class ProcessBase(ContextBase):
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._processId: int = processId
+        self._processHandle: Optional[Popen] = processHandle
         self._processName: str = processName
         self._cmdline: str = cmdline
         self._title: str = title
         self._workdir: str = workdir
         self._exitcode: int = 0
-        self._automationInstance: Optional[AutomationInstance] = None
-        self.automationInstance: Optional[AutomationInstance] = automationInstance
+
+        if automationInstance:
+            self.automationInstance: Optional[AutomationInstance] = automationInstance
+            self._isStarted = True
+        else:
+            self._automationInstance: Optional[AutomationInstance] = None
+            self._isStarted: bool = False
 
     def __repr__(self):
         if not self._repr:
@@ -56,8 +64,11 @@ class ProcessBase(ContextBase):
 
     @property
     def automationInstance(self) -> Optional[AutomationInstance]:
+        if not self._isStarted:
+            self.start()
+
         if not self._automationInstance:
-            self._automationInstance = self._cms.os.find(
+            self.automationInstance = self._cms.os.find(
                 f"{self._processId} {self.cmdline} {self._title} {self.workdir}")
         return self._automationInstance
 
@@ -94,9 +105,8 @@ class ProcessBase(ContextBase):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
-    @abstractmethod
     def start(self) -> ProcessBase:
-        pass
+        self._isStarted = True
 
     @classmethod
     @abstractmethod
@@ -110,8 +120,12 @@ class ProcessBase(ContextBase):
             self.tearDown()
             return
 
-        if self._automationInstance:
-            self._automationInstance.close()
+        if self._processHandle:
+            self._processHandle.terminate()
+            return
+
+        if self.automationInstance:
+            self.automationInstance.close()
             self.tearDown()
             return
 

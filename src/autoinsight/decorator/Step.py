@@ -62,3 +62,8 @@ def step(func):
             return func
 
     return __wrapper
+
+
+# TODO: Add class level wrapper
+def stepPublic(cls):
+    pass

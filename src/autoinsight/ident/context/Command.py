@@ -10,10 +10,17 @@ class Command(WindowShellBase):
         pass
 
     def __enter__(self):
-        pass
+        super().__enter__()
 
     def __exit__(self):
-        pass
+        super().__exit__()
 
     def setCurrent(self):
+        pass
+
+    @classmethod
+    def new(cls, *args, **kwargs) -> ProcessBase:
+        pass
+
+    def snapshot(self):
         pass

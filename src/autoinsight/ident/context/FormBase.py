@@ -1,16 +1,18 @@
 from abc import abstractmethod
 from typing import Iterable, Optional
 
+from .ContextBase import ContextBase
+from .ProcessBase import ProcessBase
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Size import Size
 from autoinsight.ident.target.TargetBase import TargetBase
-from .ContextBase import ContextBase
-from .ProcessBase import ProcessBase
+from autoinsight.common.CustomTyping import AutomationInstance
 
 
 class FormBase(ContextBase):
     def __init__(self,
+                 automationInstance: Optional[AutomationInstance] = None,
                  parent: Optional[ProcessBase] = None,
                  *args,
                  **kwargs):
@@ -20,10 +22,16 @@ class FormBase(ContextBase):
         self._width = 0
         self._height = 0
         self._parent: Optional[ProcessBase] = parent
+        self._automationInstance = automationInstance
+
+    @property
+    def automationInstance(self) -> Optional[AutomationInstance]:
+        return self._automationInstance
 
     @property
     def title(self) -> str:
-        pass
+        if self.automationInstance:
+            self.automationInstance.tite()
 
     @property
     def position(self) -> Point:

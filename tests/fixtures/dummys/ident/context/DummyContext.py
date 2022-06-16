@@ -11,8 +11,5 @@ class DummyContext(ContextBase):
     def __str__(self):
         pass
 
-    def wait(self, timeoutSeconds: int = 0):
-        pass
-
     def snapshot(self):
         pass

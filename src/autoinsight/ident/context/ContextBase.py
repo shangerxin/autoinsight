@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Optional
 
 from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo
@@ -33,13 +33,6 @@ class ContextBase(IdentObjectBase, ABC):
 
     def tearDown(self):
         self._cms.unregisterContext(self)
-
-    @abstractmethod
-    def wait(self, timeoutSeconds: int = 0):
-        """
-        Wait for the object to be displayed
-        """
-        pass
 
     def find(self, query: str, target: IdentObjectBase = None, *args, **kwargs) -> Optional[AutomationInstance]:
         if self._automationInstance:

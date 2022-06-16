@@ -1,9 +1,13 @@
-from typing import Iterable
+from typing import Iterable, Optional
+
+from PIL.Image import Image
 
 from .FormBase import FormBase
 from .ProcessBase import ProcessBase
 from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.decorator.Log import log
+from autoinsight.decorator.Step import step
+from autoinsight.common.EnumTypes import ScrollAmountTypes, ScrollDirectionTypes
 
 
 class WindowForm(FormBase):
@@ -27,47 +31,65 @@ class WindowForm(FormBase):
 
     @property
     def title(self) -> str:
-        pass
+        if self.automationInstance:
+            return self.automationInstance.window_text()
 
     @log
-    def snapshot(self):
-        pass
+    @step
+    def snapshot(self) -> Optional[Image]:
+        if self.automationInstance:
+            try:
+                return self.automationInstance.capture_as_image()
+            except:
+                return
 
     @log
-    def scroll(self):
-        pass
+    @step
+    def scroll(self,
+               direction: ScrollDirectionTypes = ScrollDirectionTypes.Down,
+               amount: ScrollAmountTypes = ScrollAmountTypes.Lines,
+               count: int = 1):
+
+        if self.automationInstance:
+            return self.automationInstance.scroll(direction, amount, count)
 
     @log
-    def wait(self, timeoutSeconds: int = 0):
-        pass
-
-    @log
+    @step
     def focus(self):
-        pass
+        if self.automationInstance:
+            self.automationInstance.set_focus()
 
     @log
+    @step
     def maximize(self):
-        pass
+        if self.automationInstance:
+            self.automationInstance.maximize()
 
     @log
+    @step
     def minimize(self):
-        pass
+        if self.automationInstance:
+            self.automationInstance.minimize()
 
     @log
+    @step
     def drag(self):
         pass
 
     @log
+    @step
     def drop(self):
         pass
 
     @log
+    @step
     def dragTo(self, x: int, y: int):
         pass
 
     @log
+    @step
     def start(self) -> ProcessBase:
         """
         For will do noting for the start method
         """
-        pass
+        self.focus()
