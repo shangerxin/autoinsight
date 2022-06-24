@@ -3,6 +3,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from uuid import UUID
 
+from PIL.Image import Image
+
 from autoinsight.common.ObjectBase import ObjectBase
 from autoinsight.common.Utils import GUID
 
@@ -47,5 +49,5 @@ class IdentObjectBase(ObjectBase):
         pass
 
     @abstractmethod
-    def snapshot(self):
+    def snapshot(self) -> Image:
         pass

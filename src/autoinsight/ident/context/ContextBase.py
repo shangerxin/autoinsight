@@ -3,6 +3,7 @@ from typing import Optional
 
 from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo
 from autoinsight.common.Utils import matchScore, isIEqual
+from autoinsight.decorator.Log import log, Log
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ConfigurationServiceBase import ConfigurationServiceBase
 from autoinsight.services.ContextManagementService import ContextManagementService
@@ -28,16 +29,23 @@ class ContextBase(IdentObjectBase, ABC):
     def __exit__(self, *args):
         self.tearDown()
 
+    @property
+    def automationInstance(self):
+        return self._automationInstance
+
+    @log
     def setCurrent(self):
         self._cms.currentContext = self
 
+    @log
     def tearDown(self):
         self._cms.unregisterContext(self)
 
+    @log
     def find(self, query: str, target: IdentObjectBase = None, *args, **kwargs) -> Optional[AutomationInstance]:
-        if self._automationInstance:
+        if self.automationInstance:
             try:
-                info: ElementsInfo = self._automationInstance.get_elements_info(depth=self._searchDepth,
+                info: ElementsInfo = self.automationInstance.get_elements_info(depth=self._searchDepth,
                                                                                 max_width=self._searchWidth)
                 if target:
                     invalidIndexes = (i for i, c in enumerate(info.allCtrl) if not isIEqual(c.friendlyclassname,
@@ -61,15 +69,18 @@ class ContextBase(IdentObjectBase, ABC):
 
                 if bestIndex > -1:
                     return info.allCtrl[bestIndex]
-            except:
+            except Exception as e:
+                Log.logger.warning("Find %s from context failed with error %s", query, e)
                 return
 
+    @log
     def addDialogHandler(self, dialogQuery: str, ActionQuery: str, key: Optional[str] = None):
         """
         Create a background thread to handle random popup dialog
         """
         pass
 
+    @log 
     def addOneTimeDialogHandler(self, dialogQuery: str, ActionQuery: str, key: Optional[str] = None):
         """
         """

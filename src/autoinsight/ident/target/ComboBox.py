@@ -1,8 +1,10 @@
-from typing import Callable, Optional, Iterable
+from random import sample
+from typing import Callable, Optional, Sequence
 from difflib import get_close_matches
+from time import sleep
 
 from .ControlBase import ControlBase
-from autoinsight.decorator.Log import log
+from autoinsight.decorator.Log import log, Log
 from autoinsight.decorator.Step import step
 
 
@@ -17,13 +19,31 @@ class ComboBox(ControlBase):
         pass
 
     @property
-    def values(self) -> Iterable[str]:
-        pass
+    def values(self) -> Sequence[str]:
+        if self.isExist():
+            try:
+                cb = self.automationInstance
+                return cb.texts()
+            except Exception as e:
+                Log.logger.warning("Access values property failed with exception %s", e)
+                return False
 
     @log
     def iterateValues(self, intervalSecond: int = 2,
                       callbackOnEachValue: Optional[Callable[[str], bool]] = None):
-        pass
+        if self.isExist():
+            try:
+                cb = self.automationInstance
+                values = cb.texts()
+                for value in values:
+                    self.automationInstance.select(value)
+                    if callbackOnEachValue:
+                        callbackOnEachValue(value)
+                    sleep(max(intervalSecond, 1))
+                return True
+            except Exception as e:
+                Log.logger.warning("Iterate values failed with exception %s", e)
+                return False
 
     @log
     @step
@@ -37,20 +57,54 @@ class ComboBox(ControlBase):
                     return True
                 else:
                     return False
-            except:
+            except Exception as e:
+                Log.logger.warning("Select failed with exception %s", e)
                 return False
 
     @log
     @step
     def randomSelect(self) -> bool:
-        pass
+        if self.isExist():
+            try:
+                cb = self.automationInstance
+                values = cb.texts()
+                if values:
+                    self.automationInstance.select(sample([values], 1)[0])
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                Log.logger.warning("Random select failed with exception %s", e)
+                return False
 
     @log
     @step
-    def selectFirstValue(self):
-        pass
+    def selectFirstValue(self) -> bool:
+        if self.isExist():
+            try:
+                cb = self.automationInstance
+                values = cb.texts()
+                if values:
+                    self.automationInstance.select(values[0])
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                Log.logger.warning("Select first value failed with exception %s", e)
+                return False
 
     @log
     @step
-    def selectLastValue(self):
-        pass
+    def selectLastValue(self) -> bool:
+        if self.isExist():
+            try:
+                cb = self.automationInstance
+                values = cb.texts()
+                if values:
+                    self.automationInstance.select(values[-1])
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                Log.logger.warning("Select last value failed with exception %s", e)
+                return False

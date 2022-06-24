@@ -1,5 +1,5 @@
 from os.path import isfile
-from typing import Optional, Union, Sequence
+from typing import Optional, Sequence
 
 import cv2 as cv
 import colour
@@ -11,8 +11,7 @@ from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.decorator.Log import log
 from autoinsight.common.models.Size import Size
 from autoinsight.common.EnumTypes import CVImageTypes
-
-IMG = Union[str, Image, np.array]
+from autoinsight.common.CustomTyping import IMG
 
 
 class LocalImageProcessingService(ImageProcessingServiceBase):

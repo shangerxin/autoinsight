@@ -1,6 +1,9 @@
 import collections
 from typing import Union, NewType, Optional, Dict, Callable
 
+import numpy as np
+from PIL.Image import Image
+
 from pywinauto.application import WindowSpecification
 from pywinauto.uia_element_info import UIAElementInfo
 # TODO the imports should be replaced with the wrapper in autoinsight.automation.*
@@ -31,3 +34,5 @@ Serializable = NewType("Serializable", Union[bool,
                                              frozenset,
                                              Dict,
                                              Callable])
+
+IMG = NewType("IMG", Union[str, Image, np.array])

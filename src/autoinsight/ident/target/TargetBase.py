@@ -12,6 +12,7 @@ from autoinsight.common.models.Size import Size
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 from autoinsight.services.IoCService import IoCService
+from autoinsight.decorator.Log import log
 
 
 class TargetBase(IdentObjectBase):
@@ -87,6 +88,7 @@ class TargetBase(IdentObjectBase):
     def parent(self) -> Optional[TargetBase]:
         return self._cms.currentContext
 
+    @log
     def click(self) -> bool:
         if self.isExist():
             try:
@@ -96,6 +98,7 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def rightClick(self):
         if self.isExist():
             try:
@@ -104,6 +107,7 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def doubleRightClick(self):
         if self.isExist():
             try:
@@ -112,6 +116,7 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def doubleClick(self):
         if self.isExist():
             try:
@@ -120,12 +125,15 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def drag(self):
         pass
 
+    @log
     def drop(self):
         pass
 
+    @log
     def isVisible(self) -> bool:
         if self.isExist():
             try:
@@ -133,6 +141,7 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def isEnable(self) -> bool:
         if self.isExist():
             try:
@@ -140,6 +149,7 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def highlight(self):
         if self.isExist():
             try:
@@ -151,10 +161,12 @@ class TargetBase(IdentObjectBase):
             except:
                 return False
 
+    @log
     def mouseHover(self):
         if self.isExist():
             self.automationInstance.client_to_screen(self.center)
 
+    @log
     def scrollIntoView(self, timeout: int = 5) -> bool:
         # TODO extend to support scroll down, up, left and right etc.
         parent = self._getScrollableParent()
@@ -169,9 +181,11 @@ class TargetBase(IdentObjectBase):
 
         return not isTimeout
 
+    @log
     def reFind(self):
         self._automationInstance = None
 
+    @log
     def isScrollable(self):
         try:
             if not self.isExist():
@@ -181,6 +195,7 @@ class TargetBase(IdentObjectBase):
         except:
             return False
 
+    @log
     def _getScrollableParent(self) -> Optional[TargetBase]:
         parent = self.parent
 
@@ -190,17 +205,20 @@ class TargetBase(IdentObjectBase):
 
             parent = parent.parent
 
-    def snapshot(self):
+    @log
+    def snapshot(self) -> Image:
         if self.isExist():
             image: Image = self.automationInstance.capture_as_image()
             return image
 
+    @log
     def isExist(self) -> bool:
         """
         Check the target can be found on the current context or not
         """
         return bool(self.automationInstance)
 
+    @log 
     def waitFor(self, timeout: int = 10, interval: int = 1) -> bool:
         """
         Wait for the target exist till timeout
