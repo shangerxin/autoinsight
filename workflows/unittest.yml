@@ -1,0 +1,12 @@
+name: Run unit test
+on:
+    issues:
+        types: self-host
+        
+jobs:
+    auto-assign:
+        runs-on: Windows Server 2019
+        steps:
+            - name: 'Prepare environment'
+            - run:
+                echo workflow ok
