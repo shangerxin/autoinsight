@@ -13,6 +13,7 @@ class TestComboBox(unittest.TestCase):
         windowCamera: WindowGUIApplication = WindowOS().launchApp("camera")
         windowCamera.setCurrent()
         Button("settings").click()
+        Button("Camera settings").click()
         self.assertTrue(ComboBox("Framing grid").select("Rule of thirds"))
         Button("back").click()
         windowCamera.close()

@@ -56,7 +56,12 @@ if __name__ == '__main__':
 $ pip install -r requirements-dev.txt
 ```
 
-- Install Google Tesseract ORC
+- Install Google Tesseract OCR
+
+[https://tesseract-ocr.github.io/tessdoc/Installation.html](https://tesseract-ocr.github.io/tessdoc/Installation.html)
+
+Windows prebuilt package
+[https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
 
 - Run all test
 

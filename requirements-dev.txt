@@ -7,7 +7,6 @@ build
 pywinauto
 pyinstaller
 nose2
-pywinauto
 pyyaml
 pyautogui
 opencv-python
