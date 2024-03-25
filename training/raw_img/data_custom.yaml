@@ -1,0 +1,6 @@
+train: /home/sdp/libohao/2024/yolo/autoinsight/training/raw_img/train
+val: /home/sdp/libohao/2024/yolo/autoinsight/training/raw_img/val
+
+nc: 3
+
+names: ["button_create","search_box","start_bar"]
