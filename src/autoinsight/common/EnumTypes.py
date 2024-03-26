@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 
 import autoinsight.extend.ExtendEnum  # noqa:F401
 
@@ -38,3 +38,18 @@ class CVImageTypes(Enum):
 
 class EventTypes(Enum):
     pass
+
+
+class GUIContainerTypes(Enum):
+    Dialog = "Dialog"
+    Panel = "Panel"
+    Form = "Form"
+    Window = "Window"
+    Pane = "Pane"
+    Group = "Group"
+
+
+class BinaryTypes(Enum):
+    Bit16 = auto()
+    Bit32 = auto()
+    Bit64 = auto()

@@ -27,3 +27,8 @@ htmlcov/
 
 # backup files
 *.bak
+
+# binary path
+bin
+
+demo/

@@ -20,3 +20,8 @@ requests
 schema
 pydantic
 colour
+cvat-cli
+selenium
+ultralytics
+selenium
+mss

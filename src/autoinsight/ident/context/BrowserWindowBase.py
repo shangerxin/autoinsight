@@ -1,5 +1,6 @@
-from autoinsight.ident.context.ContextBase import ContextBase
+from autoinsight.ident.context.GUIApplicationBase import GUIApplicationBase
 
 
-class BrowserWindowBase(ContextBase):
-    pass
+class BrowserWindowBase(GUIApplicationBase):
+    def refresh(self):
+        pass

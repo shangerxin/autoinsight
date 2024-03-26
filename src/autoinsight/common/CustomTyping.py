@@ -1,5 +1,6 @@
 import collections
 from typing import Union, NewType, Optional, Dict, Callable
+from pathlib import Path
 
 import numpy as np
 from PIL.Image import Image
@@ -36,3 +37,4 @@ Serializable = NewType("Serializable", Union[bool,
                                              Callable])
 
 IMG = NewType("IMG", Union[str, Image, np.array])
+PathStr = NewType("PathStr", Union[Path, str])

@@ -12,3 +12,6 @@ requests
 schema
 pydantic
 colour
+ultralytics
+selenium
+mss

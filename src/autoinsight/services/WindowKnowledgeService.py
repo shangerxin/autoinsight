@@ -23,6 +23,9 @@ class WindowKnowledgeService(KnowledgeServiceBase):
                                                "microsoft.windows.camera"],
                                         launch=_launchCamera))
 
+        self.knowledge.append(Knowledge(alias=["rdp", "remote desktop"],
+                                        launch=_launchRDP))
+
         self.knowledge.append(Knowledge(alias=["control panel"],
                                         launch=_launchControlPanel))
 
@@ -80,15 +83,16 @@ def _launchCamera(k: Knowledge) -> AutomationInstance:
 
 def _launchControlPanel(k: Knowledge) -> AutomationInstance:
     _worker('control.exe', k)
-    if _isWindow11():
-        return _waitWindow({"backend": "uia", "best_match": r"Control Panel\All Control Panel Items"})
-    else:
-        return _waitWindow({"backend": "uia", "best_match": r"Control Panel"})
+    return _waitWindow({"backend": "uia", "best_match": r"Control Panel"})
 
 
 def _launchSettings(k: Knowledge) -> AutomationInstance:
     pass
 
+def _launchRDP(k: Knowledge) -> AutomationInstance:
+    Application(backend="uia").start(r"%windir%\system32\mstsc.exe")
+
+    return _waitWindow({"backend": "uia", "best_match": "Remote Desktop Connection"})
 
 def _launchCalc(k: Knowledge) -> AutomationInstance:
     Application(backend="uia").start('calc.exe')

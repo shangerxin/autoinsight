@@ -6,13 +6,13 @@ from typing import Iterable, Mapping, Optional
 from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.EnumTypes import ButtonTypes
 from autoinsight.common.models.Point import Point
-from .ContextBase import ContextBase
+from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from .GUIApplicationBase import GUIApplicationBase
 from .ProcessBase import ProcessBase
 from .ShellBase import ShellBase
 
 
-class OSBase(ContextBase):
+class OSBase(IdentObjectBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._environ: Mapping[str] = environ
@@ -67,7 +67,7 @@ class OSBase(ContextBase):
         pass
 
     @property
-    def parent(self) -> ContextBase:
+    def parent(self) -> IdentObjectBase:
         return self
 
     @abstractmethod

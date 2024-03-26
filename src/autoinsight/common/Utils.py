@@ -2,11 +2,14 @@ import os
 import re
 import shutil
 import logging
-from difflib import get_close_matches
+import platform
+from difflib import get_close_matches, SequenceMatcher
 from typing import Collection, Tuple, Iterable
 from uuid import uuid4, UUID
 from pathlib import Path
 from time import strftime, gmtime, time_ns
+
+from .EnumTypes import BinaryTypes, OSTypes
 
 
 def GUID() -> UUID:
@@ -71,6 +74,12 @@ def toUniqueList(items: Iterable[str]) -> Collection[str]:
 
     return uniqueList
 
+def toAllPossibleGroups(items: Iterable[str]) -> Collection[str]:
+    possibles = []
+    for i in range(len(items)):
+        possibles.append(' '.join(items[:i]))
+    return possibles
+
 
 def matchScore(query: str, descriptions: Iterable[str]) -> Tuple[float, float]:
     if not (descriptions and query):
@@ -79,12 +88,23 @@ def matchScore(query: str, descriptions: Iterable[str]) -> Tuple[float, float]:
     unique = toUniqueList(descriptions)
     if unique:
         words = toUniqueList(re.split(r"\s", query))
+        possibles = toAllPossibleGroups(words)
         matchCount = 0
+        possibleCount = 0
         for word in words:
             matches = get_close_matches(word, unique)
             matchCount += len(matches)
 
-        return matchCount / len(words), matchCount / len(unique)
+        for possible in possibles:
+            matches = get_close_matches(possible, unique)
+            possibleCount += len(matches)
+
+        lengthUnique = len(unique)
+        lengthWord = len(words)
+        maxLength = max(lengthUnique, lengthWord)
+        firstScore = possibleCount / lengthWord
+        secondScore = (firstScore + matchCount) / maxLength
+        return firstScore, secondScore
     else:
         return 0.0, 0.0
 
@@ -97,6 +117,20 @@ def isIEqual(str0: str, str1: str) -> bool:
         return str0.lower() == str1.lower()
     else:
         return False
+
+
+def isSimilar(str0: str, str1: str) -> bool:
+    """
+    Check two strings are similar or not
+
+    Args:
+        str0 (str): First string
+        str1 (str): Second string
+
+    Returns:
+        bool: return True if the two strings contain similar contents.
+    """
+    return SequenceMatcher(None, str0.lower(), str1.lower()).ratio() > 0.2
 
 
 def makeDirs(path: str, isRecreate: bool = False):
@@ -124,3 +158,38 @@ def decorateFileName(name: str) -> str:
         parent = ""
 
     return f'{parent}{strftime("UTC%Y%m%d-%H%M%S", gmtime())}.{str(time_ns())[-9:-6]}-{p.name}'
+
+
+def getOSType() -> OSTypes:
+    platform = platform.system()
+    if platform == OSTypes.Windows.name:
+        return OSTypes.Windows
+    elif platform == OSTypes.MacOS.name:
+        return OSTypes.MacOS
+    elif platform == OSTypes.Linux.name:
+        return OSTypes.Linux
+    elif platform == OSTypes.Java.name:
+        return OSTypes.Java
+    else:
+        return OSTypes.Any
+
+
+def getExecutableBinaryTypes(path: Path) -> bool:
+    if getOSType() == OSTypes.Windows:
+        import win32file
+
+        if path.exists():
+            binaryType = win32file.GetBinaryType(path)
+            if binaryType == win32file.SCS_32BIT_BINARY:
+                return BinaryTypes.Bit32
+            elif binaryType == win32file.SCS_DOS_BINARY         \
+                    or binaryType == win32file.SCS_WOW_BINARY   \
+                    or binaryType == win32file.SCS_PIF_BINARY   \
+                    or binaryType == win32file.SCS_OS216_BINARY \
+                    or binaryType == win32file.SCS_POSIX_BINARY:
+                return BinaryTypes.Bit16
+            else:
+                return BinaryTypes.Bit64
+
+    # TODO: Add for other OS
+    return BinaryTypes.Bit32

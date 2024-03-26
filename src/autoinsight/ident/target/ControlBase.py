@@ -35,3 +35,10 @@ class ControlBase(TargetBase, ABC):
 
         if self.isScrollable():
             self.automationInstance.scroll(direction.Down.str, ScrollAmountTypes.Lines.str)
+
+    @log
+    @step
+    def wait(self, seconds: int):
+        if self.parent:
+            self.parent.wait(seconds)
+

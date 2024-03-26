@@ -15,6 +15,7 @@ class IdentObjectBase(ObjectBase):
         self._repr: str = ""
         self._str: str = ""
         self._automationInstance = None
+        self._parent = None
 
     @property
     def id(self) -> UUID:
@@ -27,11 +28,11 @@ class IdentObjectBase(ObjectBase):
 
         TODO: The object should be able to rebuild base on the description
         """
-        pass
+        return ""
 
     @property
     def parent(self) -> IdentObjectBase:
-        pass
+        return self._parent
 
     @property
     def classname(self):

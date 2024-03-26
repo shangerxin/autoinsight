@@ -13,6 +13,7 @@ from .Command import Command
 from .OSBase import OSBase
 from .PowerShell import PowerShell
 from .ProcessBase import ProcessBase
+from .WindowGUIContextBase import WindowGUIContextBase
 from .WindowGUIApplication import WindowGUIApplication
 from autoinsight.common.EnumTypes import ButtonTypes
 from autoinsight.common.models.Point import Point
@@ -23,7 +24,7 @@ from autoinsight.decorator.Step import step
 from autoinsight.common.CustomTyping import AutomationInstance
 
 
-class WindowOS(OSBase):
+class WindowOS(OSBase, WindowGUIContextBase):
     def __init__(self,
                  *args,
                  **kwargs):

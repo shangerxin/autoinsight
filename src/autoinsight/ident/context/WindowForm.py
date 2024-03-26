@@ -3,6 +3,7 @@ from typing import Iterable, Optional
 from PIL.Image import Image
 
 from .FormBase import FormBase
+from .WindowGUIContextBase import WindowGUIContextBase
 from .ProcessBase import ProcessBase
 from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.decorator.Log import log
@@ -10,7 +11,7 @@ from autoinsight.decorator.Step import step
 from autoinsight.common.EnumTypes import ScrollAmountTypes, ScrollDirectionTypes
 
 
-class WindowForm(FormBase):
+class WindowForm(FormBase, WindowGUIContextBase):
 
     def __int__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

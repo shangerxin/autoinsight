@@ -1,7 +1,6 @@
 from abc import abstractmethod
 from typing import Iterable, Optional
 
-from .ContextBase import ContextBase
 from .ProcessBase import ProcessBase
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
@@ -10,7 +9,7 @@ from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.common.CustomTyping import AutomationInstance
 
 
-class FormBase(ContextBase):
+class FormBase(ProcessBase):
     def __init__(self,
                  automationInstance: Optional[AutomationInstance] = None,
                  parent: Optional[ProcessBase] = None,

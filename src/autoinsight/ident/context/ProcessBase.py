@@ -6,13 +6,12 @@ from abc import abstractmethod
 from typing import Optional
 from subprocess import Popen
 
-from .ContextBase import ContextBase
 from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.decorator.Log import log
-from ..IdentObjectBase import IdentObjectBase
+from autoinsight.ident.IdentObjectBase import IdentObjectBase
 
 
-class ProcessBase(ContextBase):
+class ProcessBase(IdentObjectBase):
     def __init__(self,
                  processId: Optional[int] = 0,
                  processName: Optional[str] = None,
@@ -60,7 +59,7 @@ class ProcessBase(ContextBase):
 
     @property
     def parent(self) -> IdentObjectBase:
-        return self._cms.os
+        return self._parent
 
     @property
     def automationInstance(self) -> Optional[AutomationInstance]:
@@ -76,7 +75,10 @@ class ProcessBase(ContextBase):
     def automationInstance(self, value: AutomationInstance):
         if value and value != self._automationInstance:
             self._automationInstance = value
-            self._processId = value.process_id()
+            if hasattr(value, 'process') and isinstance(value.process, int):
+                self._processId = value.process
+            elif hasattr(value, 'process_id'):
+                self._processId = value.process_id()
 
     @property
     def exitcode(self) -> int:

@@ -1,7 +1,7 @@
-from autoinsight.ident.context.ContextBase import ContextBase
+from autoinsight.ident.context.WindowGUIContextBase import WindowGUIContextBase
 
 
-class DummyContext(ContextBase):
+class DummyContext(WindowGUIContextBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

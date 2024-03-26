@@ -93,7 +93,8 @@ class TargetBase(IdentObjectBase):
         if self.isExist():
             try:
                 self.automationInstance.wait_for_idle()
-                self.automationInstance.click()
+                self.automationInstance.set_focus()
+                self.automationInstance.click_input()
                 return True
             except:
                 return False
@@ -218,7 +219,7 @@ class TargetBase(IdentObjectBase):
         """
         return bool(self.automationInstance)
 
-    @log 
+    @log
     def waitFor(self, timeout: int = 10, interval: int = 1) -> bool:
         """
         Wait for the target exist till timeout

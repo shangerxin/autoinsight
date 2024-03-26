@@ -1,9 +1,8 @@
 from PIL.Image import Image
 
-from .ProcessBase import ProcessBase
+from autoinsight.ident.context.WindowGUIContextBase import WindowGUIContextBase
 
-
-class WindowDesktop(ProcessBase):
+class WindowDesktop(WindowGUIContextBase):
     @classmethod
     def new(cls, *args, **kwargs) -> ProcessBase:
         pass

@@ -6,6 +6,7 @@ from autoinsight.decorator.Step import step
 class Button(ControlBase):
     def __init__(self, query: str, *args, **kwargs):
         super().__init__(query, *args, **kwargs)
+        self._alias.extend(["hyperlink", "link", "button", "toggle", "checkbutton"])
 
     def __repr__(self):
         return
@@ -13,7 +14,6 @@ class Button(ControlBase):
     def __str__(self):
         pass
 
-    @log
     @step
     def click(self) -> bool:
         if super().click():
@@ -23,7 +23,6 @@ class Button(ControlBase):
         else:
             return False
 
-    @log
     @step
     def toggle(self) -> bool:
         if self.automationInstance:

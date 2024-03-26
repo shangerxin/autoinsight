@@ -1,7 +1,5 @@
-from .GUIApplicationBase import GUIApplicationBase
+from autoinsight.ident.context.GUIApplicationBase import GUIApplicationBase
 
 
-class BrowserBase(GUIApplicationBase):
-    @property
-    def tabs(self):
-        pass
+class BrowserTabBase(GUIApplicationBase):
+    pass

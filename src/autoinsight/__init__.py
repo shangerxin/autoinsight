@@ -6,6 +6,7 @@ import autoinsight.extend.ExtendPywinautoApplicationWindowSpecification
 from autoinsight.ident.target.Button import Button
 from autoinsight.ident.target.ComboBox import ComboBox
 from autoinsight.ident.context.WindowOS import WindowOS
+from autoinsight.script.Wait import Wait
 from autoinsight.ident.context.WindowGUIApplication import WindowGUIApplication
 
 __version__ = "0.0.8"
