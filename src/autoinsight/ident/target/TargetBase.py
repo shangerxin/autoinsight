@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import time
-from typing import Optional, Iterable
+from typing import Optional, Iterable, Union
 
 from PIL import Image
 
@@ -9,6 +9,7 @@ from autoinsight.common.CustomTyping import AutomationInstance
 from autoinsight.common.models.Point import Point
 from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.common.models.Size import Size
+from autoinsight.common.EnumTypes import KnownContextQueries
 from autoinsight.ident.IdentObjectBase import IdentObjectBase
 from autoinsight.services.ContextManagementService import ContextManagementService
 from autoinsight.services.IoCService import IoCService
@@ -29,7 +30,7 @@ class TargetBase(IdentObjectBase):
         self._width = 0
         self._height = 0
         self._automationInstance: AutomationInstance = automationInstance
-        self._query = query
+        self._query: Union[str, KnownContextQueries] = query
         self._alias = []
 
     @property

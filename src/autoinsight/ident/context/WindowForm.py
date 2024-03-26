@@ -15,10 +15,11 @@ class WindowForm(FormBase, WindowGUIContextBase):
 
     def __int__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._title = ""
 
     @property
     def description(self) -> str:
-        return f"form {self._title}"
+        return f"Window form {self._title}"
 
     def __repr__(self):
         pass

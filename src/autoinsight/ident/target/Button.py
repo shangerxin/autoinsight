@@ -18,7 +18,7 @@ class Button(ControlBase):
     def click(self) -> bool:
         if super().click():
             return True
-        elif self.isToggleable():
+        elif self.isToggleButton():
             return self.toggle()
         else:
             return False
@@ -33,7 +33,7 @@ class Button(ControlBase):
                 return False
 
     @log
-    def isToggleable(self) -> bool:
+    def isToggleButton(self) -> bool:
         try:
             if not self.automationInstance:
                 return False

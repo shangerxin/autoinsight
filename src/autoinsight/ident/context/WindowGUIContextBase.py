@@ -7,8 +7,6 @@ from pywinauto.findbestmatch import MatchError
 
 from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo
 from autoinsight.common.Utils import matchScore, isIEqual, isSimilar
-from autoinsight.common.EnumTypes import GUIContainerTypes
-from autoinsight.common.models.Rectangle import Rectangle
 from autoinsight.decorator.Log import log, Log
 from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.ident.context.GUIContextBase import GUIContextBase
@@ -142,7 +140,6 @@ class WindowGUIContextBase(GUIContextBase, ABC):
             self._automationInstance = window
             return window
 
-    @log
     @property
     def parent(self) -> Any:
         if not self._parent:
@@ -183,7 +180,6 @@ class WindowGUIContextBase(GUIContextBase, ABC):
 
                 if foundControls:
                     ctrl, index = self._getMaxScoreItem(foundControls)
-                    #clickable = self._getClickable(ctrl, index)
                     return ctrl
                 else:
                     Log.logger.warning(f"Find target {target} failed with {query} in context {self.automationInstance}")

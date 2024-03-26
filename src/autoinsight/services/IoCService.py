@@ -8,6 +8,8 @@ from .KnowledgeServiceBase import KnowledgeServiceBase
 from .OCRServiceBase import OCRServiceBase
 from .ServiceBase import ServiceBase
 from .TesseractOCRService import TesseractOCRService
+from .AIServiceBase import AIServiceBase
+from .YoloAIService import YoloAIService
 from .WindowConfigurationService import WindowConfigurationService
 
 
@@ -19,6 +21,7 @@ class IoCService(ServiceBase):
         self._registeredServices: Dict[OSTypes, Dict[Any, Any]] = {
             OSTypes.Any: {
                 OCRServiceBase: TesseractOCRService(),
+                AIServiceBase: YoloAIService(),
                 ContextManagementService: ContextManagementService()
             },
             OSTypes.Windows: {},

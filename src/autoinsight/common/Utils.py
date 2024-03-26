@@ -3,8 +3,10 @@ import re
 import shutil
 import logging
 import platform
+
+from enum import Enum
 from difflib import get_close_matches, SequenceMatcher
-from typing import Collection, Tuple, Iterable
+from typing import Collection, Tuple, Iterable, Callable, Any, Optional, Union
 from uuid import uuid4, UUID
 from pathlib import Path
 from time import strftime, gmtime, time_ns
@@ -109,6 +111,13 @@ def matchScore(query: str, descriptions: Iterable[str]) -> Tuple[float, float]:
         return 0.0, 0.0
 
 
+def first(collection: Iterable[Any], isRevert: bool = False, filterFunc: Callable[Any, bool] = None, sortKeyFunc: Optional[Callable[Any, int]] = None) -> Any:
+    try:
+        return next(filter(filterFunc, sorted(collection, key=sortKeyFunc, reverse=isRevert)))
+    except:
+        return
+
+
 def isIEqual(str0: str, str1: str) -> bool:
     """
     Test two strings are ignored case equaled
@@ -119,7 +128,7 @@ def isIEqual(str0: str, str1: str) -> bool:
         return False
 
 
-def isSimilar(str0: str, str1: str) -> bool:
+def isSimilar(str0: Union[str, Enum], str1: Union[str, Enum]) -> bool:
     """
     Check two strings are similar or not
 
@@ -130,7 +139,7 @@ def isSimilar(str0: str, str1: str) -> bool:
     Returns:
         bool: return True if the two strings contain similar contents.
     """
-    return SequenceMatcher(None, str0.lower(), str1.lower()).ratio() > 0.2
+    return SequenceMatcher(None, str(str0).lower(), str(str1).lower()).ratio() > 0.2
 
 
 def makeDirs(path: str, isRecreate: bool = False):

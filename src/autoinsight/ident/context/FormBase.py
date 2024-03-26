@@ -83,3 +83,7 @@ class FormBase(ProcessBase):
     @abstractmethod
     def scroll(self):
         pass
+
+    @abstractmethod
+    def isDraggable(self):
+        pass

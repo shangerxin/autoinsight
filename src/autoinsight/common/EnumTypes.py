@@ -53,3 +53,8 @@ class BinaryTypes(Enum):
     Bit16 = auto()
     Bit32 = auto()
     Bit64 = auto()
+
+
+class KnownContextQueries(Enum):
+    WindowStartMenu = "Window start menu"
+    SearchBox = "Search box"
