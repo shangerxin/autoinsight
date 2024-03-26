@@ -32,3 +32,4 @@ htmlcov/
 bin
 
 demo/
+runs/

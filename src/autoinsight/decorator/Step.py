@@ -56,7 +56,6 @@ def step(func):
             if Step.script:
                 Step.script.addStep(s)
 
-            s.execute()
             return func(*args, **kwargs)
         else:
             return func
