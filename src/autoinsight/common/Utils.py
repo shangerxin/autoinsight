@@ -112,10 +112,25 @@ def matchScore(query: str, descriptions: Iterable[str]) -> Tuple[float, float]:
         return 0.0, 0.0
 
 
-def first(collection: Iterable[Any], isRevert: bool = False, filterFunc: Callable[Any, bool] = None, sortKeyFunc: Optional[Callable[Any, int]] = None) -> Any:
+def isComparable(obj: Any) -> bool:
     try:
-        return next(filter(filterFunc, sorted(collection, key=sortKeyFunc, reverse=isRevert)))
+        obj < obj
+        return True
     except:
+        return False
+
+
+def first(collection: Iterable[Any], isRevert: bool = False, filterFunc: Callable[Any, bool] = None, sortKeyFunc: Optional[Callable[Any, int]] = None, isSort: bool = True) -> Any:
+    try:
+        if not collection:
+            return
+
+        isSort = isComparable(collection[0]) and isSort
+        if not (isSort or sortKeyFunc):
+            return next(filter(filterFunc, collection))
+        else:
+            return next(filter(filterFunc, sorted(collection, key=sortKeyFunc, reverse=isRevert)))
+    except StopIteration:
         return
 
 
@@ -141,6 +156,20 @@ def isSimilar(str0: Union[str, Enum], str1: Union[str, Enum]) -> bool:
         bool: return True if the two strings contain similar contents.
     """
     return SequenceMatcher(None, str(str0).lower(), str(str1).lower()).ratio() > 0.2
+
+
+def similarRate(str0: Union[str, Enum], str1: Union[str, Enum]) -> float:
+    """
+    Check two strings are similar or not
+
+    Args:
+        str0 (str): First string
+        str1 (str): Second string
+
+    Returns:
+        bool: return True if the two strings contain similar contents.
+    """
+    return SequenceMatcher(None, str(str0).lower(), str(str1).lower()).ratio()
 
 
 def makeDirs(path: str, isRecreate: bool = False):

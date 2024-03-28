@@ -6,7 +6,7 @@ from pywinauto.controls.uiawrapper import UIAWrapper
 from pywinauto.findbestmatch import MatchError
 
 from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo, FoundCtrlItem
-from autoinsight.common.Utils import matchScore, isIEqual, isSimilar, first
+from autoinsight.common.Utils import matchScore, isIEqual, isSimilar, first, similarRate
 from autoinsight.decorator.Log import log, Log
 from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.ident.context.GUIContextBase import GUIContextBase
@@ -92,18 +92,17 @@ class WindowGUIContextBase(GUIContextBase, ABC):
         elif isinstance(info, UIAWrapper):
             return self._getAllCtrlMapFromUIAWrapper(info, target)
 
-    def _getMaxScoreItem(self, controls: Iterable[Any], target: TargetBase) -> Optional[Any]:
+    def _getMaxScoreItem(self, controls: Iterable[FoundCtrlItem], target: TargetBase) -> Optional[Any]:
         if controls:
-            ctrl, score, secondSore = 0, 1, 2
-            firstIndex = 0
+            firstIndex, score, secondSore = 0, 1, 2
             controls.sort(key=lambda x: x[score], reverse=True)
-            controls = [c for c in controls if controls[ctrl][score] == c[score]]
+            controls = [c for c in controls if controls[firstIndex][score] == c[score]]
             controls.sort(key=lambda x: x[secondSore], reverse=True)
 
             if len(controls) > 1 and target:
-                return first(controls, filterFunc=lambda x: isSimilar(x.friendly_class_name() == target.classname()))
+                return first(controls, isRevert=True, sortKeyFunc=lambda x: similarRate(x.ctrl.friendly_class_name(), target.classname)).ctrl
 
-            return controls[firstIndex][ctrl]
+            return controls[firstIndex].ctrl
 
     def _getClickable(self, ctrl: Any, foundIndex: int) -> Any:
         if ctrl and isIEqual(ctrl.friendly_class_name(), 'Hyperlink'):

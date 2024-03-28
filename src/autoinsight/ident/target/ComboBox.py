@@ -45,13 +45,20 @@ class ComboBox(ControlBase):
                 Log.logger.warning("Iterate values failed with exception %s", e)
                 return False
 
+    def _getTexts(self, cb):
+        texts = []
+        cb.expand()
+        for c in cb.children():
+            texts.append(c.window_text())
+        return texts
+
     @log
     @step
     def select(self, value: Optional[str] = None, index: int = -1) -> bool:
         if self.isExist():
             try:
                 cb = self.automationInstance
-                matches = get_close_matches(value, cb.texts())
+                matches = get_close_matches(value, self._getTexts(cb))
                 if matches:
                     self.automationInstance.select(matches[0])
                     return True

@@ -45,16 +45,16 @@ class WindowStartMenu(WindowForm):
 
             # 0: button_create 1: search_box 2: start_bar
             if query == KnownContextQueries.WindowStartMenu:
-                result: IdentResult = first(results, True, lambda x: x.classnum == 2, lambda x: x.confidence)
+                result: IdentResult = first(results, isRevert=True, filterFunc=lambda x: x.classnum == 2, sortKeyFunc=lambda x: x.confidence)
                 if result and self._isQualified(result):
                     return WindowStartMenuAuto(self._ioc, result.rect)
             elif isSimilar(query, KnownContextQueries.SearchBox):
-                result: IdentResult = first(results, True, lambda x: x.classnum == 1, lambda x: x.confidence)
+                result: IdentResult = first(results, isRevert=True, filterFunc=lambda x: x.classnum == 1, sortKeyFunc=lambda x: x.confidence)
                 if result and self._isQualified(result):
                     return WindowSearchBoxAuto(self._ioc, result.rect)
                 else:
                     windows = self.desktop.windows()
-                    window = first(windows, True, sortKeyFunc=lambda x: matchScore("start window", [str(x)]))
+                    window = first(windows, isRevert=True, sortKeyFunc=lambda x: matchScore("start window", [str(x)]))
                     self._automationInstance = window
                     return super().find(self._queryToString(query), target)
 

@@ -1,7 +1,7 @@
 import os
 import sys
 
-PROJECT_PATH = os.getcwd().replace(r'tests\test_cases\ident\context\test_ContextBase.py', '')
+PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH, "src"
 )
