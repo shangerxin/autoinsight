@@ -125,6 +125,7 @@ def first(collection: Iterable[Any], isRevert: bool = False, filterFunc: Callabl
         if not collection:
             return
 
+        collection = tuple(collection)
         isSort = isComparable(collection[0]) and isSort
         if not (isSort or sortKeyFunc):
             return next(filter(filterFunc, collection))

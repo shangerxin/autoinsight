@@ -1,4 +1,5 @@
 from abc import ABC
+from time import sleep
 from typing import Optional, Iterable, Any, Mapping, Tuple, Union
 
 from pywinauto import Desktop, Application, WindowSpecification
@@ -19,10 +20,10 @@ class WindowGUIContextBase(GUIContextBase, ABC):
         super().__init__(*args, **kwargs)
 
     def _isContainerTypes(self, classname: str) -> bool:
-        return any(isSimilar(classname, c) for c in self.containers)
+        return any(similarRate(classname, c) > 0.5 for c in self.containers)
 
     def _isSimilarTypes(self, classname, types: Iterable[str]) -> bool:
-        return any(isSimilar(classname, t) for t in types)
+        return any(similarRate(classname, t) > 0.5 for t in types)
 
     def _getAllCtrlMapFromElementsInfo(self, info: ElementsInfo, target: TargetBase = None) -> Iterable[Tuple[Iterable[Any], Mapping[int, Iterable[str]]]]:
         allCtrlMapPairs = []
@@ -52,7 +53,7 @@ class WindowGUIContextBase(GUIContextBase, ABC):
         texts = []
         if ctrl:
             try:
-                texts.append(str(ctrl))
+                texts.append(ctrl.window_text())
                 texts.append(ctrl.friendly_class_name())
             except:
                 pass
@@ -76,8 +77,7 @@ class WindowGUIContextBase(GUIContextBase, ABC):
             allCtrlMapPairs.append((infoChildren, infoCtrlIndexNameMaps))
             for index in infoCtrlIndexNameMaps.keys():
                 ctrl = infoChildren[index]
-                if ctrl.children():
-                    children.append(ctrl)
+                children.append(ctrl)
 
             if children:
                 ctrlInfo = children.pop()
@@ -100,7 +100,9 @@ class WindowGUIContextBase(GUIContextBase, ABC):
             controls.sort(key=lambda x: x[secondSore], reverse=True)
 
             if len(controls) > 1 and target:
-                return first(controls, isRevert=True, sortKeyFunc=lambda x: similarRate(x.ctrl.friendly_class_name(), target.classname)).ctrl
+                firstCandidate = controls[firstIndex]
+                candidates = [x for x in filter(lambda x: firstCandidate[score] == x[score] and firstCandidate[secondSore] == x[secondSore], controls)]
+                return first(candidates, isRevert=True, sortKeyFunc=lambda x: similarRate(x.ctrl.friendly_class_name(), target.classname)).ctrl
 
             return controls[firstIndex].ctrl
 
@@ -143,6 +145,7 @@ class WindowGUIContextBase(GUIContextBase, ABC):
 
         if window:
             self._automationInstance = window
+            window.wait_for_idle()
             return window
 
     @property
@@ -157,6 +160,12 @@ class WindowGUIContextBase(GUIContextBase, ABC):
         if not cls._desktop:
             cls._desktop = Desktop(backend="uia")
         return cls._desktop
+
+    def _toStr(self, value):
+        try:
+            return str(value)
+        except:
+            return ""
 
     @log
     def find(self, query: str, target: TargetBase = None, *args, **kwargs) -> Optional[AutomationInstance]:
@@ -183,21 +192,22 @@ class WindowGUIContextBase(GUIContextBase, ABC):
                             bestSecond = secondScore
                             otherCandidateIndexes.clear()
 
-                        elif score == bestScore and secondScore == bestSecond:
+                        elif score > 0 and secondScore > 0 and score == bestScore and secondScore == bestSecond:
                             otherCandidateIndexes.append(index)
 
-                    if bestIndex > -1:
+                    if bestIndex > -1 and bestScore > 0 and bestSecond > 0:
                         foundControls.append(FoundCtrlItem(allCtrl[bestIndex], bestScore, bestSecond, bestIndex))
 
                         if otherCandidateIndexes:
                             for index in otherCandidateIndexes:
                                 foundControls.append(FoundCtrlItem(allCtrl[index], bestScore, bestSecond, index))
+                            otherCandidateIndexes.clear()
 
                 if foundControls:
                     ctrl = self._getMaxScoreItem(foundControls, target)
                     return ctrl
                 else:
-                    Log.logger.warning(f"Find target {target} failed with {query} in context {self.automationInstance}")
+                    Log.logger.warning(f"Find target {self._toStr(target)} failed with {query} in context {self._toStr(self.automationInstance)}")
 
             except Exception as e:
                 Log.logger.warning("Find %s from context failed with error %s", query, e)

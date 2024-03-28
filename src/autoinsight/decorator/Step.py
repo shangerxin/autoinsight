@@ -1,3 +1,4 @@
+from time import sleep
 from functools import wraps
 from typing import Optional
 
@@ -25,7 +26,6 @@ class Step(DecoratorBase):
                            identObj,
                            identObj.parent)
             Step.script.addStep(s)
-            s.execute()
             return self._func(*args, **kwargs)
         else:
             return self._func

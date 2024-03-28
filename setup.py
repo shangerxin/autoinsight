@@ -45,7 +45,7 @@ setuptools.setup(
     python_requires=">=3.6",
     include_package_data=True,
     package_data={
-        "": ["*.txt", "*.yml", "*.json"]
+        "": ["*.txt", "*.yml", "*.json", "*.pt"]
     },
     data_files=["requirements.txt"]
 )

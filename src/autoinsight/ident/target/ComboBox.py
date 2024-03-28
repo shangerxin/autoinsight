@@ -1,16 +1,17 @@
 from random import sample
-from typing import Callable, Optional, Sequence
-from difflib import get_close_matches
+from typing import Callable, Optional, Sequence, Iterable, Tuple
 from time import sleep
 
 from .ControlBase import ControlBase
 from autoinsight.decorator.Log import log, Log
 from autoinsight.decorator.Step import step
+from autoinsight.common.Utils import matchScore
 
 
 class ComboBox(ControlBase):
     def __init__(self, query: str, *args, **kwargs):
         super().__init__(query, *args, **kwargs)
+        self._alias.extend(["combobox", "dropdown", "combo box", "drop down"])
 
     def __repr__(self) -> str:
         pass
@@ -45,12 +46,36 @@ class ComboBox(ControlBase):
                 Log.logger.warning("Iterate values failed with exception %s", e)
                 return False
 
-    def _getTexts(self, cb):
-        texts = []
+    def _getTexts(self, cb) -> Iterable[str]:
+        cb.set_focus()
         cb.expand()
-        for c in cb.children():
-            texts.append(c.window_text())
-        return texts
+        childList = cb.children(control_type="List")
+        if childList:
+            return [c.window_text() for c in childList[0].children()]
+        else:
+            return []
+
+    # TODO: Move the finding logic into the context
+    def _getMaxScoreIndex(self, values: Iterable[Tuple], texts: Iterable[str], value: str) -> int:
+        if values:
+            pairs = [(i, *scores) for i, scores in enumerate(values)]
+            score, secondSore = 1, 2
+            pairs.sort(key=lambda x: x[score], reverse=True)
+            firstScore = pairs[0][score]
+            pairs = [c for c in pairs if firstScore == c[score]]
+            pairs.sort(key=lambda x: x[secondSore], reverse=True)
+            if len(pairs) > 1:
+                for pair in pairs:
+                    i, score, secondScore = pair
+                    if texts[i] == value:
+                        return i
+
+            return pairs[0][0]
+
+    @property
+    def selected(self):
+        if self.isExist():
+            return self.automationInstance.selected_text()
 
     @log
     @step
@@ -58,9 +83,12 @@ class ComboBox(ControlBase):
         if self.isExist():
             try:
                 cb = self.automationInstance
-                matches = get_close_matches(value, self._getTexts(cb))
+                texts = self._getTexts(cb)
+                matches = [matchScore(value, [text]) for text in texts]
                 if matches:
-                    self.automationInstance.select(matches[0])
+                    index = self._getMaxScoreIndex(matches, texts, value)
+                    text = texts[index]
+                    self.automationInstance.select(text)
                     return True
                 else:
                     return False

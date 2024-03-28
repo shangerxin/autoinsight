@@ -1,3 +1,5 @@
+import os
+import sys
 from typing import Iterable
 
 from ultralytics import YOLO
@@ -9,7 +11,8 @@ from autoinsight.common.models.IdentResult import IdentResult
 
 class YoloAIService(AIServiceBase):
     def __init__(self, *args, **kwargs):
-        self._model = YOLO(r"C:\Users\erxinsha\projects\autoinsight\training\raw_img\yolov8l_custom.pt")
+        projectDir = os.path.normpath(__file__).replace(r"src\autoinsight\services\YoloAIService.py", "")
+        self._model = YOLO(os.path.join(projectDir, r"src\autoinsight\ident\models\yolov8\yolov8l_custom.pt"))
 
     # 0: button_create   1: search_box   2: start_bar
     def predict(self, image) -> Iterable[IdentResult]:

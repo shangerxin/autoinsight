@@ -22,7 +22,8 @@ class TestComboBox(unittest.TestCase):
         windowCamera.setCurrent()
         Button("settings").click()
         Button("Camera settings").click()
-        self.assertTrue(ComboBox("Framing grid").select("Rule of thirds"))
+        ComboBox("Framing grid").select("Rule of thirds")
+        self.assertEqual(ComboBox("Framing grid").selected, "Rule of thirds")
         Button("back").click()
         windowCamera.close()
 

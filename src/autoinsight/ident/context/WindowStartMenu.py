@@ -54,7 +54,7 @@ class WindowStartMenu(WindowForm):
                     return WindowSearchBoxAuto(self._ioc, result.rect)
                 else:
                     windows = self.desktop.windows()
-                    window = first(windows, isRevert=True, sortKeyFunc=lambda x: matchScore("start window", [str(x)]))
+                    window = first(filter(lambda w: w.window_text() == "Start" and w.children() and w.children()[0].window_text() == "Search", windows))
                     self._automationInstance = window
                     return super().find(self._queryToString(query), target)
 
