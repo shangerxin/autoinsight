@@ -39,7 +39,7 @@ class TestUtils(unittest.TestCase):
         score, secondScore = utils.matchScore(query, descriptions=words)
 
         self.assertEqual(1, score)
-        self.assertEqual(2 / 5, secondScore)
+        self.assertEqual(0.6, secondScore)
 
     def test_isIEqual(self):
         str0 = "abc"

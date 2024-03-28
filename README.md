@@ -13,7 +13,7 @@ It is focus on Windows in the recent releases. It will be migrate to Linux in th
 
 # Requirements
 - OS Window
-- Python 3.6+ 32/64 bit
+- Python 3.10+ 32/64 bit
 - Install Google Tesseract 32/64 bit
   [tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki)
 

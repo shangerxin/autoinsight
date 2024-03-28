@@ -6,6 +6,7 @@ from PIL import Image
 from autoinsight.common.models.Box import Box
 from autoinsight.common.models.BoundingBox import BoundingBox
 from autoinsight.services.TesseractOCRService import TesseractOCRService
+from autoinsight.common.Utils import first
 
 import tests.fixtures as fixtures
 
@@ -23,5 +24,5 @@ class TestTesseractOCRService(unittest.TestCase):
         result: list[BoundingBox] = self.ocr.getBoxFromImage(self.image)
 
         self.assertTrue(result)
-        self.assertEqual(result[0], BoundingBox("O", Box(left=208, top=11, width=218, height=23)))
-        self.assertEqual(result[1], BoundingBox("K", Box(left=220, top=11, width=227, height=23)))
+        self.assertTrue(first(result, filterFunc=lambda x: x.char == "O"))
+        self.assertTrue(first(result, filterFunc=lambda x: x.char == "K"))

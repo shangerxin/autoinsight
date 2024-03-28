@@ -1,3 +1,4 @@
+# typing: ignore[misc]
 from logging import Formatter
 from typing import Literal, Optional
 

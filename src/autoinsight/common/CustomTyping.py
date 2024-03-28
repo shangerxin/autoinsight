@@ -21,6 +21,7 @@ ElementsInfo = collections.namedtuple("ElementsInfo", ["ctrlTreeRoot",
                                                        "textCtrls",
                                                        "allCtrlIndexNameMaps",
                                                        "allCtrl"])
+FoundCtrlItem = collections.namedtuple("FoundCtrlItem", ["ctrl", "score", "secondScore", "index"])
 
 Serializable = NewType("Serializable", Union[bool,
                                              int,
@@ -38,3 +39,4 @@ Serializable = NewType("Serializable", Union[bool,
 
 IMG = NewType("IMG", Union[str, Image, np.array])
 PathStr = NewType("PathStr", Union[Path, str])
+

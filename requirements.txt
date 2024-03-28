@@ -11,7 +11,7 @@ winaudio
 requests
 schema
 pydantic
-colour
+colour-science
 ultralytics
 selenium
 mss

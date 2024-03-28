@@ -76,9 +76,10 @@ def toUniqueList(items: Iterable[str]) -> Collection[str]:
 
     return uniqueList
 
+
 def toAllPossibleGroups(items: Iterable[str]) -> Collection[str]:
     possibles = []
-    for i in range(len(items)):
+    for i in range(1, len(items) + 1):
         possibles.append(' '.join(items[:i]))
     return possibles
 

@@ -5,8 +5,8 @@ from pywinauto import Desktop, Application, WindowSpecification
 from pywinauto.controls.uiawrapper import UIAWrapper
 from pywinauto.findbestmatch import MatchError
 
-from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo
-from autoinsight.common.Utils import matchScore, isIEqual, isSimilar
+from autoinsight.common.CustomTyping import AutomationInstance, ElementsInfo, FoundCtrlItem
+from autoinsight.common.Utils import matchScore, isIEqual, isSimilar, first
 from autoinsight.decorator.Log import log, Log
 from autoinsight.ident.target.TargetBase import TargetBase
 from autoinsight.ident.context.GUIContextBase import GUIContextBase
@@ -92,12 +92,18 @@ class WindowGUIContextBase(GUIContextBase, ABC):
         elif isinstance(info, UIAWrapper):
             return self._getAllCtrlMapFromUIAWrapper(info, target)
 
-    def _getMaxScoreItem(self, controls: Iterable[Any]) -> Optional[Any]:
+    def _getMaxScoreItem(self, controls: Iterable[Any], target: TargetBase) -> Optional[Any]:
         if controls:
-            controls.sort(key=lambda x: x[1], reverse=True)
-            controls = [c for c in controls if controls[0][1] == c[1]]
-            controls.sort(key=lambda x: x[2], reverse=True)
-            return controls[0][0], controls[0][3]
+            ctrl, score, secondSore = 0, 1, 2
+            firstIndex = 0
+            controls.sort(key=lambda x: x[score], reverse=True)
+            controls = [c for c in controls if controls[ctrl][score] == c[score]]
+            controls.sort(key=lambda x: x[secondSore], reverse=True)
+
+            if len(controls) > 1 and target:
+                return first(controls, filterFunc=lambda x: isSimilar(x.friendly_class_name() == target.classname()))
+
+            return controls[firstIndex][ctrl]
 
     def _getClickable(self, ctrl: Any, foundIndex: int) -> Any:
         if ctrl and isIEqual(ctrl.friendly_class_name(), 'Hyperlink'):
@@ -123,7 +129,7 @@ class WindowGUIContextBase(GUIContextBase, ABC):
                 return context
 
             return context.get_elements_info(depth=self._searchDepth, max_width=self._searchWidth)
-        except MatchError as e:
+        except MatchError:
             return self._findFromDesktop(query, target, context)
 
     def _findFromDesktop(self, query: str, target: TargetBase, context: ElementsInfo) -> Any:
@@ -163,23 +169,33 @@ class WindowGUIContextBase(GUIContextBase, ABC):
                 for pair in allCtrlMapPairs:
                     bestIndex, bestScore, bestSecond = -1, -1, -1
                     allCtrl, allCtrlIndexMaps = pair
+                    otherCandidateIndexes = []
                     for index, names in allCtrlIndexMaps.items():
                         score, secondScore = matchScore(query, names)
-                        if score and score > bestScore:
+                        if score > bestScore:
                             bestIndex = index
                             bestScore = score
                             bestSecond = secondScore
+                            otherCandidateIndexes.clear()
 
                         elif score == bestScore and secondScore > bestSecond:
                             bestIndex = index
                             bestScore = score
                             bestSecond = secondScore
+                            otherCandidateIndexes.clear()
+
+                        elif score == bestScore and secondScore == bestSecond:
+                            otherCandidateIndexes.append(index)
 
                     if bestIndex > -1:
-                        foundControls.append((allCtrl[bestIndex], bestScore, bestSecond, bestIndex))
+                        foundControls.append(FoundCtrlItem(allCtrl[bestIndex], bestScore, bestSecond, bestIndex))
+
+                        if otherCandidateIndexes:
+                            for index in otherCandidateIndexes:
+                                foundControls.append(FoundCtrlItem(allCtrl[index], bestScore, bestSecond, index))
 
                 if foundControls:
-                    ctrl, index = self._getMaxScoreItem(foundControls)
+                    ctrl = self._getMaxScoreItem(foundControls, target)
                     return ctrl
                 else:
                     Log.logger.warning(f"Find target {target} failed with {query} in context {self.automationInstance}")

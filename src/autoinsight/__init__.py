@@ -11,6 +11,6 @@ from autoinsight.ident.target.SearchBox import SearchBox
 from autoinsight.script.Wait import Wait
 from autoinsight.ident.context.WindowGUIApplication import WindowGUIApplication
 
-__version__ = "0.0.9"
+__version__ = "0.1.0"
 packageRoot = os.path.dirname(__file__)
 packageDataRoot = os.path.join(packageRoot, "data")
