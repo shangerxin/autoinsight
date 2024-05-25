@@ -1,0 +1,7 @@
+jobs:
+  update-env:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Package
+      run: |
+        sudo apt-get update
