@@ -1,7 +1,10 @@
 jobs:
+  on:
+    workflow_dispatch:
   update-env:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Package
+    - uses: actions/checkout@v4
+    - name: Install update packages
       run: |
         sudo apt-get update
