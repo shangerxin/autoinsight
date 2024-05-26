@@ -1,10 +1,20 @@
+name: test github action
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+permissions:
+  contents: read 
+  pull-requests: read 
 jobs:
-  on:
-    workflow_dispatch:
-  update-env:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install update packages
-      run: |
-        sudo apt-get update
+  test-joj:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Install upgrade
+        run: |
+          sudo apt-get update
