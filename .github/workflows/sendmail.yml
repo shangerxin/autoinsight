@@ -1,0 +1,31 @@
+name: test send mail from github action
+on:
+    workflow_dispatch:
+        inputs:
+            to:
+                description: 'mail to send'
+                required: false
+                default: 'erxin.shang@intel.com'
+            subject:
+                description: 'mail to send'
+                required: false
+                default: 'test send mail from github action'
+            content:
+                description: 'Email content'
+                required: false
+                default: 'test send mail from github action'
+jobs:
+    test-joj:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+                cache: 'pip'
+            - name: Send mail
+              run: |
+                wget https://raw.githubusercontent.com/Intel-tensorflow/tensorflow/win_ci/tensorflow/tools/ci_build/windows/jenkins_ci/tools/sendmail.py -O sendmail.py
+                pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib cryptography
+                python sendmail.py --to_addresses ${{inputs.to}} --subject ${{inputs.subject}} --content ${{inputs.content}} -k ${{secrets.GMAIL_KEY}}
+

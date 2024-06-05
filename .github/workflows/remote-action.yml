@@ -1,0 +1,21 @@
+name: call remote workflow action
+on:
+  workflow_dispatch:
+  pull_request:
+permissions:
+  contents: read
+  pull-requests: read 
+jobs:
+  test-joj:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Install upgrade
+        run: |
+          sudo apt-get update
+      - name: call remote action
+        uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+        with:
+            config-path: .github/labeler.yml
