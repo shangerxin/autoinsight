@@ -139,6 +139,9 @@ $ nose2
 - 5.0.0
     1. Support game automation
 
+- 6.0.0
+    1. Integrate with other AI solutions
+
 # Copyrights
 
 [Apache Software License](http://www.apache.org/licenses/)
