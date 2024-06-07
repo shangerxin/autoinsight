@@ -1,4 +1,4 @@
-name: test send mail from github action
+name: Test send mail from github action
 on:
     workflow_dispatch:
         inputs:
