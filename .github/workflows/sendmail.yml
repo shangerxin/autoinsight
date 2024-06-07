@@ -29,5 +29,5 @@ jobs:
                 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib cryptography
                 python sendmail.py --to_addresses ${{inputs.to}} --subject "${{inputs.subject}}" --content "${{inputs.content}}" -k ${{secrets.GMAIL_KEY}}
             - name: call remote workflow
-              uses: shangerxin/github-workflow-demo/.github/workflows/remote-call.yml
+              uses: shangerxin/github-workflow-demo/.github/workflows/remote-call.yml@main
 
